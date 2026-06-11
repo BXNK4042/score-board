@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { PALETTE } from '@/hooks/useGameState';
 
 export function PlayerDialog({
@@ -21,6 +21,17 @@ export function PlayerDialog({
   const [name, setName] = useState(initialName);
   const [color, setColor] = useState(initialColor);
   const [error, setError] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      // Delay keyboard appearance to allow dialog animation
+      const timer = setTimeout(() => {
+        inputRef.current?.focus();
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -51,6 +62,7 @@ export function PlayerDialog({
           <div className="flex flex-col gap-1">
             <label htmlFor="player-name-input" className="text-[10px] font-bold uppercase tracking-wider text-[#9999AA]">Player Name</label>
             <input
+              ref={inputRef}
               id="player-name-input"
               data-testid="player-name-input"
               type="text"
@@ -59,7 +71,6 @@ export function PlayerDialog({
               placeholder="Enter name"
               maxLength={20}
               className="w-full px-4 py-3 bg-[#EEEEF8] rounded-2xl border-none focus:outline-none focus:ring-2 focus:ring-[#4B45D4] text-[#1A1A2E]"
-              autoFocus
             />
           </div>
 
