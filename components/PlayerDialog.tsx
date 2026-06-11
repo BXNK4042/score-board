@@ -43,8 +43,8 @@ export function PlayerDialog({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/40 flex items-end justify-center sm:items-center p-4">
-      <div className="bg-white w-full max-w-[390px] rounded-t-3xl sm:rounded-3xl p-6 shadow-xl max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
+      <div className="bg-white w-full max-w-[390px] rounded-3xl p-6 shadow-xl max-h-[90vh] overflow-y-auto">
         <h3 className="font-extrabold text-xl mb-4 text-[#1A1A2E]">{title}</h3>
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           {/* Name Input */}
