@@ -1,0 +1,18 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "./compiled",
+    "module": "commonjs",
+    "moduleResolution": "node"
+  },
+  "include": [
+    "../hooks/useGameState.ts",
+    "../components/PlayerDialog.tsx",
+    "../components/SetupScreen.tsx",
+    "../components/HomeScreen.tsx",
+    "./verify-bug.tsx",
+    "./verify-9-players.tsx",
+    "./challenger_stress.tsx"
+  ]
+}
