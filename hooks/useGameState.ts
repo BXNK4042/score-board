@@ -24,18 +24,18 @@ export interface Game {
 }
 
 export const PALETTE = [
-  '#4B45D4', // Deep Indigo / Brand
-  '#22DD66', // Vibrant Green
-  '#D4156B', // Vibrant Pink/Magenta
-  '#FFA500', // Orange
-  '#0A84FF', // Vibrant Blue
-  '#BF5AF2', // Vibrant Purple
-  '#FF453A', // Vibrant Red
-  '#FFD60A', // Vibrant Yellow
-  '#30D158', // Vibrant Light Green
-  '#64D2FF', // Vibrant Light Blue
-  '#FF375F', // Vibrant Deep Pink
-  '#9B59B6', // Vibrant Dark Purple
+  '#EF4444', // Red
+  '#F97316', // Orange
+  '#EAB308', // Yellow
+  '#22C55E', // Green
+  '#06B6D4', // Cyan
+  '#3B82F6', // Blue
+  '#8B5CF6', // Violet
+  '#EC4899', // Pink
+  '#F43F5E', // Rose
+  '#84CC16', // Lime
+  '#0EA5E9', // Sky
+  '#A855F7', // Purple
 ];
 
 const LOCAL_STORAGE_KEY = 'scoreboard_game_state';

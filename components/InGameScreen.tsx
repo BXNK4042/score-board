@@ -456,10 +456,6 @@ export function InGameScreen({
             <DeselectIcon />
           </button>
 
-          <span className="text-xs font-bold uppercase tracking-wider text-[var(--app-text-secondary)]">
-            {selectedCount} Player(s) SELECTED FOR BULK
-          </span>
-
           <div className="flex items-center gap-2">
             <button
               onClick={onReversePlayerSelection}
