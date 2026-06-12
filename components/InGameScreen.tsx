@@ -4,6 +4,12 @@ import React, { useState, useEffect } from 'react';
 import { Game, PALETTE } from '@/hooks/useGameState';
 import { PlayerDialog } from '@/components/PlayerDialog';
 import { Gamepad, UserPlus, Check, Play, Pause, X, RefreshCw, Pencil, Trash2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
 
 export const GamepadIcon = () => (
   <Gamepad className="w-6 h-6 text-[var(--app-brand)]" strokeWidth={2} />
@@ -163,7 +169,7 @@ export function InGameScreen({
           <div className="flex items-center gap-2 min-w-0 flex-1">
             <GamepadIcon />
             {isEditingTitle ? (
-              <input
+              <Input
                 type="text"
                 value={tempTitle}
                 onChange={(e) => setTempTitle(e.target.value)}
@@ -180,37 +186,42 @@ export function InGameScreen({
                 className="w-full font-extrabold text-xl tracking-tight text-[var(--app-text-primary)] bg-transparent border-b-2 border-[var(--app-brand)] focus:outline-none focus:ring-0 p-0"
               />
             ) : (
-              <button
+              <Button
                 onClick={() => {
                   setTempTitle(activeGame.title);
                   setIsEditingTitle(true);
                 }}
                 aria-label="Edit game title"
-                className="text-left font-extrabold text-xl tracking-tight text-[var(--app-text-primary)] hover:text-[var(--app-brand)] transition-colors break-words max-w-[180px] cursor-pointer focus:outline-none"
+                variant="ghost"
+                className="text-left font-extrabold text-xl tracking-tight text-[var(--app-text-primary)] hover:text-[var(--app-brand)] transition-colors break-words max-w-[180px] p-0 h-auto"
               >
                 {activeGame.title}
-              </button>
+              </Button>
             )}
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
-            <button
+            <Button
               onClick={() => setAddPlayerDialogOpen(true)}
               data-testid="add-player-ingame-button"
               disabled={activeGame.players.length >= 10}
               aria-label="Add player mid-game"
-              className="p-2 bg-[var(--app-card-background)] hover:bg-[var(--app-background)] rounded-xl cursor-pointer shadow-sm active:scale-95 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
+              variant="outline"
+              className="p-2 bg-[var(--app-card-background)] hover:bg-[var(--app-background)] rounded-xl shadow-sm active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+              size="icon"
             >
               <PersonPlusIcon />
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => setEndGameDialogOpen(true)}
               data-testid="end-game-button"
               aria-label="End Game"
-              className="p-2 bg-white hover:bg-[#EEEEF8] rounded-xl cursor-pointer shadow-sm active:scale-95 transition-transform"
+              variant="outline"
+              className="p-2 bg-white hover:bg-[#EEEEF8] rounded-xl shadow-sm active:scale-95"
+              size="icon"
             >
               <CheckIcon />
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -224,18 +235,20 @@ export function InGameScreen({
             <span className="timer-display font-mono text-2xl font-black tracking-wider" data-testid="stopwatch-display">
               {formatTime(activeGame.elapsedSeconds)}
             </span>
-            <button
+            <Button
               onClick={() => onToggleStopwatch(!activeGame.isRunning)}
               data-testid="stopwatch-toggle"
               aria-label={activeGame.isRunning ? "Pause stopwatch" : "Start stopwatch"}
-              className="p-2 bg-white/20 hover:bg-white/30 rounded-full transition-colors cursor-pointer"
+              variant="ghost"
+              className="p-2 bg-white/20 hover:bg-white/30 rounded-full"
+              size="icon"
             >
               {activeGame.isRunning ? (
                 <PauseIcon className="w-5 h-5 text-white" />
               ) : (
                 <PlayIcon className="w-5 h-5 text-white" />
               )}
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -253,7 +266,7 @@ export function InGameScreen({
             activeGame.players.map((player, index) => {
               const isLeader = index === leaderIndex;
               return (
-                <div
+                <Card
                   key={player.id}
                   data-testid={`player-card-${player.id}`}
                   onClick={() => setOpenDrawerPlayerId(openDrawerPlayerId === player.id ? null : player.id)}
@@ -264,45 +277,40 @@ export function InGameScreen({
                   }}
                   className="bg-[var(--app-card-background)] p-4 rounded-[20px] shadow-sm flex flex-col gap-2 relative transition-all cursor-pointer hover:shadow-md"
                 >
-                  {/* Top Row: Role Label & Selection Circle / Selected Pill */}
-                  <div className="flex items-center justify-between">
-                    <div>
-                      {isLeader ? (
-                        <span
-                          style={{ color: player.color }}
-                          className="font-extrabold text-[11px] uppercase tracking-wider"
-                        >
-                          LEADER
-                        </span>
-                      ) : (
-                        <span className="font-bold text-[11px] uppercase tracking-wider text-[var(--app-text-secondary)]">
-                          PLAYER {index + 1}
-                        </span>
-                      )}
-                    </div>
+                  <CardContent className="p-0 flex flex-col gap-2">
+                    {/* Top Row: Role Label & Selection Circle / Selected Pill */}
+                    <div className="flex items-center justify-between">
+                      <div>
+                        {isLeader ? (
+                          <span
+                            style={{ color: player.color }}
+                            className="font-extrabold text-[11px] uppercase tracking-wider"
+                          >
+                            LEADER
+                          </span>
+                        ) : (
+                          <span className="font-bold text-[11px] uppercase tracking-wider text-[var(--app-text-secondary)]">
+                            PLAYER {index + 1}
+                          </span>
+                        )}
+                      </div>
 
-                    <div className="flex items-center gap-2">
-                      {player.isSelected && (
-                        <span className="px-2 py-0.5 text-[9px] font-extrabold bg-[var(--app-selection)] text-white rounded-full">
-                          SELECTED
-                        </span>
-                      )}
-                      <input
-                        type="checkbox"
-                        data-testid={`player-select-${player.id}`}
-                        checked={player.isSelected}
-                        onChange={(e) => {
-                          e.stopPropagation();
-                          onTogglePlayerSelection(player.id);
-                        }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                        }}
-                        aria-label={`Select ${player.name} for bulk action`}
-                        className="w-5 h-5 rounded-full border-2 border-[var(--app-text-secondary)]/50 text-[var(--app-selection)] focus:ring-0 cursor-pointer"
-                      />
+                      <div className="flex items-center gap-2">
+                        {player.isSelected && (
+                          <span className="px-2 py-0.5 text-[9px] font-extrabold bg-[var(--app-selection)] text-white rounded-full">
+                            SELECTED
+                          </span>
+                        )}
+                        <Checkbox
+                          data-testid={`player-select-${player.id}`}
+                          checked={player.isSelected}
+                          onCheckedChange={() => onTogglePlayerSelection(player.id)}
+                          aria-label={`Select ${player.name} for bulk action`}
+                          className="w-5 h-5 rounded-full"
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                      </div>
                     </div>
-                  </div>
 
                   {/* Middle Row: Avatar + Name & Score with Adjust Buttons */}
                   <div className="flex items-center justify-between">
@@ -322,17 +330,19 @@ export function InGameScreen({
                     {/* Right: Score and +/- Controls */}
                     <div className="flex items-center gap-4">
                       {/* Decrement */}
-                      <button
+                      <Button
                         onClick={(e) => {
                           e.stopPropagation();
                           onUpdateScore(player.id, -1);
                         }}
                         data-testid={`score-decrement-${player.id}`}
                         aria-label={`Decrease score for ${player.name}`}
-                        className="w-10 h-10 rounded-full bg-[var(--app-background)] flex items-center justify-center font-extrabold text-lg text-[var(--app-text-primary)] hover:bg-[var(--app-border)] active:scale-95 transition-transform cursor-pointer"
+                        variant="outline"
+                        className="w-10 h-10 rounded-full bg-[var(--app-background)] flex items-center justify-center font-extrabold text-lg text-[var(--app-text-primary)] hover:bg-[var(--app-border)] active:scale-95 p-0"
+                        size="icon"
                       >
                         −
-                      </button>
+                      </Button>
 
                       {/* Large Score Display with aria-live */}
                       <div
@@ -345,7 +355,7 @@ export function InGameScreen({
                       </div>
 
                       {/* Increment */}
-                      <button
+                      <Button
                         onClick={(e) => {
                           e.stopPropagation();
                           onUpdateScore(player.id, 1);
@@ -353,10 +363,12 @@ export function InGameScreen({
                         data-testid={`score-increment-${player.id}`}
                         aria-label={`Increase score for ${player.name}`}
                         style={{ backgroundColor: player.color }}
-                        className="w-10 h-10 rounded-full flex items-center justify-center font-extrabold text-lg text-white hover:opacity-90 active:scale-95 transition-transform cursor-pointer"
+                        variant="default"
+                        className="w-10 h-10 rounded-full flex items-center justify-center font-extrabold text-lg text-white hover:opacity-90 active:scale-95 p-0"
+                        size="icon"
                       >
                         +
-                      </button>
+                      </Button>
                     </div>
                   </div>
 
@@ -376,19 +388,21 @@ export function InGameScreen({
                           <h4 className="font-extrabold text-sm" style={{ color: player.color }}>
                             Ball Score
                           </h4>
-                          <button
+                          <Button
                             onClick={() => setOpenDrawerPlayerId(null)}
-                            className="text-[var(--app-text-secondary)] hover:text-[var(--app-text-primary)]"
+                            variant="ghost"
+                            className="text-[var(--app-text-secondary)] hover:text-[var(--app-text-primary)] p-0 h-auto"
                           >
                             ✕
-                          </button>
+                          </Button>
                         </div>
 
                         {/* Tab Navigation */}
                         <div className="flex gap-2">
-                          <button
+                          <Button
                             onClick={() => setActiveTab('score')}
-                            className={`flex-1 py-2 px-3 rounded-lg font-bold text-xs transition-colors ${
+                            variant="ghost"
+                            className={`flex-1 py-2 px-3 h-auto rounded-lg font-bold text-xs transition-colors ${
                               activeTab === 'score'
                                 ? 'text-white'
                                 : 'text-[var(--app-text-secondary)]'
@@ -398,10 +412,11 @@ export function InGameScreen({
                             }}
                           >
                             Score
-                          </button>
-                          <button
+                          </Button>
+                          <Button
                             onClick={() => setActiveTab('foul')}
-                            className={`flex-1 py-2 px-3 rounded-lg font-bold text-xs transition-colors ${
+                            variant="ghost"
+                            className={`flex-1 py-2 px-3 h-auto rounded-lg font-bold text-xs transition-colors ${
                               activeTab === 'foul'
                                 ? 'text-white'
                                 : 'text-[var(--app-text-secondary)]'
@@ -411,7 +426,7 @@ export function InGameScreen({
                             }}
                           >
                             Foul
-                          </button>
+                          </Button>
                         </div>
                       </div>
 
@@ -437,7 +452,8 @@ export function InGameScreen({
                       </div>
                     </div>
                   )}
-                </div>
+                  </CardContent>
+                </Card>
               );
             })
           )}
@@ -447,56 +463,68 @@ export function InGameScreen({
       {/* Bulk Action Bar */}
       {selectedCount >= 1 && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-full max-w-[342px] bg-[var(--app-text-primary)] text-white p-4 rounded-3xl shadow-xl flex items-center justify-between z-40" data-testid="bulk-action-bar">
-          <button
+          <Button
             onClick={onDeselectAllPlayers}
             data-testid="bulk-deselect-all"
             aria-label="Deselect all players"
-            className="p-2 hover:bg-white/10 rounded-full transition-colors cursor-pointer"
+            variant="ghost"
+            className="p-2 hover:bg-white/10 rounded-full"
+            size="icon"
           >
             <DeselectIcon />
-          </button>
+          </Button>
 
           <div className="flex items-center gap-2">
-            <button
+            <Button
               onClick={onReversePlayerSelection}
               data-testid="bulk-reverse-selection"
               aria-label="Reverse selection"
-              className="p-2 hover:bg-white/10 rounded-full transition-colors cursor-pointer"
+              variant="ghost"
+              className="p-2 hover:bg-white/10 rounded-full"
+              size="icon"
             >
               <ReverseIcon />
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => setBulkEditNameDialogOpen(true)}
               data-testid="bulk-edit-name"
               aria-label="Edit selected player names"
-              className="p-2 hover:bg-white/10 rounded-full transition-colors cursor-pointer"
+              variant="ghost"
+              className="p-2 hover:bg-white/10 rounded-full"
+              size="icon"
             >
               <Pencil className="w-5 h-5" />
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => setBulkRemoveDialogOpen(true)}
               data-testid="bulk-remove"
               aria-label="Remove selected players"
-              className="p-2 hover:bg-white/10 rounded-full transition-colors cursor-pointer"
+              variant="ghost"
+              className="p-2 hover:bg-white/10 rounded-full"
+              size="icon"
             >
               <Trash2 className="w-5 h-5 text-[var(--app-danger)]" />
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => onBulkUpdateScores(-1)}
               data-testid="bulk-decrement"
               aria-label="Bulk decrement score"
-              className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center font-bold text-white hover:bg-white/30 cursor-pointer active:scale-95 transition-transform"
+              variant="outline"
+              className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center font-bold text-white hover:bg-white/30 active:scale-95 p-0"
+              size="icon"
             >
               −
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => onBulkUpdateScores(1)}
               data-testid="bulk-increment"
               aria-label="Bulk increment score"
-              className="w-9 h-9 rounded-full bg-white flex items-center justify-center font-bold text-[#1A1A2E] hover:bg-white/90 cursor-pointer active:scale-95 transition-transform"
+              variant="outline"
+              className="w-9 h-9 rounded-full bg-white flex items-center justify-center font-bold text-[#1A1A2E] hover:bg-white/90 active:scale-95 p-0"
+              size="icon"
             >
               +
-            </button>
+            </Button>
           </div>
         </div>
       )}
@@ -517,149 +545,155 @@ export function InGameScreen({
       )}
 
       {/* Bulk Edit Name Dialog */}
-      {bulkEditNameDialogOpen && selectedCount >= 1 && (
-        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
-          <div className="bg-[var(--app-card-background)] w-full max-w-[360px] rounded-3xl p-6 shadow-xl">
-            <h3 className="font-extrabold text-lg mb-4 text-[var(--app-text-primary)]">
+      <Dialog open={bulkEditNameDialogOpen} onOpenChange={(open) => !open && (() => {
+        setBulkEditNameDialogOpen(false);
+        setEditedNames({});
+      })()}>
+        <DialogContent className="bg-[var(--app-card-background)] w-full max-w-[360px] rounded-3xl p-6 shadow-xl">
+          <DialogHeader>
+            <DialogTitle className="font-extrabold text-lg text-[var(--app-text-primary)]">
               Edit {selectedCount} Player Names
-            </h3>
+            </DialogTitle>
+          </DialogHeader>
 
-            {/* Selected Players List */}
-            <div className="flex flex-col gap-2 mb-4 max-h-[40vh] overflow-y-auto">
-              {activeGame.players.filter(p => p.isSelected).map((player) => (
-                <div key={player.id} className="flex items-center gap-3 bg-[var(--app-background)] p-3 rounded-xl">
-                  <div
-                    style={{ backgroundColor: `${player.color}15` }}
-                    className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
-                  >
-                    <span style={{ color: player.color }} className="font-bold text-sm">
-                      {player.name.charAt(0).toUpperCase()}
-                    </span>
-                  </div>
-                  <input
-                    type="text"
-                    value={editedNames[player.id] || player.name}
-                    onChange={(e) => setEditedNames(prev => ({
-                      ...prev,
-                      [player.id]: e.target.value
-                    }))}
-                    placeholder="Enter name"
-                    maxLength={20}
-                    className="flex-1 bg-transparent border-none focus:outline-none font-bold text-[var(--app-text-primary)]"
-                  />
+          {/* Selected Players List */}
+          <div className="flex flex-col gap-2 mb-4 max-h-[40vh] overflow-y-auto">
+            {activeGame.players.filter(p => p.isSelected).map((player) => (
+              <div key={player.id} className="flex items-center gap-3 bg-[var(--app-background)] p-3 rounded-xl">
+                <div
+                  style={{ backgroundColor: `${player.color}15` }}
+                  className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
+                >
+                  <span style={{ color: player.color }} className="font-bold text-sm">
+                    {player.name.charAt(0).toUpperCase()}
+                  </span>
                 </div>
-              ))}
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => {
-                  setBulkEditNameDialogOpen(false);
-                  setEditedNames({});
-                }}
-                className="flex-1 py-3 bg-[var(--app-background)] text-[var(--app-text-primary)] font-bold rounded-2xl cursor-pointer active:scale-98 transition-transform"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  // Apply name changes
-                  Object.entries(editedNames).forEach(([playerId, newName]) => {
-                    if (newName.trim() && onUpdatePlayerName) {
-                      onUpdatePlayerName(playerId, newName.trim());
-                    }
-                  });
-                  setBulkEditNameDialogOpen(false);
-                  setEditedNames({});
-                }}
-                className="flex-1 py-3 bg-[var(--app-brand)] text-white font-bold rounded-2xl cursor-pointer active:scale-98 transition-transform"
-              >
-                Save {selectedCount} Names
-              </button>
-            </div>
+                <Input
+                  type="text"
+                  value={editedNames[player.id] || player.name}
+                  onChange={(e) => setEditedNames(prev => ({
+                    ...prev,
+                    [player.id]: e.target.value
+                  }))}
+                  placeholder="Enter name"
+                  maxLength={20}
+                  className="flex-1 bg-transparent border-none focus:outline-none font-bold text-[var(--app-text-primary)] shadow-none"
+                />
+              </div>
+            ))}
           </div>
-        </div>
-      )}
+
+          {/* Action Buttons */}
+          <div className="flex items-center gap-3">
+            <Button
+              onClick={() => {
+                setBulkEditNameDialogOpen(false);
+                setEditedNames({});
+              }}
+              variant="secondary"
+              className="flex-1 py-3 h-auto bg-[var(--app-background)] text-[var(--app-text-primary)] font-bold rounded-2xl active:scale-98"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={() => {
+                // Apply name changes
+                Object.entries(editedNames).forEach(([playerId, newName]) => {
+                  if (newName.trim() && onUpdatePlayerName) {
+                    onUpdatePlayerName(playerId, newName.trim());
+                  }
+                });
+                setBulkEditNameDialogOpen(false);
+                setEditedNames({});
+              }}
+              className="flex-1 py-3 h-auto bg-[var(--app-brand)] text-white font-bold rounded-2xl active:scale-98"
+            >
+              Save {selectedCount} Names
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Bulk Remove Confirmation Dialog */}
-      {bulkRemoveDialogOpen && selectedCount >= 1 && (
-        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
-          <div className="bg-[var(--app-card-background)] w-full max-w-[340px] rounded-3xl p-6 shadow-xl text-center">
-            <h3 className="font-extrabold text-lg mb-2 text-[var(--app-text-primary)]">
+      <Dialog open={bulkRemoveDialogOpen} onOpenChange={(open) => !open && setBulkRemoveDialogOpen(false)}>
+        <DialogContent className="bg-[var(--app-card-background)] w-full max-w-[340px] rounded-3xl p-6 shadow-xl text-center">
+          <DialogHeader>
+            <DialogTitle className="font-extrabold text-lg text-[var(--app-text-primary)]">
               Remove {selectedCount} Player{selectedCount > 1 ? 's' : ''}?
-            </h3>
+            </DialogTitle>
+          </DialogHeader>
 
-            {/* List of players to be removed */}
-            <div className="flex flex-wrap gap-2 justify-center mb-6">
-              {activeGame.players.filter(p => p.isSelected).map((player) => (
-                <div
-                  key={player.id}
-                  className="px-3 py-1 rounded-full text-sm font-bold text-white"
-                  style={{ backgroundColor: player.color }}
-                >
-                  {player.name}
-                </div>
-              ))}
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col gap-3">
-              <button
-                onClick={() => {
-                  // Remove all selected players
-                  const selectedIds = activeGame.players
-                    .filter(p => p.isSelected)
-                    .map(p => p.id);
-
-                  selectedIds.forEach(playerId => {
-                    if (onRemovePlayer) {
-                      onRemovePlayer(playerId);
-                    }
-                  });
-
-                  setBulkRemoveDialogOpen(false);
-                  setOpenDrawerPlayerId(null); // Close drawer if open
-                }}
-                className="w-full py-3.5 bg-[var(--app-danger)] text-white font-extrabold rounded-2xl cursor-pointer active:scale-98 transition-transform"
+          {/* List of players to be removed */}
+          <div className="flex flex-wrap gap-2 justify-center mb-6">
+            {activeGame.players.filter(p => p.isSelected).map((player) => (
+              <div
+                key={player.id}
+                className="px-3 py-1 rounded-full text-sm font-bold text-white"
+                style={{ backgroundColor: player.color }}
               >
-                Yes, Remove {selectedCount} Player{selectedCount > 1 ? 's' : ''}
-              </button>
-              <button
-                onClick={() => setBulkRemoveDialogOpen(false)}
-                className="w-full py-3.5 bg-[var(--app-background)] text-[var(--app-text-primary)] font-extrabold rounded-2xl cursor-pointer active:scale-98 transition-transform"
-              >
-                Cancel
-              </button>
-            </div>
+                {player.name}
+              </div>
+            ))}
           </div>
-        </div>
-      )}
+
+          {/* Action Buttons */}
+          <div className="flex flex-col gap-3">
+            <Button
+              onClick={() => {
+                // Remove all selected players
+                const selectedIds = activeGame.players
+                  .filter(p => p.isSelected)
+                  .map(p => p.id);
+
+                selectedIds.forEach(playerId => {
+                  if (onRemovePlayer) {
+                    onRemovePlayer(playerId);
+                  }
+                });
+
+                setBulkRemoveDialogOpen(false);
+                setOpenDrawerPlayerId(null); // Close drawer if open
+              }}
+              className="w-full py-3.5 h-auto bg-[var(--app-danger)] text-white font-extrabold rounded-2xl active:scale-98"
+            >
+              Yes, Remove {selectedCount} Player{selectedCount > 1 ? 's' : ''}
+            </Button>
+            <Button
+              onClick={() => setBulkRemoveDialogOpen(false)}
+              variant="secondary"
+              className="w-full py-3.5 h-auto bg-[var(--app-background)] text-[var(--app-text-primary)] font-extrabold rounded-2xl active:scale-98"
+            >
+              Cancel
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Custom End Game confirmation modal */}
-      {endGameDialogOpen && (
-        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
-          <div className="bg-white w-full max-w-[320px] rounded-3xl p-6 shadow-xl text-center">
-            <h3 className="font-extrabold text-lg mb-6 text-[#1A1A2E]">
+      <Dialog open={endGameDialogOpen} onOpenChange={(open) => !open && setEndGameDialogOpen(false)}>
+        <DialogContent className="bg-white w-full max-w-[320px] rounded-3xl p-6 shadow-xl text-center">
+          <DialogHeader>
+            <DialogTitle className="font-extrabold text-lg text-[#1A1A2E]">
               Are you sure you want to end the game?
-            </h3>
-            <div className="flex flex-col gap-3">
-              <button
-                onClick={onEndGame}
-                className="w-full py-3.5 bg-[var(--app-danger)] text-white font-extrabold rounded-2xl cursor-pointer active:scale-98 transition-transform"
-              >
-                Yes, End Game
-              </button>
-              <button
-                onClick={() => setEndGameDialogOpen(false)}
-                className="w-full py-3.5 bg-[var(--app-background)] text-[var(--app-text-primary)] font-extrabold rounded-2xl cursor-pointer active:scale-98 transition-transform"
-              >
-                No, Keep Playing
-              </button>
-            </div>
+            </DialogTitle>
+          </DialogHeader>
+          <div className="flex flex-col gap-3">
+            <Button
+              onClick={onEndGame}
+              className="w-full py-3.5 h-auto bg-[var(--app-danger)] text-white font-extrabold rounded-2xl active:scale-98"
+            >
+              Yes, End Game
+            </Button>
+            <Button
+              onClick={() => setEndGameDialogOpen(false)}
+              variant="secondary"
+              className="w-full py-3.5 h-auto bg-[var(--app-background)] text-[var(--app-text-primary)] font-extrabold rounded-2xl active:scale-98"
+            >
+              No, Keep Playing
+            </Button>
           </div>
-        </div>
-      )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

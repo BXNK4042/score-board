@@ -172,3 +172,22 @@ When implementing or modifying this app:
 12. **Color Management (global.css)**: All colors must be defined as CSS variables in `app/globals.css` and referenced using Tailwind's arbitrary value syntax (e.g., `bg-[var(--app-brand)]`). Never hardcode hex colors in components. The color system includes semantic variables for background, text, brand, danger, success, and UI elements. This enables global theming, consistent design tokens, and future dark mode support.
 
 13. **CSS Variable Naming**: Follow the `--app-*` naming convention for all application-specific CSS variables to distinguish them from framework defaults. Use semantic names like `--app-text-primary` rather than generic names like `--text-color` to indicate purpose and usage context.
+
+14. **shadcn/ui Integration**: All shadcn/ui components MUST be imported from `@/components/ui/*`. Use the `cn()` utility from `@/lib/utils` for conditional class merging. Preserve the `--app-*` CSS variable system for ScoreBoard-specific theming. shadcn/ui components SHOULD be customized with CSS variables, not hardcoded values. Component variants (size, variant) MUST align with mobile-first design constraints.
+
+15. **Component Customization Rules**: shadcn/ui component props TAKE PRECEDENCE over custom className overrides. When customizing shadcn/ui components, prefer variant props over arbitrary Tailwind classes. Maintain consistent border-radius: Cards/inputs use 20px, full buttons use 999px. Preserve existing spacing and gap patterns in component layouts. Icon buttons SHOULD use `size="icon"` prop for consistent sizing.
+
+16. **Dual CSS Variable System**: The project uses TWO separate CSS variable systems: (1) `--app-*` variables for ScoreBoard-specific styling (brand colors, player accents, game theming) and (2) shadcn/ui variables (e.g., `--primary`, `--muted`, `--destructive`) for component library theming. Use `--app-*` variables for game-specific colors and shadcn/ui variables for component-specific theming. NEVER mix variable systems in the same component unless intentional.
+
+17. **Component Usage Guidelines**:
+    - **Dialog**: Use for all modal overlays (add player, confirmations, bulk operations). Maintain proper open/close state management with `onOpenChange` callbacks.
+    - **Button**: Replace all custom button elements. Use `variant="outline"` for secondary actions, `variant="ghost"` for icon-only buttons, `size="icon"` for circular icon buttons.
+    - **Card**: Use for player cards and content containers. Maintain mobile-first padding (p-4) and border-radius (20px) patterns.
+    - **Input/Label**: Replace all custom input elements. Maintain label association with `htmlFor` props and focus states with CSS variables.
+    - **Checkbox**: Use for player selection and form inputs. Apply custom styling with CSS variables while maintaining accessibility.
+
+18. **Mobile-First shadcn/ui Constraints**: All shadcn/ui components must respect 390px max-width layouts. Dialog components need proper mobile sizing (max-w-[390px] or smaller). Button sizing must work well on touch targets (minimum 44px for interactive elements). Component padding and spacing must maintain consistent mobile patterns.
+
+19. **Accessibility with shadcn/ui**: shadcn/ui components provide built-in accessibility features that must be preserved. All icon buttons MUST include proper `aria-label` attributes describing the action. Form components maintain proper label association for screen readers. Dialog components handle focus trapping and ESC key closing automatically.
+
+20. **Styling Consistency**: When customizing shadcn/ui components, prioritize CSS variable references over hardcoded values. Use `bg-[var(--app-brand)]` instead of `bg-[#4B45D4]`. Maintain consistent shadow patterns (shadow-sm, shadow-md, shadow-xl) across components. Preserve transform effects (active:scale-95, active:scale-98) for interactive feedback.

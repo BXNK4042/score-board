@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PALETTE } from '@/hooks/useGameState';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 
 export function PlayerDialog({
   isOpen,
@@ -54,14 +58,16 @@ export function PlayerDialog({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
-      <div className="bg-[var(--app-card-background)] w-full max-w-[390px] rounded-3xl p-6 shadow-xl max-h-[90vh] overflow-y-auto">
-        <h3 className="font-extrabold text-xl mb-4 text-[var(--app-text-primary)]">{title}</h3>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="bg-[var(--app-card-background)] w-full max-w-[390px] rounded-3xl p-6 shadow-xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="font-extrabold text-xl text-[var(--app-text-primary)]">{title}</DialogTitle>
+        </DialogHeader>
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           {/* Name Input */}
           <div className="flex flex-col gap-1">
-            <label htmlFor="player-name-input" className="text-[10px] font-bold uppercase tracking-wider text-[var(--app-text-secondary)]">Player Name</label>
-            <input
+            <Label htmlFor="player-name-input" className="text-[10px] font-bold uppercase tracking-wider text-[var(--app-text-secondary)]">Player Name</Label>
+            <Input
               ref={inputRef}
               id="player-name-input"
               data-testid="player-name-input"
@@ -70,19 +76,19 @@ export function PlayerDialog({
               onChange={(e) => setName(e.target.value)}
               placeholder="Enter name"
               maxLength={20}
-              className="w-full px-4 py-3 bg-[var(--app-background)] rounded-2xl border-none focus:outline-none focus:ring-2 focus:ring-[var(--app-brand)] text-[var(--app-text-primary)]"
+              className="w-full px-4 py-3 bg-[var(--app-background)] rounded-2xl text-[var(--app-text-primary)]"
             />
           </div>
 
           {/* Color Picker Grid */}
           <div className="flex flex-col gap-2">
-            <label className="text-[10px] font-bold uppercase tracking-wider text-[var(--app-text-secondary)]">Select Color Accent</label>
+            <Label className="text-[10px] font-bold uppercase tracking-wider text-[var(--app-text-secondary)]">Select Color Accent</Label>
             <div className="grid grid-cols-6 gap-3">
               {PALETTE.map((c) => {
                 const isUsed = usedColors.some((uc) => uc.toLowerCase() === c.toLowerCase()) && c.toLowerCase() !== initialColor.toLowerCase();
                 const isSelected = color === c;
                 return (
-                  <button
+                  <Button
                     key={c}
                     type="button"
                     data-testid={`color-selector-${c.replace('#', '')}`}
@@ -92,7 +98,7 @@ export function PlayerDialog({
                       setError('');
                     }}
                     style={{ backgroundColor: c }}
-                    className={`h-11 rounded-full border-4 transition-all relative flex items-center justify-center cursor-pointer ${
+                    className={`h-11 rounded-full border-4 transition-all relative flex items-center justify-center p-0 ${
                       isSelected ? 'border-white ring-2 ring-[var(--app-brand)]' : 'border-transparent'
                     } ${isUsed ? 'opacity-20 cursor-not-allowed' : ''}`}
                     aria-label={`Select color ${c}`}
@@ -100,7 +106,7 @@ export function PlayerDialog({
                     {isUsed && (
                       <span className="text-white text-xs font-bold absolute">✕</span>
                     )}
-                  </button>
+                  </Button>
                 );
               })}
             </div>
@@ -115,24 +121,25 @@ export function PlayerDialog({
 
           {/* Action Buttons */}
           <div className="flex items-center gap-3 pt-2">
-            <button
+            <Button
               type="button"
               data-testid="player-dialog-cancel"
               onClick={onClose}
-              className="flex-1 py-4 bg-[var(--app-background)] text-[var(--app-text-primary)] font-bold rounded-2xl cursor-pointer active:scale-98 transition-transform"
+              variant="secondary"
+              className="flex-1 py-4 h-auto bg-[var(--app-background)] text-[var(--app-text-primary)] font-bold rounded-2xl active:scale-98"
             >
               Cancel
-            </button>
-            <button
+            </Button>
+            <Button
               type="submit"
               data-testid="player-dialog-save"
-              className="flex-1 py-4 bg-[var(--app-brand)] text-white font-bold rounded-2xl cursor-pointer active:scale-98 transition-transform"
+              className="flex-1 py-4 h-auto bg-[var(--app-brand)] text-white font-bold rounded-2xl active:scale-98"
             >
               Save
-            </button>
+            </Button>
           </div>
         </form>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }

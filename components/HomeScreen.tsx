@@ -1,5 +1,6 @@
 import React from 'react';
 import { Gamepad, Plus, Pencil, Trash2, Zap } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export const GamepadIcon = () => (
   <Gamepad className="w-6 h-6 text-[var(--app-brand)]" strokeWidth={2} />
@@ -40,27 +41,29 @@ export function HomeScreen({
 
       {/* Main content button */}
       <div className="flex flex-col items-center justify-center gap-6 my-auto">
-        <button
+        <Button
           onClick={onNavigateSetup}
           data-testid="create-new-game-button"
-          className="w-24 h-24 rounded-full bg-[var(--app-brand)] flex items-center justify-center text-white shadow-lg shadow-[var(--app-brand)]/30 active:scale-95 transition-transform cursor-pointer"
+          className="w-24 h-24 rounded-full bg-[var(--app-brand)] text-white shadow-lg shadow-[var(--app-brand)]/30 active:scale-95"
           aria-label="Create New Game"
+          size="icon"
         >
           <PlusIcon className="w-12 h-12" />
-        </button>
+        </Button>
         <span className="font-extrabold text-lg text-[var(--app-text-primary)]">Create New Game</span>
       </div>
 
       {/* Bottom Option to Resume Game if active */}
       <div className="w-full pb-8">
         {hasActiveGame && (
-          <button
+          <Button
             onClick={onResumeGame}
             data-testid="resume-game-button"
-            className="w-full py-4 bg-[var(--app-card-background)] border border-[var(--app-brand)] text-[var(--app-brand)] font-bold rounded-2xl active:scale-98 transition-transform cursor-pointer text-center"
+            variant="outline"
+            className="w-full py-4 h-auto bg-[var(--app-card-background)] border-[var(--app-brand)] text-[var(--app-brand)] font-bold rounded-2xl active:scale-98"
           >
             RESUME LIVE GAME
-          </button>
+          </Button>
         )}
       </div>
     </div>
