@@ -1,6 +1,18 @@
 @import "tailwindcss";
 
 :root {
+  /* App-specific color palette */
+  --app-background: #EEEEF8;
+  --app-text-primary: #1A1A2E;
+  --app-text-secondary: #9999AA;
+  --app-brand: #4B45D4;
+  --app-danger: #E04040;
+  --app-success: #22DD66;
+  --app-card-background: #FFFFFF;
+  --app-selection: #4B45D4;
+  --app-border: #E2E2F0;
+
+  /* Next.js default theme colors */
   --background: #ffffff;
   --foreground: #171717;
 }

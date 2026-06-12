@@ -166,3 +166,9 @@ When implementing or modifying this app:
 9. **Persistence**: Game state (players, scores, elapsed time, running/paused) should survive an app background/foreground cycle. Use local storage or equivalent on the target platform.
 
 10. **Accessibility**: `+` and `−` buttons must have accessible labels (`aria-label` or equivalent) that include the player name, e.g. "Increase score for Alex". Score regions should be live regions so screen readers announce changes.
+
+11. **Icon System (lucide-react)**: All icons must use lucide-react components instead of custom SVG implementations. Icon wrapper components (e.g., `GamepadIcon`, `PlusIcon`) should maintain consistent styling and be exported from their screen files for reuse. Never create inline SVG icons — always import from lucide-react and apply consistent `strokeWidth` and sizing props.
+
+12. **Color Management (global.css)**: All colors must be defined as CSS variables in `app/globals.css` and referenced using Tailwind's arbitrary value syntax (e.g., `bg-[var(--app-brand)]`). Never hardcode hex colors in components. The color system includes semantic variables for background, text, brand, danger, success, and UI elements. This enables global theming, consistent design tokens, and future dark mode support.
+
+13. **CSS Variable Naming**: Follow the `--app-*` naming convention for all application-specific CSS variables to distinguish them from framework defaults. Use semantic names like `--app-text-primary` rather than generic names like `--text-color` to indicate purpose and usage context.

@@ -53,18 +53,18 @@ export function SetupScreen({
   const isStartDisabled = !setupTitle.trim() || setupPlayers.length === 0;
 
   return (
-    <div className="flex flex-col flex-1 bg-[#EEEEF8] text-[#1A1A2E] w-full max-w-[390px] mx-auto min-h-screen relative p-6 justify-between">
+    <div className="flex flex-col flex-1 bg-[var(--app-background)] text-[var(--app-text-primary)] w-full max-w-[390px] mx-auto min-h-screen relative p-6 justify-between">
       <div className="flex flex-col gap-6">
         {/* Header */}
         <div className="flex items-center justify-between pt-6">
           <div className="flex items-center gap-2">
             <GamepadIcon />
-            <span className="font-extrabold text-xl tracking-tight text-[#4B45D4]">ScoreBoard</span>
+            <span className="font-extrabold text-xl tracking-tight text-[var(--app-brand)]">ScoreBoard</span>
           </div>
           <button
             onClick={onCancel}
             data-testid="setup-cancel-button"
-            className="text-sm font-bold text-[#9999AA] hover:text-[#1A1A2E] cursor-pointer"
+            className="text-sm font-bold text-[var(--app-text-secondary)] hover:text-[var(--app-text-primary)] cursor-pointer"
           >
             Cancel
           </button>
@@ -74,8 +74,8 @@ export function SetupScreen({
         <h2 className="text-3xl font-extrabold tracking-tight">Create New Game</h2>
 
         {/* Game Title Input Section */}
-        <div className="bg-white p-4 rounded-[20px] flex flex-col gap-1 shadow-sm">
-          <label htmlFor="game-title-input" className="text-[10px] font-extrabold uppercase tracking-wider text-[#9999AA]">Title</label>
+        <div className="bg-[var(--app-card-background)] p-4 rounded-[20px] flex flex-col gap-1 shadow-sm">
+          <label htmlFor="game-title-input" className="text-[10px] font-extrabold uppercase tracking-wider text-[var(--app-text-secondary)]">Title</label>
           <input
             id="game-title-input"
             data-testid="game-title-input"
@@ -84,14 +84,14 @@ export function SetupScreen({
             onChange={(e) => onUpdateTitle(e.target.value)}
             placeholder="Enter game title"
             maxLength={40}
-            className="w-full text-base font-bold text-[#1A1A2E] border-none focus:outline-none p-0"
+            className="w-full text-base font-bold text-[var(--app-text-primary)] border-none focus:outline-none p-0"
           />
         </div>
 
         {/* Players List Section Header */}
         <div className="flex items-center justify-between mt-2">
           <h3 className="font-extrabold text-lg">Players</h3>
-          <span className="px-3 py-1 text-xs font-bold bg-[#4B45D4] text-white rounded-full">
+          <span className="px-3 py-1 text-xs font-bold bg-[var(--app-brand)] text-white rounded-full">
             {setupPlayers.length} ADDED
           </span>
         </div>
@@ -99,7 +99,7 @@ export function SetupScreen({
         {/* Scrollable Players List */}
         <div className="flex flex-col gap-3 max-h-[40vh] overflow-y-auto pr-1">
           {setupPlayers.length === 0 ? (
-            <div className="text-center py-8 text-[#9999AA] text-sm font-medium">
+            <div className="text-center py-8 text-[var(--app-text-secondary)] text-sm font-medium">
               No players added yet. Tap &apos;+&apos; below to add players.
             </div>
           ) : (
@@ -108,7 +108,7 @@ export function SetupScreen({
                 key={player.id}
                 data-testid={`player-card-${player.id}`}
                 style={{ borderLeftColor: player.color }}
-                className="bg-white border-l-8 p-4 rounded-[20px] shadow-sm flex items-center justify-between"
+                className="bg-[var(--app-card-background)] border-l-8 p-4 rounded-[20px] shadow-sm flex items-center justify-between"
               >
                 {/* Left Side: Avatar + Name */}
                 <div className="flex items-center gap-3">
@@ -120,7 +120,7 @@ export function SetupScreen({
                       {player.name.charAt(0).toUpperCase()}
                     </span>
                   </div>
-                  <span className="font-extrabold text-base text-[#1A1A2E]">{player.name}</span>
+                  <span className="font-extrabold text-base text-[var(--app-text-primary)]">{player.name}</span>
                 </div>
 
                 {/* Right Side: Edit / Delete buttons */}
@@ -128,7 +128,7 @@ export function SetupScreen({
                   <button
                     onClick={() => handleOpenEdit(player)}
                     data-testid={`edit-player-${player.id}`}
-                    className="p-1 hover:bg-[#EEEEF8] rounded-lg cursor-pointer"
+                    className="p-1 hover:bg-[var(--app-background)] rounded-lg cursor-pointer"
                     aria-label={`Edit ${player.name}`}
                   >
                     <PencilIcon />
@@ -136,7 +136,7 @@ export function SetupScreen({
                   <button
                     onClick={() => onDeletePlayer(player.id)}
                     data-testid={`delete-player-${player.id}`}
-                    className="p-1 hover:bg-[#EEEEF8] rounded-lg cursor-pointer"
+                    className="p-1 hover:bg-[var(--app-background)] rounded-lg cursor-pointer"
                     aria-label={`Delete ${player.name}`}
                   >
                     <TrashIcon />
@@ -152,7 +152,7 @@ export function SetupScreen({
           <button
             onClick={handleOpenAdd}
             data-testid="add-player-button"
-            className="w-full py-4 border-2 border-dashed border-[#9999AA]/40 text-[#4B45D4] font-extrabold rounded-[20px] flex items-center justify-center gap-2 hover:bg-white/50 cursor-pointer transition-colors mt-2"
+            className="w-full py-4 border-2 border-dashed border-[var(--app-text-secondary)]/40 text-[var(--app-brand)] font-extrabold rounded-[20px] flex items-center justify-center gap-2 hover:bg-[var(--app-card-background)]/50 cursor-pointer transition-colors mt-2"
           >
             <PlusIcon className="w-5 h-5" />
             <span>ADD PLAYER</span>
@@ -168,8 +168,8 @@ export function SetupScreen({
           disabled={isStartDisabled}
           className={`w-full py-4 text-white font-extrabold rounded-full flex items-center justify-center gap-1 transition-transform cursor-pointer ${
             isStartDisabled
-              ? 'bg-[#9999AA]/60 opacity-60 cursor-not-allowed'
-              : 'bg-[#4B45D4] shadow-md shadow-[#4B45D4]/20 active:scale-98'
+              ? 'bg-[var(--app-text-secondary)]/60 opacity-60 cursor-not-allowed'
+              : 'bg-[var(--app-brand)] shadow-md shadow-[var(--app-brand)]/20 active:scale-98'
           }`}
         >
           <BoltIcon />

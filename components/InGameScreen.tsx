@@ -6,15 +6,15 @@ import { PlayerDialog } from '@/components/PlayerDialog';
 import { Gamepad, UserPlus, Check, Play, Pause, X, RefreshCw } from 'lucide-react';
 
 export const GamepadIcon = () => (
-  <Gamepad className="w-6 h-6 text-[#4B45D4]" strokeWidth={2} />
+  <Gamepad className="w-6 h-6 text-[var(--app-brand)]" strokeWidth={2} />
 );
 
 const PersonPlusIcon = () => (
-  <UserPlus className="w-6 h-6 text-[#4B45D4]" strokeWidth={2} />
+  <UserPlus className="w-6 h-6 text-[var(--app-brand)]" strokeWidth={2} />
 );
 
 const CheckIcon = () => (
-  <Check className="w-6 h-6 text-[#22DD66]" strokeWidth={2.5} />
+  <Check className="w-6 h-6 text-[var(--app-success)]" strokeWidth={2.5} />
 );
 
 const PlayIcon = ({ className = "w-5 h-5" }) => (
@@ -105,7 +105,7 @@ export function InGameScreen({
   };
 
   return (
-    <div className="flex flex-col flex-1 bg-[#EEEEF8] text-[#1A1A2E] w-full max-w-[390px] mx-auto min-h-screen relative p-6 justify-between">
+    <div className="flex flex-col flex-1 bg-[var(--app-background)] text-[var(--app-text-primary)] w-full max-w-[390px] mx-auto min-h-screen relative p-6 justify-between">
       {/* sr-only heading for tests */}
       <h1 className="sr-only" data-testid="in-game-screen-heading">In-Game Screen</h1>
 
@@ -129,7 +129,7 @@ export function InGameScreen({
                 maxLength={40}
                 autoFocus
                 aria-label="Edit game title"
-                className="w-full font-extrabold text-xl tracking-tight text-[#1A1A2E] bg-transparent border-b-2 border-[#4B45D4] focus:outline-none focus:ring-0 p-0"
+                className="w-full font-extrabold text-xl tracking-tight text-[var(--app-text-primary)] bg-transparent border-b-2 border-[var(--app-brand)] focus:outline-none focus:ring-0 p-0"
               />
             ) : (
               <button
@@ -138,7 +138,7 @@ export function InGameScreen({
                   setIsEditingTitle(true);
                 }}
                 aria-label="Edit game title"
-                className="text-left font-extrabold text-xl tracking-tight text-[#1A1A2E] hover:text-[#4B45D4] transition-colors break-words max-w-[180px] cursor-pointer focus:outline-none"
+                className="text-left font-extrabold text-xl tracking-tight text-[var(--app-text-primary)] hover:text-[var(--app-brand)] transition-colors break-words max-w-[180px] cursor-pointer focus:outline-none"
               >
                 {activeGame.title}
               </button>
@@ -151,7 +151,7 @@ export function InGameScreen({
               data-testid="add-player-ingame-button"
               disabled={activeGame.players.length >= 10}
               aria-label="Add player mid-game"
-              className="p-2 bg-white hover:bg-[#EEEEF8] rounded-xl cursor-pointer shadow-sm active:scale-95 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-2 bg-[var(--app-card-background)] hover:bg-[var(--app-background)] rounded-xl cursor-pointer shadow-sm active:scale-95 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <PersonPlusIcon />
             </button>
@@ -167,9 +167,9 @@ export function InGameScreen({
         </div>
 
         {/* Stopwatch Banner */}
-        <div className="bg-[#4B45D4] text-white p-4 rounded-[20px] flex items-center justify-between shadow-md">
+        <div className="bg-[var(--app-brand)] text-white p-4 rounded-[20px] flex items-center justify-between shadow-md">
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#22DD66] animate-pulse" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[var(--app-success)] animate-pulse" />
             <span className="text-xs font-extrabold tracking-wider">LIVE SESSION</span>
           </div>
           <div className="flex items-center gap-3">
@@ -198,7 +198,7 @@ export function InGameScreen({
           }`}
         >
           {activeGame.players.length === 0 ? (
-            <div className="text-center py-8 text-[#9999AA] text-sm font-medium">
+            <div className="text-center py-8 text-[var(--app-text-secondary)] text-sm font-medium">
               No players in game.
             </div>
           ) : (
@@ -208,13 +208,12 @@ export function InGameScreen({
                 <div
                   key={player.id}
                   data-testid={`player-card-${player.id}`}
-                  onClick={() => onTogglePlayerSelection(player.id)}
                   style={{
-                    borderColor: player.isSelected ? '#D4156B' : 'transparent',
+                    borderColor: player.isSelected ? 'var(--app-selection)' : 'transparent',
                     borderWidth: '2px',
                     borderStyle: 'solid',
                   }}
-                  className="bg-white p-4 rounded-[20px] shadow-sm flex flex-col gap-2 relative transition-all cursor-pointer hover:shadow-md"
+                  className="bg-[var(--app-card-background)] p-4 rounded-[20px] shadow-sm flex flex-col gap-2 relative transition-all"
                 >
                   {/* Top Row: Role Label & Selection Circle / Selected Pill */}
                   <div className="flex items-center justify-between">
@@ -227,7 +226,7 @@ export function InGameScreen({
                           LEADER
                         </span>
                       ) : (
-                        <span className="font-bold text-[11px] uppercase tracking-wider text-[#9999AA]">
+                        <span className="font-bold text-[11px] uppercase tracking-wider text-[var(--app-text-secondary)]">
                           PLAYER {index + 1}
                         </span>
                       )}
@@ -235,7 +234,7 @@ export function InGameScreen({
 
                     <div className="flex items-center gap-2">
                       {player.isSelected && (
-                        <span className="px-2 py-0.5 text-[9px] font-extrabold bg-[#D4156B] text-white rounded-full">
+                        <span className="px-2 py-0.5 text-[9px] font-extrabold bg-[var(--app-selection)] text-white rounded-full">
                           SELECTED
                         </span>
                       )}
@@ -251,7 +250,7 @@ export function InGameScreen({
                           e.stopPropagation();
                         }}
                         aria-label={`Select ${player.name} for bulk action`}
-                        className="w-5 h-5 rounded-full border-2 border-[#9999AA]/50 text-[#D4156B] focus:ring-0 cursor-pointer"
+                        className="w-5 h-5 rounded-full border-2 border-[var(--app-text-secondary)]/50 text-[var(--app-selection)] focus:ring-0 cursor-pointer"
                       />
                     </div>
                   </div>
@@ -268,7 +267,7 @@ export function InGameScreen({
                           {player.name.charAt(0).toUpperCase()}
                         </span>
                       </div>
-                      <span className="font-extrabold text-base text-[#1A1A2E]">{player.name}</span>
+                      <span className="font-extrabold text-base text-[var(--app-text-primary)]">{player.name}</span>
                     </div>
 
                     {/* Right: Score and +/- Controls */}
@@ -281,7 +280,7 @@ export function InGameScreen({
                         }}
                         data-testid={`score-decrement-${player.id}`}
                         aria-label={`Decrease score for ${player.name}`}
-                        className="w-10 h-10 rounded-full bg-[#EEEEF8] flex items-center justify-center font-extrabold text-lg text-[#1A1A2E] hover:bg-[#E2E2F0] active:scale-95 transition-transform cursor-pointer"
+                        className="w-10 h-10 rounded-full bg-[var(--app-background)] flex items-center justify-center font-extrabold text-lg text-[var(--app-text-primary)] hover:bg-[var(--app-border)] active:scale-95 transition-transform cursor-pointer"
                       >
                         −
                       </button>
@@ -320,7 +319,7 @@ export function InGameScreen({
 
       {/* Bulk Action Bar */}
       {selectedCount >= 1 && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-full max-w-[342px] bg-[#1A1A2E] text-white p-4 rounded-3xl shadow-xl flex items-center justify-between z-40" data-testid="bulk-action-bar">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-full max-w-[342px] bg-[var(--app-text-primary)] text-white p-4 rounded-3xl shadow-xl flex items-center justify-between z-40" data-testid="bulk-action-bar">
           <button
             onClick={onDeselectAllPlayers}
             data-testid="bulk-deselect-all"
@@ -330,7 +329,7 @@ export function InGameScreen({
             <DeselectIcon />
           </button>
 
-          <span className="text-xs font-bold uppercase tracking-wider text-[#9999AA]">
+          <span className="text-xs font-bold uppercase tracking-wider text-[var(--app-text-secondary)]">
             {selectedCount} Player(s) SELECTED FOR BULK
           </span>
 
@@ -388,13 +387,13 @@ export function InGameScreen({
             <div className="flex flex-col gap-3">
               <button
                 onClick={onEndGame}
-                className="w-full py-3.5 bg-[#E04040] text-white font-extrabold rounded-2xl cursor-pointer active:scale-98 transition-transform"
+                className="w-full py-3.5 bg-[var(--app-danger)] text-white font-extrabold rounded-2xl cursor-pointer active:scale-98 transition-transform"
               >
                 Yes, End Game
               </button>
               <button
                 onClick={() => setEndGameDialogOpen(false)}
-                className="w-full py-3.5 bg-[#EEEEF8] text-[#1A1A2E] font-extrabold rounded-2xl cursor-pointer active:scale-98 transition-transform"
+                className="w-full py-3.5 bg-[var(--app-background)] text-[var(--app-text-primary)] font-extrabold rounded-2xl cursor-pointer active:scale-98 transition-transform"
               >
                 No, Keep Playing
               </button>
