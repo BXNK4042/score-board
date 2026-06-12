@@ -3,48 +3,34 @@
 import React, { useState } from 'react';
 import { Game, PALETTE } from '@/hooks/useGameState';
 import { PlayerDialog } from '@/components/PlayerDialog';
+import { Gamepad, UserPlus, Check, Play, Pause, X, RefreshCw } from 'lucide-react';
 
-// SVG Icons
 export const GamepadIcon = () => (
-  <svg className="w-6 h-6 text-[#4B45D4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
-  </svg>
+  <Gamepad className="w-6 h-6 text-[#4B45D4]" strokeWidth={2} />
 );
 
 const PersonPlusIcon = () => (
-  <svg className="w-6 h-6 text-[#4B45D4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-  </svg>
+  <UserPlus className="w-6 h-6 text-[#4B45D4]" strokeWidth={2} />
 );
 
 const CheckIcon = () => (
-  <svg className="w-6 h-6 text-[#22DD66]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-  </svg>
+  <Check className="w-6 h-6 text-[#22DD66]" strokeWidth={2.5} />
 );
 
 const PlayIcon = ({ className = "w-5 h-5" }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 20 20">
-    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-  </svg>
+  <Play className={className} fill="currentColor" />
 );
 
 const PauseIcon = ({ className = "w-5 h-5" }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 20 20">
-    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
-  </svg>
+  <Pause className={className} fill="currentColor" />
 );
 
 const DeselectIcon = ({ className = "w-5 h-5" }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-  </svg>
+  <X className={className} strokeWidth={2} />
 );
 
 const ReverseIcon = ({ className = "w-5 h-5" }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
-  </svg>
+  <RefreshCw className={className} strokeWidth={2} />
 );
 
 export function InGameScreen({

@@ -1,34 +1,24 @@
 import React from 'react';
+import { Gamepad, Plus, Pencil, Trash2, Zap } from 'lucide-react';
 
-// SVG Icons helpers
 export const GamepadIcon = () => (
-  <svg className="w-6 h-6 text-[#4B45D4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
-  </svg>
+  <Gamepad className="w-6 h-6 text-[#4B45D4]" strokeWidth={2} />
 );
 
 export const PlusIcon = ({ className = "w-6 h-6" }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-  </svg>
+  <Plus className={className} strokeWidth={3} />
 );
 
 export const PencilIcon = () => (
-  <svg className="w-5 h-5 text-[#9999AA]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-  </svg>
+  <Pencil className="w-5 h-5 text-[#9999AA]" strokeWidth={2} />
 );
 
 export const TrashIcon = () => (
-  <svg className="w-5 h-5 text-[#E04040]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-  </svg>
+  <Trash2 className="w-5 h-5 text-[#E04040]" strokeWidth={2} />
 );
 
 export const BoltIcon = () => (
-  <svg className="w-5 h-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-  </svg>
+  <Zap className="w-5 h-5 mr-1" strokeWidth={2} />
 );
 
 export function HomeScreen({
