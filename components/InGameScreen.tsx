@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Game, PALETTE } from '@/hooks/useGameState';
 import { PlayerDialog } from '@/components/PlayerDialog';
 import { Gamepad, UserPlus, Check, Play, Pause, X, RefreshCw, Pencil, Trash2 } from 'lucide-react';
@@ -10,6 +11,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
+import { listContainerVariants, listItemVariants, leaderPulseVariants, useReducedMotion, createSafeVariants } from '@/lib/animations';
 
 export const GamepadIcon = () => (
   <Gamepad className="w-6 h-6 text-[var(--app-brand)]" strokeWidth={2} />
@@ -76,6 +78,10 @@ export function InGameScreen({
   const [bulkEditNameDialogOpen, setBulkEditNameDialogOpen] = useState(false);
   const [bulkRemoveDialogOpen, setBulkRemoveDialogOpen] = useState(false);
   const [editedNames, setEditedNames] = useState<Record<string, string>>({});
+
+  const prefersReducedMotion = useReducedMotion();
+  const safeListVariants = createSafeVariants(prefersReducedMotion, listItemVariants);
+  const safeContainerVariants = createSafeVariants(prefersReducedMotion, listContainerVariants);
 
   // Close drawer when game ends
   useEffect(() => {
@@ -263,31 +269,49 @@ export function InGameScreen({
               No players in game.
             </div>
           ) : (
-            activeGame.players.map((player, index) => {
-              const isLeader = index === leaderIndex;
-              return (
-                <Card
-                  key={player.id}
-                  data-testid={`player-card-${player.id}`}
-                  onClick={() => setOpenDrawerPlayerId(openDrawerPlayerId === player.id ? null : player.id)}
-                  style={{
-                    borderColor: player.isSelected ? 'var(--app-selection)' : 'transparent',
-                    borderWidth: '2px',
-                    borderStyle: 'solid',
-                  }}
-                  className="bg-[var(--app-card-background)] p-4 rounded-[20px] shadow-sm flex flex-col gap-2 relative transition-all cursor-pointer hover:shadow-md"
-                >
+            <AnimatePresence mode="popLayout">
+              <motion.div
+                variants={safeContainerVariants}
+                initial="hidden"
+                animate="visible"
+                className="flex flex-col gap-3"
+              >
+                {activeGame.players.map((player, index) => {
+                  const isLeader = index === leaderIndex;
+                  return (
+                    <motion.div
+                      key={player.id}
+                      variants={safeListVariants}
+                      layout
+                    >
+                      <Card
+                        data-testid={`player-card-${player.id}`}
+                        onClick={() => setOpenDrawerPlayerId(openDrawerPlayerId === player.id ? null : player.id)}
+                        style={{
+                          borderColor: player.isSelected ? 'var(--app-selection)' : 'transparent',
+                          borderWidth: '2px',
+                          borderStyle: 'solid',
+                        }}
+                        className="bg-[var(--app-card-background)] p-4 rounded-[20px] shadow-sm flex flex-col gap-2 relative transition-all cursor-pointer hover:shadow-md"
+                      >
                   <CardContent className="p-0 flex flex-col gap-2">
                     {/* Top Row: Role Label & Selection Circle / Selected Pill */}
                     <div className="flex items-center justify-between">
                       <div>
                         {isLeader ? (
-                          <span
+                          <motion.span
                             style={{ color: player.color }}
                             className="font-extrabold text-[11px] uppercase tracking-wider"
+                            animate={prefersReducedMotion ? {} : {
+                              scale: [1, 1.05, 1],
+                            }}
+                            transition={{
+                              duration: 0.5,
+                              times: [0, 0.5, 1],
+                            }}
                           >
                             LEADER
-                          </span>
+                          </motion.span>
                         ) : (
                           <span className="font-bold text-[11px] uppercase tracking-wider text-[var(--app-text-secondary)]">
                             PLAYER {index + 1}
@@ -345,14 +369,22 @@ export function InGameScreen({
                       </Button>
 
                       {/* Large Score Display with aria-live */}
-                      <div
+                      <motion.div
+                        key={player.score}
                         aria-live="polite"
                         data-testid={`player-score-${player.id}`}
                         className="text-5xl font-black min-w-[60px] text-center"
                         style={{ color: player.color }}
+                        initial={prefersReducedMotion ? {} : { scale: 1.2 }}
+                        animate={{ scale: 1 }}
+                        transition={{
+                          type: 'spring',
+                          damping: 15,
+                          stiffness: 200,
+                        }}
                       >
                         {player.score}
-                      </div>
+                      </motion.div>
 
                       {/* Increment */}
                       <Button
@@ -373,15 +405,24 @@ export function InGameScreen({
                   </div>
 
                   {/* Snooker Scoring Drawer */}
-                  {openDrawerPlayerId === player.id && (
-                    <div
-                      onClick={(e) => e.stopPropagation()}
-                      className="mt-2 rounded-2xl shadow-lg overflow-hidden transition-all"
-                      style={{
-                        backgroundColor: `${player.color}15`,
-                        border: `2px solid ${player.color}40`
-                      }}
-                    >
+                  <AnimatePresence>
+                    {openDrawerPlayerId === player.id && (
+                      <motion.div
+                        onClick={(e) => e.stopPropagation()}
+                        className="mt-2 rounded-2xl shadow-lg overflow-hidden"
+                        style={{
+                          backgroundColor: `${player.color}15`,
+                          border: `2px solid ${player.color}40`
+                        }}
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{
+                          type: 'spring',
+                          bounce: 0,
+                          duration: 0.5,
+                        }}
+                      >
                       {/* Drawer Header */}
                       <div className="bg-[var(--app-card-background)] p-3 border-b" style={{ borderColor: `${player.color}30` }}>
                         <div className="flex items-center justify-between mb-2">
@@ -450,19 +491,35 @@ export function InGameScreen({
                           ))}
                         </div>
                       </div>
-                    </div>
+                  </motion.div>
                   )}
-                  </CardContent>
+                </AnimatePresence>
+                </CardContent>
                 </Card>
+              </motion.div>
               );
-            })
+              })}
+            </motion.div>
+          </AnimatePresence>
           )}
         </div>
       </div>
 
       {/* Bulk Action Bar */}
-      {selectedCount >= 1 && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-full max-w-[342px] bg-[var(--app-text-primary)] text-white p-4 rounded-3xl shadow-xl flex items-center justify-between z-40" data-testid="bulk-action-bar">
+      <AnimatePresence>
+        {selectedCount >= 1 && (
+          <motion.div
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 w-full max-w-[342px] bg-[var(--app-text-primary)] text-white p-4 rounded-3xl shadow-xl flex items-center justify-between z-40"
+            data-testid="bulk-action-bar"
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            transition={{
+              type: 'spring',
+              damping: 25,
+              stiffness: 300,
+            }}
+          >
           <Button
             onClick={onDeselectAllPlayers}
             data-testid="bulk-deselect-all"
@@ -523,11 +580,12 @@ export function InGameScreen({
               className="w-9 h-9 rounded-full bg-white flex items-center justify-center font-bold text-[#1A1A2E] hover:bg-white/90 active:scale-95 p-0"
               size="icon"
             >
-              +
-            </Button>
-          </div>
-        </div>
-      )}
+                +
+              </Button>
+            </div>
+        </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Add Player Dialog mid-game */}
       {addPlayerDialogOpen && (

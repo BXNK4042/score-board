@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { PALETTE, DraftPlayer } from '@/hooks/useGameState';
 import { GamepadIcon, PlusIcon, PencilIcon, TrashIcon, BoltIcon } from '@/components/HomeScreen';
 import { PlayerDialog } from '@/components/PlayerDialog';
 import { Button } from '@/components/ui/button';
+import { MotionButton } from '@/components/ui/motion-button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
+import { listContainerVariants, listItemVariants, useReducedMotion, createSafeVariants } from '@/lib/animations';
 
 export function SetupScreen({
   setupTitle,
@@ -28,6 +31,9 @@ export function SetupScreen({
 }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingPlayer, setEditingPlayer] = useState<DraftPlayer | null>(null);
+  const prefersReducedMotion = useReducedMotion();
+  const safeListVariants = createSafeVariants(prefersReducedMotion, listItemVariants);
+  const safeContainerVariants = createSafeVariants(prefersReducedMotion, listContainerVariants);
 
   // Pick first available color in palette for default selection in add dialog
   const getFirstAvailableColor = () => {
@@ -65,14 +71,15 @@ export function SetupScreen({
             <GamepadIcon />
             <span className="font-extrabold text-xl tracking-tight text-[var(--app-brand)]">ScoreBoard</span>
           </div>
-          <Button
+          <MotionButton
             onClick={onCancel}
             data-testid="setup-cancel-button"
             variant="ghost"
             className="text-sm font-bold text-[var(--app-text-secondary)] hover:text-[var(--app-text-primary)]"
+            motionType="default"
           >
             Cancel
-          </Button>
+          </MotionButton>
         </div>
 
         {/* Page Title */}
@@ -92,7 +99,7 @@ export function SetupScreen({
               onChange={(e) => onUpdateTitle(e.target.value)}
               placeholder="Enter game title"
               maxLength={40}
-              className="w-full text-base font-bold text-[var(--app-text-primary)] border-none focus:outline-none p-0 shadow-none"
+              className="w-full text-base font-bold text-[var(--app-text-primary)] border-none focus:outline-none focus:ring-0 focus-visible:ring-0 p-0 shadow-none"
             />
           </div>
         </Card>
@@ -112,14 +119,25 @@ export function SetupScreen({
               No players added yet. Tap &apos;+&apos; below to add players.
             </div>
           ) : (
-            setupPlayers.map((player) => (
-              <Card
-                key={player.id}
-                data-testid={`player-card-${player.id}`}
-                style={{ borderLeftColor: player.color }}
-                className="border-l-8 p-4 rounded-[20px] shadow-sm bg-[var(--app-card-background)] flex items-center justify-between"
+            <AnimatePresence mode="popLayout">
+              <motion.div
+                variants={safeContainerVariants}
+                initial="hidden"
+                animate="visible"
+                className="flex flex-col gap-3"
               >
-                <CardContent className="p-0 flex items-center justify-between w-full">
+                {setupPlayers.map((player) => (
+                  <motion.div
+                    key={player.id}
+                    variants={safeListVariants}
+                    layout
+                  >
+                    <Card
+                      data-testid={`player-card-${player.id}`}
+                      style={{ borderLeftColor: player.color }}
+                      className="border-l-8 p-4 rounded-[20px] shadow-sm bg-[var(--app-card-background)] flex items-center justify-between"
+                    >
+                      <CardContent className="p-0 flex items-center justify-between w-full">
                   {/* Left Side: Avatar + Name */}
                   <div className="flex items-center gap-3">
                     <div
@@ -157,28 +175,33 @@ export function SetupScreen({
                     </Button>
                   </div>
                 </CardContent>
-              </Card>
-            ))
+                  </Card>
+                </motion.div>
+                ))
+              }
+              </motion.div>
+            </AnimatePresence>
           )}
         </div>
 
         {/* Add Player FAB/Button */}
         {setupPlayers.length < 10 && (
-          <Button
+          <MotionButton
             onClick={handleOpenAdd}
             data-testid="add-player-button"
             variant="outline"
             className="w-full py-4 h-auto border-2 border-dashed border-[var(--app-text-secondary)]/40 text-[var(--app-brand)] font-extrabold rounded-[20px] flex items-center justify-center gap-2 hover:bg-[var(--app-card-background)]/50 mt-2"
+            motionType="default"
           >
             <PlusIcon className="w-5 h-5" />
             <span>ADD PLAYER</span>
-          </Button>
+          </MotionButton>
         )}
       </div>
 
       {/* Start Game Action Button */}
       <div className="w-full pt-6 pb-2">
-        <Button
+        <MotionButton
           onClick={onStartGame}
           data-testid="start-game-button"
           disabled={isStartDisabled}
@@ -187,10 +210,11 @@ export function SetupScreen({
               ? 'bg-[var(--app-text-secondary)]/60 opacity-60 cursor-not-allowed'
               : 'bg-[var(--app-brand)] shadow-md shadow-[var(--app-brand)]/20 active:scale-98'
           }`}
+          motionType="default"
         >
           <BoltIcon />
           <span>START GAME</span>
-        </Button>
+        </MotionButton>
       </div>
 
       {/* Player Dialog (Add / Edit) */}

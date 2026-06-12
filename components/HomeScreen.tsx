@@ -1,6 +1,7 @@
 import React from 'react';
 import { Gamepad, Plus, Pencil, Trash2, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { MotionButton } from '@/components/ui/motion-button';
 
 export const GamepadIcon = () => (
   <Gamepad className="w-6 h-6 text-[var(--app-brand)]" strokeWidth={2} />
@@ -41,29 +42,31 @@ export function HomeScreen({
 
       {/* Main content button */}
       <div className="flex flex-col items-center justify-center gap-6 my-auto">
-        <Button
+        <MotionButton
           onClick={onNavigateSetup}
           data-testid="create-new-game-button"
           className="w-24 h-24 rounded-full bg-[var(--app-brand)] text-white shadow-lg shadow-[var(--app-brand)]/30 active:scale-95"
           aria-label="Create New Game"
           size="icon"
+          motionType="default"
         >
           <PlusIcon className="w-12 h-12" />
-        </Button>
+        </MotionButton>
         <span className="font-extrabold text-lg text-[var(--app-text-primary)]">Create New Game</span>
       </div>
 
       {/* Bottom Option to Resume Game if active */}
       <div className="w-full pb-8">
         {hasActiveGame && (
-          <Button
+          <MotionButton
             onClick={onResumeGame}
             data-testid="resume-game-button"
             variant="outline"
             className="w-full py-4 h-auto bg-[var(--app-card-background)] border-[var(--app-brand)] text-[var(--app-brand)] font-bold rounded-2xl active:scale-98"
+            motionType="default"
           >
             RESUME LIVE GAME
-          </Button>
+          </MotionButton>
         )}
       </div>
     </div>

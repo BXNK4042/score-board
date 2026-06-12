@@ -191,3 +191,15 @@ When implementing or modifying this app:
 19. **Accessibility with shadcn/ui**: shadcn/ui components provide built-in accessibility features that must be preserved. All icon buttons MUST include proper `aria-label` attributes describing the action. Form components maintain proper label association for screen readers. Dialog components handle focus trapping and ESC key closing automatically.
 
 20. **Styling Consistency**: When customizing shadcn/ui components, prioritize CSS variable references over hardcoded values. Use `bg-[var(--app-brand)]` instead of `bg-[#4B45D4]`. Maintain consistent shadow patterns (shadow-sm, shadow-md, shadow-xl) across components. Preserve transform effects (active:scale-95, active:scale-98) for interactive feedback.
+
+21. **Animation Performance**: All animations MUST use GPU-accelerated properties (transform, opacity) exclusively. Never animate layout-triggering properties (width, height, margin, padding) directly. Use framer-motion's `layout` prop for smooth layout transitions with FLIP technique. Target 60fps for all animations on mobile devices. Limit simultaneous animated elements to under 10. Test animations on actual mobile devices (390px viewport) to ensure smooth performance.
+
+22. **Reduced Motion Support**: All animations MUST respect `prefers-reduced-motion` user preferences. Provide reduced-motion alternatives that disable or simplify animations while maintaining functionality. Use the `useReducedMotion` hook from `@/lib/animations` for conditional animation logic. Apply safe variants that disable motion effects when users prefer reduced motion.
+
+23. **Animation Duration Standards**: Standard animation duration is 300-400ms. Screen transitions can use 400-500ms. Micro-interactions (button press) should use 150-200ms. Spring animations should use `damping: 20-30` and `stiffness: 300-400` for natural mobile feel. Use presets from `@/lib/animations` for consistent timing across the app.
+
+24. **Accessibility with Animations**: Animated elements MUST maintain accessibility features. Dialogs MUST trap focus during animations. List items MUST maintain proper ARIA labels during animated reordering. Score updates MUST preserve `aria-live` announcements. Ensure keyboard navigation works without animation delays and that focus management remains intact during transitions.
+
+25. **Animation Bundle Size**: Import framer-motion components individually to minimize bundle size. Use tree-shaking-friendly imports: `import { motion, AnimatePresence } from 'framer-motion'`. Avoid importing the entire library. Monitor bundle size impact and keep under 50KB increase. Import animation utilities from `@/lib/animations` instead of duplicating code.
+
+26. **Mobile Animation Performance**: Target 60fps for all animations on mobile devices. Limit simultaneous animated elements to under 10. Test animations on actual mobile devices (390px viewport) to ensure smooth performance. Use GPU-accelerated transforms exclusively (translate, scale, rotate) and avoid animating layout-triggering properties. Monitor frame rates using Chrome DevTools during development.

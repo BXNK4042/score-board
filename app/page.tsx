@@ -1,10 +1,12 @@
 'use client';
 
 import React from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useGameState } from '@/hooks/useGameState';
 import { HomeScreen } from '@/components/HomeScreen';
 import { SetupScreen } from '@/components/SetupScreen';
 import { InGameScreen } from '@/components/InGameScreen';
+import { screenTransitionVariants, useReducedMotion, createSafeVariants } from '@/lib/animations';
 
 export default function Page() {
   const {
@@ -38,6 +40,9 @@ export default function Page() {
     removePlayer,
   } = useGameState();
 
+  const prefersReducedMotion = useReducedMotion();
+  const safeScreenVariants = createSafeVariants(prefersReducedMotion, screenTransitionVariants);
+
   // Show a blank/loading screen before localStorage is parsed to avoid layout shifts or hydration errors
   if (!isInitialized) {
     return (
@@ -47,56 +52,94 @@ export default function Page() {
     );
   }
 
-  switch (screen) {
-    case 'home':
-      return (
-        <HomeScreen
-          onNavigateSetup={() => {
-            resetSetup();
-            goToSetup();
-          }}
-          onResumeGame={goToInGame}
-          hasActiveGame={activeGame !== null}
-        />
-      );
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      {(() => {
+        switch (screen) {
+          case 'home':
+            return (
+              <motion.div
+                key="home"
+                variants={safeScreenVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+              >
+                <HomeScreen
+                  onNavigateSetup={() => {
+                    resetSetup();
+                    goToSetup();
+                  }}
+                  onResumeGame={goToInGame}
+                  hasActiveGame={activeGame !== null}
+                />
+              </motion.div>
+            );
 
-    case 'setup':
-      return (
-        <SetupScreen
-          setupTitle={setupTitle}
-          setupPlayers={setupPlayers}
-          onUpdateTitle={updateSetupTitle}
-          onAddPlayer={addSetupPlayer}
-          onUpdatePlayer={updateSetupPlayer}
-          onDeletePlayer={deleteSetupPlayer}
-          onCancel={goToHome}
-          onStartGame={() => createGame(setupTitle, setupPlayers)}
-        />
-      );
+          case 'setup':
+            return (
+              <motion.div
+                key="setup"
+                variants={safeScreenVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+              >
+                <SetupScreen
+                  setupTitle={setupTitle}
+                  setupPlayers={setupPlayers}
+                  onUpdateTitle={updateSetupTitle}
+                  onAddPlayer={addSetupPlayer}
+                  onUpdatePlayer={updateSetupPlayer}
+                  onDeletePlayer={deleteSetupPlayer}
+                  onCancel={goToHome}
+                  onStartGame={() => createGame(setupTitle, setupPlayers)}
+                />
+              </motion.div>
+            );
 
-    case 'ingame':
-      return (
-        <InGameScreen
-          activeGame={activeGame!}
-          onUpdateGameTitle={updateGameTitle}
-          onAddPlayerInGame={addPlayerInGame}
-          onUpdateScore={updateScore}
-          onTogglePlayerSelection={togglePlayerSelection}
-          onBulkUpdateScores={bulkUpdateScores}
-          onDeselectAllPlayers={deselectAllPlayers}
-          onReversePlayerSelection={reversePlayerSelection}
-          onToggleStopwatch={toggleStopwatch}
-          onEndGame={endGame}
-          onUpdatePlayerName={updatePlayerName}
-          onRemovePlayer={removePlayer}
-        />
-      );
+          case 'ingame':
+            return (
+              <motion.div
+                key="ingame"
+                variants={safeScreenVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+              >
+                <InGameScreen
+                  activeGame={activeGame!}
+                  onUpdateGameTitle={updateGameTitle}
+                  onAddPlayerInGame={addPlayerInGame}
+                  onUpdateScore={updateScore}
+                  onTogglePlayerSelection={togglePlayerSelection}
+                  onBulkUpdateScores={bulkUpdateScores}
+                  onDeselectAllPlayers={deselectAllPlayers}
+                  onReversePlayerSelection={reversePlayerSelection}
+                  onToggleStopwatch={toggleStopwatch}
+                  onEndGame={endGame}
+                  onUpdatePlayerName={updatePlayerName}
+                  onRemovePlayer={removePlayer}
+                />
+              </motion.div>
+            );
 
-    default:
-      return (
-        <div className="flex flex-1 items-center justify-center bg-[#EEEEF8] min-h-screen text-[#E04040] font-bold">
-          Error: Unknown screen state
-        </div>
-      );
-  }
+          default:
+            return (
+              <motion.div
+                key="error"
+                variants={safeScreenVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+              >
+                <div className="flex flex-1 items-center justify-center bg-[#EEEEF8] min-h-screen text-[#E04040] font-bold">
+                  Error: Unknown screen state
+                </div>
+              </motion.div>
+            );
+        }
+      })()}
+    </AnimatePresence>
+  );
 }
