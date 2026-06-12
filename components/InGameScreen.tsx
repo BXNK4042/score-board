@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Game, PALETTE } from '@/hooks/useGameState';
 import { PlayerDialog } from '@/components/PlayerDialog';
-import { Gamepad, UserPlus, Check, Play, Pause, X, RefreshCw } from 'lucide-react';
+import { Gamepad, UserPlus, Check, Play, Pause, X, RefreshCw, Pencil, Trash2 } from 'lucide-react';
 
 export const GamepadIcon = () => (
   <Gamepad className="w-6 h-6 text-[var(--app-brand)]" strokeWidth={2} />
@@ -44,6 +44,8 @@ export function InGameScreen({
   onReversePlayerSelection,
   onToggleStopwatch,
   onEndGame,
+  onUpdatePlayerName,
+  onRemovePlayer,
 }: {
   activeGame: Game;
   onUpdateGameTitle: (title: string) => void;
@@ -55,6 +57,8 @@ export function InGameScreen({
   onReversePlayerSelection: () => void;
   onToggleStopwatch: (running: boolean) => void;
   onEndGame: () => void;
+  onUpdatePlayerName?: (playerId: string, newName: string) => void;
+  onRemovePlayer?: (playerId: string) => void;
 }) {
   const [prevTitle, setPrevTitle] = useState(activeGame?.title || '');
   const [tempTitle, setTempTitle] = useState(activeGame?.title || '');
@@ -63,6 +67,9 @@ export function InGameScreen({
   const [endGameDialogOpen, setEndGameDialogOpen] = useState(false);
   const [openDrawerPlayerId, setOpenDrawerPlayerId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'score' | 'foul'>('score');
+  const [bulkEditNameDialogOpen, setBulkEditNameDialogOpen] = useState(false);
+  const [bulkRemoveDialogOpen, setBulkRemoveDialogOpen] = useState(false);
+  const [editedNames, setEditedNames] = useState<Record<string, string>>({});
 
   // Close drawer when game ends
   useEffect(() => {
@@ -234,7 +241,7 @@ export function InGameScreen({
 
         {/* Scrollable Player Cards List */}
         <div
-          className={`flex flex-col gap-3 max-h-[60vh] overflow-y-auto pr-1 transition-all ${
+          className={`flex flex-col gap-3 overflow-y-auto pr-1 transition-all ${
             selectedCount >= 1 ? 'pb-24' : 'pb-6'
           }`}
         >
@@ -463,6 +470,22 @@ export function InGameScreen({
               <ReverseIcon />
             </button>
             <button
+              onClick={() => setBulkEditNameDialogOpen(true)}
+              data-testid="bulk-edit-name"
+              aria-label="Edit selected player names"
+              className="p-2 hover:bg-white/10 rounded-full transition-colors cursor-pointer"
+            >
+              <Pencil className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => setBulkRemoveDialogOpen(true)}
+              data-testid="bulk-remove"
+              aria-label="Remove selected players"
+              className="p-2 hover:bg-white/10 rounded-full transition-colors cursor-pointer"
+            >
+              <Trash2 className="w-5 h-5 text-[var(--app-danger)]" />
+            </button>
+            <button
               onClick={() => onBulkUpdateScores(-1)}
               data-testid="bulk-decrement"
               aria-label="Bulk decrement score"
@@ -495,6 +518,126 @@ export function InGameScreen({
           initialColor={getFirstAvailableColor()}
           usedColors={activeGame.players.map((p) => p.color)}
         />
+      )}
+
+      {/* Bulk Edit Name Dialog */}
+      {bulkEditNameDialogOpen && selectedCount >= 1 && (
+        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
+          <div className="bg-[var(--app-card-background)] w-full max-w-[360px] rounded-3xl p-6 shadow-xl">
+            <h3 className="font-extrabold text-lg mb-4 text-[var(--app-text-primary)]">
+              Edit {selectedCount} Player Names
+            </h3>
+
+            {/* Selected Players List */}
+            <div className="flex flex-col gap-2 mb-4 max-h-[40vh] overflow-y-auto">
+              {activeGame.players.filter(p => p.isSelected).map((player) => (
+                <div key={player.id} className="flex items-center gap-3 bg-[var(--app-background)] p-3 rounded-xl">
+                  <div
+                    style={{ backgroundColor: `${player.color}15` }}
+                    className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
+                  >
+                    <span style={{ color: player.color }} className="font-bold text-sm">
+                      {player.name.charAt(0).toUpperCase()}
+                    </span>
+                  </div>
+                  <input
+                    type="text"
+                    value={editedNames[player.id] || player.name}
+                    onChange={(e) => setEditedNames(prev => ({
+                      ...prev,
+                      [player.id]: e.target.value
+                    }))}
+                    placeholder="Enter name"
+                    maxLength={20}
+                    className="flex-1 bg-transparent border-none focus:outline-none font-bold text-[var(--app-text-primary)]"
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => {
+                  setBulkEditNameDialogOpen(false);
+                  setEditedNames({});
+                }}
+                className="flex-1 py-3 bg-[var(--app-background)] text-[var(--app-text-primary)] font-bold rounded-2xl cursor-pointer active:scale-98 transition-transform"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  // Apply name changes
+                  Object.entries(editedNames).forEach(([playerId, newName]) => {
+                    if (newName.trim() && onUpdatePlayerName) {
+                      onUpdatePlayerName(playerId, newName.trim());
+                    }
+                  });
+                  setBulkEditNameDialogOpen(false);
+                  setEditedNames({});
+                }}
+                className="flex-1 py-3 bg-[var(--app-brand)] text-white font-bold rounded-2xl cursor-pointer active:scale-98 transition-transform"
+              >
+                Save {selectedCount} Names
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bulk Remove Confirmation Dialog */}
+      {bulkRemoveDialogOpen && selectedCount >= 1 && (
+        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
+          <div className="bg-[var(--app-card-background)] w-full max-w-[340px] rounded-3xl p-6 shadow-xl text-center">
+            <h3 className="font-extrabold text-lg mb-2 text-[var(--app-text-primary)]">
+              Remove {selectedCount} Player{selectedCount > 1 ? 's' : ''}?
+            </h3>
+
+            {/* List of players to be removed */}
+            <div className="flex flex-wrap gap-2 justify-center mb-6">
+              {activeGame.players.filter(p => p.isSelected).map((player) => (
+                <div
+                  key={player.id}
+                  className="px-3 py-1 rounded-full text-sm font-bold text-white"
+                  style={{ backgroundColor: player.color }}
+                >
+                  {player.name}
+                </div>
+              ))}
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={() => {
+                  // Remove all selected players
+                  const selectedIds = activeGame.players
+                    .filter(p => p.isSelected)
+                    .map(p => p.id);
+
+                  selectedIds.forEach(playerId => {
+                    if (onRemovePlayer) {
+                      onRemovePlayer(playerId);
+                    }
+                  });
+
+                  setBulkRemoveDialogOpen(false);
+                  setOpenDrawerPlayerId(null); // Close drawer if open
+                }}
+                className="w-full py-3.5 bg-[var(--app-danger)] text-white font-extrabold rounded-2xl cursor-pointer active:scale-98 transition-transform"
+              >
+                Yes, Remove {selectedCount} Player{selectedCount > 1 ? 's' : ''}
+              </button>
+              <button
+                onClick={() => setBulkRemoveDialogOpen(false)}
+                className="w-full py-3.5 bg-[var(--app-background)] text-[var(--app-text-primary)] font-extrabold rounded-2xl cursor-pointer active:scale-98 transition-transform"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Custom End Game confirmation modal */}

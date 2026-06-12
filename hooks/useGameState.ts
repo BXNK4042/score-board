@@ -283,6 +283,28 @@ export function useGameState() {
     });
   }, []);
 
+  const updatePlayerName = useCallback((playerId: string, newName: string) => {
+    setActiveGame((prev) => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        players: prev.players.map((p) =>
+          p.id === playerId ? { ...p, name: newName.trim() } : p
+        ),
+      };
+    });
+  }, []);
+
+  const removePlayer = useCallback((playerId: string) => {
+    setActiveGame((prev) => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        players: prev.players.filter((p) => p.id !== playerId),
+      };
+    });
+  }, []);
+
   return {
     screen,
     activeGame,
@@ -310,5 +332,7 @@ export function useGameState() {
     reversePlayerSelection,
     toggleStopwatch,
     endGame,
+    updatePlayerName,
+    removePlayer,
   };
 }

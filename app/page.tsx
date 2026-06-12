@@ -34,6 +34,8 @@ export default function Page() {
     reversePlayerSelection,
     toggleStopwatch,
     endGame,
+    updatePlayerName,
+    removePlayer,
   } = useGameState();
 
   // Show a blank/loading screen before localStorage is parsed to avoid layout shifts or hydration errors
@@ -85,6 +87,8 @@ export default function Page() {
           onReversePlayerSelection={reversePlayerSelection}
           onToggleStopwatch={toggleStopwatch}
           onEndGame={endGame}
+          onUpdatePlayerName={updatePlayerName}
+          onRemovePlayer={removePlayer}
         />
       );
 
