@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Game, PALETTE } from '@/hooks/useGameState';
 import { PlayerDialog } from '@/components/PlayerDialog';
 import { Gamepad, UserPlus, Check, Play, Pause, X, RefreshCw } from 'lucide-react';
@@ -61,6 +61,27 @@ export function InGameScreen({
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [addPlayerDialogOpen, setAddPlayerDialogOpen] = useState(false);
   const [endGameDialogOpen, setEndGameDialogOpen] = useState(false);
+  const [openDrawerPlayerId, setOpenDrawerPlayerId] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<'score' | 'foul'>('score');
+
+  // Close drawer when game ends
+  useEffect(() => {
+    if (!activeGame) {
+      setOpenDrawerPlayerId(null);
+    }
+  }, [activeGame]);
+
+  // Snooker ball configuration
+  const SNOOKER_BALLS = [
+    { name: 'White', points: 0, color: '#FFFFFF', label: 'W' },
+    { name: 'Red', points: 1, color: '#CC0000', label: '1' },
+    { name: 'Yellow', points: 2, color: '#FFD700', label: '2' },
+    { name: 'Green', points: 3, color: '#228B22', label: '3' },
+    { name: 'Brown', points: 4, color: '#8B4513', label: '4' },
+    { name: 'Blue', points: 5, color: '#0000CD', label: '5' },
+    { name: 'Pink', points: 6, color: '#FF69B4', label: '6' },
+    { name: 'Black', points: 7, color: '#000000', label: '7' },
+  ] as const;
 
   // Sync tempTitle when activeGame.title changes (e.g. from state loads/updates)
   if (activeGame && activeGame.title !== prevTitle) {
@@ -102,6 +123,26 @@ export function InGameScreen({
       mins.toString().padStart(2, '0'),
       secs.toString().padStart(2, '0'),
     ].join(':');
+  };
+
+  const handleBallClick = (currentPlayerId: string, points: number, tab: 'score' | 'foul') => {
+    if (tab === 'score') {
+      // Score tab: Add points to current player
+      onUpdateScore(currentPlayerId, points);
+    } else {
+      // Foul tab: Give points to all OTHER players (min 4 points)
+      const foulPoints = Math.max(points, 4); // Minimum 4 points for fouls
+      const otherPlayers = activeGame.players
+        .filter(p => p.id !== currentPlayerId)
+        .map(p => p.id);
+
+      // Update each other player individually
+      if (otherPlayers.length > 0) {
+        otherPlayers.forEach(playerId => {
+          onUpdateScore(playerId, foulPoints);
+        });
+      }
+    }
   };
 
   return (
@@ -208,12 +249,13 @@ export function InGameScreen({
                 <div
                   key={player.id}
                   data-testid={`player-card-${player.id}`}
+                  onClick={() => setOpenDrawerPlayerId(openDrawerPlayerId === player.id ? null : player.id)}
                   style={{
                     borderColor: player.isSelected ? 'var(--app-selection)' : 'transparent',
                     borderWidth: '2px',
                     borderStyle: 'solid',
                   }}
-                  className="bg-[var(--app-card-background)] p-4 rounded-[20px] shadow-sm flex flex-col gap-2 relative transition-all"
+                  className="bg-[var(--app-card-background)] p-4 rounded-[20px] shadow-sm flex flex-col gap-2 relative transition-all cursor-pointer hover:shadow-md"
                 >
                   {/* Top Row: Role Label & Selection Circle / Selected Pill */}
                   <div className="flex items-center justify-between">
@@ -310,6 +352,84 @@ export function InGameScreen({
                       </button>
                     </div>
                   </div>
+
+                  {/* Snooker Scoring Drawer */}
+                  {openDrawerPlayerId === player.id && (
+                    <div
+                      onClick={(e) => e.stopPropagation()}
+                      className="mt-2 rounded-2xl shadow-lg overflow-hidden transition-all"
+                      style={{
+                        backgroundColor: `${player.color}15`,
+                        border: `2px solid ${player.color}40`
+                      }}
+                    >
+                      {/* Drawer Header */}
+                      <div className="bg-[var(--app-card-background)] p-3 border-b" style={{ borderColor: `${player.color}30` }}>
+                        <div className="flex items-center justify-between mb-2">
+                          <h4 className="font-extrabold text-sm" style={{ color: player.color }}>
+                            Ball Score
+                          </h4>
+                          <button
+                            onClick={() => setOpenDrawerPlayerId(null)}
+                            className="text-[var(--app-text-secondary)] hover:text-[var(--app-text-primary)]"
+                          >
+                            ✕
+                          </button>
+                        </div>
+
+                        {/* Tab Navigation */}
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => setActiveTab('score')}
+                            className={`flex-1 py-2 px-3 rounded-lg font-bold text-xs transition-colors ${
+                              activeTab === 'score'
+                                ? 'text-white'
+                                : 'text-[var(--app-text-secondary)]'
+                            }`}
+                            style={{
+                              backgroundColor: activeTab === 'score' ? player.color : 'transparent'
+                            }}
+                          >
+                            Score
+                          </button>
+                          <button
+                            onClick={() => setActiveTab('foul')}
+                            className={`flex-1 py-2 px-3 rounded-lg font-bold text-xs transition-colors ${
+                              activeTab === 'foul'
+                                ? 'text-white'
+                                : 'text-[var(--app-text-secondary)]'
+                            }`}
+                            style={{
+                              backgroundColor: activeTab === 'foul' ? player.color : 'transparent'
+                            }}
+                          >
+                            Foul
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Ball Grid */}
+                      <div className="p-3">
+                        <div className="grid grid-cols-4 gap-2">
+                          {SNOOKER_BALLS.map((ball) => (
+                            <button
+                              key={ball.name}
+                              onClick={() => handleBallClick(player.id, ball.points, activeTab)}
+                              className="aspect-square rounded-full flex flex-col items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                              style={{ backgroundColor: ball.color }}
+                              aria-label={`${ball.name} ball - ${ball.points} points`}
+                            >
+                              <span className="text-xs font-black" style={{
+                                color: ball.name === 'White' || ball.name === 'Yellow' ? '#000' : '#fff'
+                              }}>
+                                {ball.label}
+                              </span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               );
             })
