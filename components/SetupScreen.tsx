@@ -113,7 +113,7 @@ export function SetupScreen({
         </div>
 
         {/* Scrollable Players List */}
-        <div className="flex flex-col gap-3 max-h-[40vh] overflow-y-auto pr-1">
+        <div className="flex flex-col gap-3 max-h-[40vh] overflow-y-auto pr-1 no-scrollbar">
           {setupPlayers.length === 0 ? (
             <div className="text-center py-8 text-[var(--app-text-secondary)] text-sm font-medium">
               No players added yet. Tap &apos;+&apos; below to add players.
@@ -135,7 +135,7 @@ export function SetupScreen({
                     <Card
                       data-testid={`player-card-${player.id}`}
                       style={{ borderLeftColor: player.color }}
-                      className="border-l-8 p-4 rounded-[20px] shadow-sm bg-[var(--app-card-background)] flex items-center justify-between"
+                      className="border-l-8 border-y-0 border-r-0 p-4 rounded-[20px] shadow-sm bg-[var(--app-card-background)] flex items-center justify-between"
                     >
                       <CardContent className="p-0 flex items-center justify-between w-full">
                   {/* Left Side: Avatar + Name */}
