@@ -4,17 +4,20 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Game, PALETTE } from '@/hooks/useGameState';
 import { PlayerDialog } from '@/components/PlayerDialog';
-import { Gamepad, UserPlus, Check, Play, Pause, X, RefreshCw, Pencil, Trash2 } from 'lucide-react';
+import { Gamepad, UserPlus, Check, Play, Pause, X, RefreshCw, Pencil, Trash2, Crown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
-import { listContainerVariants, listItemVariants, leaderPulseVariants, useReducedMotion, createSafeVariants } from '@/lib/animations';
+import { listContainerVariants, listItemVariants, useReducedMotion, createSafeVariants } from '@/lib/animations';
 
 export const GamepadIcon = () => (
   <Gamepad className="w-6 h-6 text-[var(--app-brand)]" strokeWidth={2} />
+);
+
+const CrownIcon = ({ className = "w-4 h-4" }) => (
+  <Crown className={className} strokeWidth={2.5} />
 );
 
 const PersonPlusIcon = () => (
@@ -86,6 +89,7 @@ export function InGameScreen({
   // Close drawer when game ends
   useEffect(() => {
     if (!activeGame) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setOpenDrawerPlayerId(null);
     }
   }, [activeGame]);
@@ -297,27 +301,42 @@ export function InGameScreen({
                           borderWidth: '2px',
                           borderStyle: 'solid',
                         }}
-                        className="bg-[var(--app-card-background)] p-4 rounded-[20px] shadow-sm flex flex-col gap-2 relative transition-all cursor-pointer hover:shadow-md"
+                        className="bg-[var(--app-card-background)] p-4 rounded-[20px] shadow-sm flex flex-col gap-2 relative transition-all cursor-pointer hover:shadow-md overflow-hidden"
                       >
                   <CardContent className="p-0 flex flex-col">
+                    {isLeader && (
+                      <motion.div
+                        initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -20, scaleY: 0.8 }}
+                        animate={{ opacity: 1, y: 0, scaleY: 1 }}
+                        transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+                        style={{ backgroundColor: player.color }}
+                        className="-mx-4 -mt-4 mb-3 py-2 px-4 rounded-t-[18px] flex items-center justify-center gap-2 text-white shadow-sm overflow-hidden"
+                      >
+                        <motion.div
+                          animate={prefersReducedMotion ? {} : {
+                            rotate: [0, -10, 10, -10, 10, 0],
+                            scale: [1, 1.2, 1.2, 1.2, 1.2, 1],
+                          }}
+                          transition={{
+                            duration: 1.5,
+                            repeat: Infinity,
+                            repeatDelay: 5,
+                            ease: "easeInOut"
+                          }}
+                          className="flex items-center justify-center"
+                        >
+                          <CrownIcon className="w-4 h-4 text-yellow-300 fill-yellow-300 drop-shadow-md" />
+                        </motion.div>
+                        <span className="font-extrabold text-[11px] uppercase tracking-widest text-white drop-shadow-sm">
+                          LEADER
+                        </span>
+                      </motion.div>
+                    )}
+
                     {/* Top Row: Role Label & Selection Circle / Selected Pill */}
                     <div className="flex items-center justify-between">
                       <div>
-                        {isLeader ? (
-                          <motion.span
-                            style={{ color: player.color }}
-                            className="font-extrabold text-[11px] uppercase tracking-wider"
-                            animate={prefersReducedMotion ? {} : {
-                              scale: [1, 1.05, 1],
-                            }}
-                            transition={{
-                              duration: 0.5,
-                              times: [0, 0.5, 1],
-                            }}
-                          >
-                            LEADER
-                          </motion.span>
-                        ) : (
+                        {!isLeader && (
                           <span className="font-bold text-[11px] uppercase tracking-wider text-[var(--app-text-secondary)]">
                             PLAYER {index + 1}
                           </span>
