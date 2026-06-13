@@ -2,6 +2,8 @@ import React from 'react';
 import { Gamepad, Plus, Pencil, Trash2, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { MotionButton } from '@/components/ui/motion-button';
+import { Footer } from './Footer';
+
 
 export const GamepadIcon = () => (
   <Gamepad className="w-6 h-6 text-[var(--app-brand)]" strokeWidth={2} />
@@ -69,6 +71,8 @@ export function HomeScreen({
           </MotionButton>
         )}
       </div>
+
+      <Footer />
     </div>
   );
 }

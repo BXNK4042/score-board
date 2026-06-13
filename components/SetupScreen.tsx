@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { PALETTE, DraftPlayer } from '@/hooks/useGameState';
 import { GamepadIcon, PlusIcon, PencilIcon, TrashIcon, BoltIcon } from '@/components/HomeScreen';
 import { PlayerDialog } from '@/components/PlayerDialog';
+import { Footer } from './Footer';
+
 import { Button } from '@/components/ui/button';
 import { MotionButton } from '@/components/ui/motion-button';
 import { Input } from '@/components/ui/input';
@@ -216,6 +218,8 @@ export function SetupScreen({
           <span>START GAME</span>
         </MotionButton>
       </div>
+
+      <Footer />
 
       {/* Player Dialog (Add / Edit) */}
       {dialogOpen && (

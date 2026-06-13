@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Game, PALETTE } from '@/hooks/useGameState';
 import { PlayerDialog } from '@/components/PlayerDialog';
+import { Footer } from './Footer';
+
 import { Gamepad, UserPlus, Check, Play, Pause, X, RefreshCw, Pencil, Trash2, Crown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -475,8 +477,8 @@ export function InGameScreen({
                                 variant="ghost"
                                 className={`flex-1 py-2 px-3 h-auto rounded-lg font-bold text-xs transition-colors ${
                                   activeTab === 'score'
-                                    ? 'text-white'
-                                    : 'text-[var(--app-text-secondary)]'
+                                    ? 'text-white hover:text-white hover:opacity-90'
+                                    : 'text-[var(--app-text-secondary)] hover:text-[var(--app-text-secondary)] hover:bg-[var(--app-background)]'
                                 }`}
                                 style={{
                                   backgroundColor: activeTab === 'score' ? player.color : 'transparent'
@@ -489,8 +491,8 @@ export function InGameScreen({
                                 variant="ghost"
                                 className={`flex-1 py-2 px-3 h-auto rounded-lg font-bold text-xs transition-colors ${
                                   activeTab === 'foul'
-                                    ? 'text-white'
-                                    : 'text-[var(--app-text-secondary)]'
+                                    ? 'text-white hover:text-white hover:opacity-90'
+                                    : 'text-[var(--app-text-secondary)] hover:text-[var(--app-text-secondary)] hover:bg-[var(--app-background)]'
                                 }`}
                                 style={{
                                   backgroundColor: activeTab === 'foul' ? player.color : 'transparent'
@@ -535,6 +537,8 @@ export function InGameScreen({
           )}
         </div>
       </div>
+
+      <Footer />
 
       {/* Bulk Action Bar */}
       <AnimatePresence>
