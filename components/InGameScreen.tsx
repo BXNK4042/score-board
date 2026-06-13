@@ -282,7 +282,7 @@ export function InGameScreen({
                     <motion.div
                       key={player.id}
                       variants={safeListVariants}
-                      layout
+                      layout="position"
                     >
                       <Card
                         data-testid={`player-card-${player.id}`}
@@ -299,7 +299,7 @@ export function InGameScreen({
                         }}
                         className="bg-[var(--app-card-background)] p-4 rounded-[20px] shadow-sm flex flex-col gap-2 relative transition-all cursor-pointer hover:shadow-md"
                       >
-                  <CardContent className="p-0 flex flex-col gap-2">
+                  <CardContent className="p-0 flex flex-col">
                     {/* Top Row: Role Label & Selection Circle / Selected Pill */}
                     <div className="flex items-center justify-between">
                       <div>
@@ -342,7 +342,7 @@ export function InGameScreen({
                     </div>
 
                   {/* Middle Row: Avatar + Name & Score with Adjust Buttons */}
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between mt-2">
                     {/* Left: Avatar + Name */}
                     <div className="flex items-center gap-3">
                       <div
@@ -414,11 +414,7 @@ export function InGameScreen({
                     {openDrawerPlayerId === player.id && (
                       <motion.div
                         onClick={(e) => e.stopPropagation()}
-                        className="mt-2 rounded-2xl shadow-lg overflow-hidden"
-                        style={{
-                          backgroundColor: `${player.color}15`,
-                          border: `2px solid ${player.color}40`
-                        }}
+                        className="overflow-hidden"
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
@@ -428,80 +424,88 @@ export function InGameScreen({
                           duration: 0.5,
                         }}
                       >
-                      {/* Drawer Header */}
-                      <div className="bg-[var(--app-card-background)] p-3 border-b" style={{ borderColor: `${player.color}30` }}>
-                        <div className="flex items-center justify-between mb-2">
-                          <h4 className="font-extrabold text-sm" style={{ color: player.color }}>
-                            Ball Score
-                          </h4>
-                          <Button
-                            onClick={() => {
-                              setActiveTab('score');
-                              setOpenDrawerPlayerId(null);
-                            }}
-                            variant="ghost"
-                            className="text-[var(--app-text-secondary)] hover:text-[var(--app-text-primary)] p-0 h-auto"
-                          >
-                            ✕
-                          </Button>
-                        </div>
+                        <div
+                          className="mt-2 rounded-2xl shadow-lg overflow-hidden"
+                          style={{
+                            backgroundColor: `${player.color}15`,
+                            border: `2px solid ${player.color}40`
+                          }}
+                        >
+                          {/* Drawer Header */}
+                          <div className="bg-[var(--app-card-background)] p-3 border-b" style={{ borderColor: `${player.color}30` }}>
+                            <div className="flex items-center justify-between mb-2">
+                              <h4 className="font-extrabold text-sm" style={{ color: player.color }}>
+                                Ball Score
+                              </h4>
+                              <Button
+                                onClick={() => {
+                                  setActiveTab('score');
+                                  setOpenDrawerPlayerId(null);
+                                }}
+                                variant="ghost"
+                                className="text-[var(--app-text-secondary)] hover:text-[var(--app-text-primary)] p-0 h-auto"
+                              >
+                                ✕
+                              </Button>
+                            </div>
 
-                        {/* Tab Navigation */}
-                        <div className="flex gap-2">
-                          <Button
-                            onClick={() => setActiveTab('score')}
-                            variant="ghost"
-                            className={`flex-1 py-2 px-3 h-auto rounded-lg font-bold text-xs transition-colors ${
-                              activeTab === 'score'
-                                ? 'text-white'
-                                : 'text-[var(--app-text-secondary)]'
-                            }`}
-                            style={{
-                              backgroundColor: activeTab === 'score' ? player.color : 'transparent'
-                            }}
-                          >
-                            Score
-                          </Button>
-                          <Button
-                            onClick={() => setActiveTab('foul')}
-                            variant="ghost"
-                            className={`flex-1 py-2 px-3 h-auto rounded-lg font-bold text-xs transition-colors ${
-                              activeTab === 'foul'
-                                ? 'text-white'
-                                : 'text-[var(--app-text-secondary)]'
-                            }`}
-                            style={{
-                              backgroundColor: activeTab === 'foul' ? player.color : 'transparent'
-                            }}
-                          >
-                            Foul
-                          </Button>
-                        </div>
-                      </div>
+                            {/* Tab Navigation */}
+                            <div className="flex gap-2">
+                              <Button
+                                onClick={() => setActiveTab('score')}
+                                variant="ghost"
+                                className={`flex-1 py-2 px-3 h-auto rounded-lg font-bold text-xs transition-colors ${
+                                  activeTab === 'score'
+                                    ? 'text-white'
+                                    : 'text-[var(--app-text-secondary)]'
+                                }`}
+                                style={{
+                                  backgroundColor: activeTab === 'score' ? player.color : 'transparent'
+                                }}
+                              >
+                                Score
+                              </Button>
+                              <Button
+                                onClick={() => setActiveTab('foul')}
+                                variant="ghost"
+                                className={`flex-1 py-2 px-3 h-auto rounded-lg font-bold text-xs transition-colors ${
+                                  activeTab === 'foul'
+                                    ? 'text-white'
+                                    : 'text-[var(--app-text-secondary)]'
+                                }`}
+                                style={{
+                                  backgroundColor: activeTab === 'foul' ? player.color : 'transparent'
+                                }}
+                              >
+                                Foul
+                              </Button>
+                            </div>
+                          </div>
 
-                      {/* Ball Grid */}
-                      <div className="p-3">
-                        <div className="grid grid-cols-4 gap-2">
-                          {SNOOKER_BALLS.map((ball) => (
-                            <button
-                              key={ball.name}
-                              onClick={() => handleBallClick(player.id, ball.points, activeTab)}
-                              className="aspect-square rounded-full flex flex-col items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer"
-                              style={{ backgroundColor: ball.color }}
-                              aria-label={`${ball.name} ball - ${ball.points} points`}
-                            >
-                              <span className="text-xs font-black" style={{
-                                color: ball.name === 'White' || ball.name === 'Yellow' ? '#000' : '#fff'
-                              }}>
-                                {ball.label}
-                              </span>
-                            </button>
-                          ))}
+                          {/* Ball Grid */}
+                          <div className="p-3">
+                            <div className="grid grid-cols-4 gap-2">
+                              {SNOOKER_BALLS.map((ball) => (
+                                <button
+                                  key={ball.name}
+                                  onClick={() => handleBallClick(player.id, ball.points, activeTab)}
+                                  className="aspect-square rounded-full flex flex-col items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                                  style={{ backgroundColor: ball.color }}
+                                  aria-label={`${ball.name} ball - ${ball.points} points`}
+                                >
+                                  <span className="text-xs font-black" style={{
+                                    color: ball.name === 'White' || ball.name === 'Yellow' ? '#000' : '#fff'
+                                  }}>
+                                    {ball.label}
+                                  </span>
+                                </button>
+                              ))}
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                  </motion.div>
-                  )}
-                </AnimatePresence>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </CardContent>
                 </Card>
               </motion.div>
