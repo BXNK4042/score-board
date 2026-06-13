@@ -13,6 +13,16 @@
   --app-selection: #4B45D4;
   --app-border: #E2E2F0;
 
+  /* Snooker ball colors */
+  --app-snooker-white: #FFFFFF;
+  --app-snooker-red: #CC0000;
+  --app-snooker-yellow: #FFD700;
+  --app-snooker-green: #228B22;
+  --app-snooker-brown: #8B4513;
+  --app-snooker-blue: #0000CD;
+  --app-snooker-pink: #FF69B4;
+  --app-snooker-black: #000000;
+
   /* shadcn/ui base theme variables */
   --background: 0 0% 100%;
   --foreground: 0 0% 3.9%;

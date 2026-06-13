@@ -96,17 +96,40 @@ export function InGameScreen({
     }
   }, [activeGame]);
 
+  interface BallConfig {
+    name: string;
+    points: number;
+    color?: string;
+    background?: string;
+    label: string;
+    labelColor?: string;
+  }
+
   // Snooker ball configuration
-  const SNOOKER_BALLS = [
-    { name: 'White', points: 0, color: '#FFFFFF', label: 'W' },
-    { name: 'Red', points: 1, color: '#CC0000', label: '1' },
-    { name: 'Yellow', points: 2, color: '#FFD700', label: '2' },
-    { name: 'Green', points: 3, color: '#228B22', label: '3' },
-    { name: 'Brown', points: 4, color: '#8B4513', label: '4' },
-    { name: 'Blue', points: 5, color: '#0000CD', label: '5' },
-    { name: 'Pink', points: 6, color: '#FF69B4', label: '6' },
-    { name: 'Black', points: 7, color: '#000000', label: '7' },
-  ] as const;
+  const SNOOKER_BALLS: BallConfig[] = [
+    { name: 'White', points: 0, color: 'var(--app-snooker-white)', label: 'W' },
+    { name: 'Red', points: 1, color: 'var(--app-snooker-red)', label: '1' },
+    { name: 'Yellow', points: 2, color: 'var(--app-snooker-yellow)', label: '2' },
+    { name: 'Green', points: 3, color: 'var(--app-snooker-green)', label: '3' },
+    { name: 'Brown', points: 4, color: 'var(--app-snooker-brown)', label: '4' },
+    { name: 'Blue', points: 5, color: 'var(--app-snooker-blue)', label: '5' },
+    { name: 'Pink', points: 6, color: 'var(--app-snooker-pink)', label: '6' },
+    { name: 'Black', points: 7, color: 'var(--app-snooker-black)', label: '7' },
+  ];
+
+  // Snooker foul ball configuration (4 balls for foul tab)
+  const FOUL_BALLS: BallConfig[] = [
+    {
+      name: 'Cue/Red/Yellow/Green/Brown',
+      points: 4,
+      background: 'conic-gradient(var(--app-snooker-white) 0deg 72deg, var(--app-snooker-red) 72deg 144deg, var(--app-snooker-yellow) 144deg 216deg, var(--app-snooker-green) 216deg 288deg, var(--app-snooker-brown) 288deg 360deg)',
+      label: '4',
+      labelColor: '#000000',
+    },
+    { name: 'Blue', points: 5, color: 'var(--app-snooker-blue)', label: '5', labelColor: '#ffffff' },
+    { name: 'Pink', points: 6, color: 'var(--app-snooker-pink)', label: '6', labelColor: '#ffffff' },
+    { name: 'Black', points: 7, color: 'var(--app-snooker-black)', label: '7', labelColor: '#ffffff' },
+  ];
 
   // Sync tempTitle when activeGame.title changes (e.g. from state loads/updates)
   if (activeGame && activeGame.title !== prevTitle) {
@@ -506,21 +529,34 @@ export function InGameScreen({
                           {/* Ball Grid */}
                           <div className="p-3">
                             <div className="grid grid-cols-4 gap-2">
-                              {SNOOKER_BALLS.map((ball) => (
-                                <button
-                                  key={ball.name}
-                                  onClick={() => handleBallClick(player.id, ball.points, activeTab)}
-                                  className="aspect-square rounded-full flex flex-col items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer"
-                                  style={{ backgroundColor: ball.color }}
-                                  aria-label={`${ball.name} ball - ${ball.points} points`}
-                                >
-                                  <span className="text-xs font-black" style={{
-                                    color: ball.name === 'White' || ball.name === 'Yellow' ? '#000' : '#fff'
-                                  }}>
-                                    {ball.label}
-                                  </span>
-                                </button>
-                              ))}
+                              {(activeTab === 'score' ? SNOOKER_BALLS : FOUL_BALLS).map((ball) => {
+                                const isFoulCombined = ball.background !== undefined;
+                                const bgStyle = isFoulCombined
+                                  ? { background: ball.background }
+                                  : { backgroundColor: ball.color };
+
+                                const labelColor = ball.labelColor || (ball.name === 'White' || ball.name === 'Yellow' ? '#000000' : '#ffffff');
+
+                                return (
+                                  <button
+                                    key={ball.name}
+                                    onClick={() => handleBallClick(player.id, ball.points, activeTab)}
+                                    className="aspect-square rounded-full flex flex-col items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                                    style={bgStyle}
+                                    aria-label={`${ball.name} ball - ${ball.points} points`}
+                                  >
+                                    <span
+                                      className="text-xs font-black"
+                                      style={{
+                                        color: labelColor,
+                                        textShadow: isFoulCombined ? '0px 0px 4px #ffffff, 0px 0px 4px #ffffff' : undefined,
+                                      }}
+                                    >
+                                      {ball.label}
+                                    </span>
+                                  </button>
+                                );
+                              })}
                             </div>
                           </div>
                         </div>
