@@ -286,7 +286,12 @@ export function InGameScreen({
                     >
                       <Card
                         data-testid={`player-card-${player.id}`}
-                        onClick={() => setOpenDrawerPlayerId(openDrawerPlayerId === player.id ? null : player.id)}
+                        onClick={() => {
+                          if (openDrawerPlayerId !== player.id) {
+                            setActiveTab('score');
+                          }
+                          setOpenDrawerPlayerId(openDrawerPlayerId === player.id ? null : player.id);
+                        }}
                         style={{
                           borderColor: player.isSelected ? 'var(--app-selection)' : 'transparent',
                           borderWidth: '2px',
@@ -430,7 +435,10 @@ export function InGameScreen({
                             Ball Score
                           </h4>
                           <Button
-                            onClick={() => setOpenDrawerPlayerId(null)}
+                            onClick={() => {
+                              setActiveTab('score');
+                              setOpenDrawerPlayerId(null);
+                            }}
                             variant="ghost"
                             className="text-[var(--app-text-secondary)] hover:text-[var(--app-text-primary)] p-0 h-auto"
                           >
@@ -710,6 +718,7 @@ export function InGameScreen({
                 });
 
                 setBulkRemoveDialogOpen(false);
+                setActiveTab('score');
                 setOpenDrawerPlayerId(null); // Close drawer if open
               }}
               className="w-full py-3.5 h-auto bg-[var(--app-danger)] text-white font-extrabold rounded-2xl active:scale-98"

@@ -59,7 +59,7 @@ export function PlayerDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="bg-[var(--app-card-background)] w-full max-w-[390px] rounded-3xl p-6 shadow-xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="bg-[var(--app-card-background)] w-[calc(100%-32px)] max-w-[390px] rounded-3xl p-6 shadow-xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="font-extrabold text-xl text-[var(--app-text-primary)]">{title}</DialogTitle>
         </DialogHeader>
