@@ -289,7 +289,7 @@ export function InGameScreen({
 
         {/* Scrollable Player Cards List */}
         <div
-          className={`flex flex-col gap-3 overflow-y-auto pr-1 transition-all ${
+          className={`flex flex-col gap-3 overflow-y-auto no-scrollbar pr-1 transition-all ${
             selectedCount >= 1 ? 'pb-24' : 'pb-6'
           }`}
         >
