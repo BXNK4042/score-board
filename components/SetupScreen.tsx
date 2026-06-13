@@ -75,7 +75,7 @@ export function SetupScreen({
             onClick={onCancel}
             data-testid="setup-cancel-button"
             variant="ghost"
-            className="text-sm font-bold text-[var(--app-text-secondary)] hover:text-[var(--app-text-primary)]"
+            className="text-sm font-bold text-[var(--app-text-secondary)] hover:text-[var(--app-text-primary)] hover:bg-transparent"
             motionType="default"
           >
             Cancel
@@ -190,7 +190,7 @@ export function SetupScreen({
             onClick={handleOpenAdd}
             data-testid="add-player-button"
             variant="outline"
-            className="w-full py-4 h-auto border-2 border-dashed border-[var(--app-text-secondary)]/40 text-[var(--app-brand)] font-extrabold rounded-[20px] flex items-center justify-center gap-2 hover:bg-[var(--app-card-background)]/50 mt-2"
+            className="w-full py-4 h-auto border-2 border-dashed border-[var(--app-text-secondary)]/40 bg-transparent text-[var(--app-brand)] font-extrabold rounded-[20px] flex items-center justify-center gap-2 hover:bg-[var(--app-card-background)]/50 hover:text-[var(--app-brand)] mt-2"
             motionType="default"
           >
             <PlusIcon className="w-5 h-5" />
@@ -208,7 +208,7 @@ export function SetupScreen({
           className={`w-full py-4 h-auto text-white font-extrabold rounded-full flex items-center justify-center gap-1 ${
             isStartDisabled
               ? 'bg-[var(--app-text-secondary)]/60 opacity-60 cursor-not-allowed'
-              : 'bg-[var(--app-brand)] shadow-md shadow-[var(--app-brand)]/20 active:scale-98'
+              : 'bg-[var(--app-brand)] hover:bg-[var(--app-brand)]/90 shadow-md shadow-[var(--app-brand)]/20 active:scale-98'
           }`}
           motionType="default"
         >
