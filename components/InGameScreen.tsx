@@ -122,7 +122,7 @@ export function InGameScreen({
     {
       name: 'Cue/Red/Yellow/Green/Brown',
       points: 4,
-      background: 'linear-gradient(135deg, var(--app-snooker-white), var(--app-snooker-red), var(--app-snooker-yellow), var(--app-snooker-green), var(--app-snooker-brown))',
+      background: 'conic-gradient(var(--app-snooker-red) 0deg 90deg, var(--app-snooker-yellow) 90deg 180deg, var(--app-snooker-green) 180deg 270deg, var(--app-snooker-brown) 270deg 360deg)',
       label: '4',
       labelColor: '#000000',
     },
@@ -541,19 +541,24 @@ export function InGameScreen({
                                   <button
                                     key={ball.name}
                                     onClick={() => handleBallClick(player.id, ball.points, activeTab)}
-                                    className="aspect-square rounded-full flex flex-col items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                                    className="relative aspect-square rounded-full flex flex-col items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer"
                                     style={bgStyle}
                                     aria-label={`${ball.name} ball - ${ball.points} points`}
                                   >
-                                    <span
-                                      className="text-xs font-black"
-                                      style={{
-                                        color: labelColor,
-                                        textShadow: isFoulCombined ? '0px 0px 4px #ffffff, 0px 0px 4px #ffffff' : undefined,
-                                      }}
-                                    >
-                                      {ball.label}
-                                    </span>
+                                    {isFoulCombined ? (
+                                      <div className="absolute inset-[3px] rounded-full bg-white flex items-center justify-center shadow-[inset_0_1px_2px_rgba(0,0,0,0.15)]">
+                                        <span className="text-xs font-black text-black">
+                                          {ball.label}
+                                        </span>
+                                      </div>
+                                    ) : (
+                                      <span
+                                        className="text-xs font-black"
+                                        style={{ color: labelColor }}
+                                      >
+                                        {ball.label}
+                                      </span>
+                                    )}
                                   </button>
                                 );
                               })}
