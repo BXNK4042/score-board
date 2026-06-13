@@ -122,7 +122,7 @@ export function InGameScreen({
     {
       name: 'Cue/Red/Yellow/Green/Brown',
       points: 4,
-      background: 'conic-gradient(var(--app-snooker-white) 0deg 72deg, var(--app-snooker-red) 72deg 144deg, var(--app-snooker-yellow) 144deg 216deg, var(--app-snooker-green) 216deg 288deg, var(--app-snooker-brown) 288deg 360deg)',
+      background: 'linear-gradient(135deg, var(--app-snooker-white), var(--app-snooker-red), var(--app-snooker-yellow), var(--app-snooker-green), var(--app-snooker-brown))',
       label: '4',
       labelColor: '#000000',
     },
