@@ -6,7 +6,7 @@ import { Game, PALETTE } from '@/hooks/useGameState';
 import { PlayerDialog } from '@/components/PlayerDialog';
 import { Footer } from './Footer';
 
-import { Gamepad, UserPlus, Check, Play, Pause, X, RefreshCw, Pencil, Trash2, Crown } from 'lucide-react';
+import { Gamepad, UserPlus, Check, Play, Pause, X, RefreshCw, Pencil, Trash2, Crown, History } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -38,6 +38,10 @@ const PauseIcon = ({ className = "w-5 h-5" }) => (
   <Pause className={className} fill="currentColor" />
 );
 
+const HistoryIcon = ({ className = "w-3.5 h-3.5" }) => (
+  <History className={className} strokeWidth={2.5} />
+);
+
 const DeselectIcon = ({ className = "w-5 h-5" }) => (
   <X className={className} strokeWidth={2} />
 );
@@ -59,6 +63,7 @@ export function InGameScreen({
   onEndGame,
   onUpdatePlayerName,
   onRemovePlayer,
+  onIncrementFoulCount,
 }: {
   activeGame: Game;
   onUpdateGameTitle: (title: string) => void;
@@ -72,6 +77,7 @@ export function InGameScreen({
   onEndGame: () => void;
   onUpdatePlayerName?: (playerId: string, newName: string) => void;
   onRemovePlayer?: (playerId: string) => void;
+  onIncrementFoulCount: () => void;
 }) {
   const [prevTitle, setPrevTitle] = useState(activeGame?.title || '');
   const [tempTitle, setTempTitle] = useState(activeGame?.title || '');
@@ -146,6 +152,14 @@ export function InGameScreen({
 
   const selectedCount = activeGame.players.filter((p) => p.isSelected).length;
 
+  const formattedTime = activeGame.lastScoreUpdated ? (() => {
+    const date = new Date(activeGame.lastScoreUpdated);
+    const hrs = date.getHours().toString().padStart(2, '0');
+    const mins = date.getMinutes().toString().padStart(2, '0');
+    const secs = date.getSeconds().toString().padStart(2, '0');
+    return `${hrs}:${mins}:${secs}`;
+  })() : null;
+
   const handleSaveTitle = () => {
     const trimmed = tempTitle.trim();
     if (trimmed) {
@@ -190,6 +204,7 @@ export function InGameScreen({
           onUpdateScore(playerId, foulPoints);
         });
       }
+      onIncrementFoulCount();
     }
   };
 
@@ -285,6 +300,36 @@ export function InGameScreen({
               )}
             </Button>
           </div>
+        </div>
+
+        {/* Stats Cards Section */}
+        <div className="grid grid-cols-2 gap-3 shrink-0">
+          <Card 
+            className="bg-[var(--app-card-background)] rounded-[20px] border-none shadow-sm flex flex-col justify-center p-4"
+            aria-live="polite"
+          >
+            <CardContent className="p-0 flex flex-col items-center justify-center text-center">
+              <span className="text-[var(--app-text-secondary)] text-[10px] font-black tracking-wider uppercase mb-1">
+                Fouls
+              </span>
+              <span 
+                className="text-3xl font-black text-[var(--app-danger)]"
+                data-testid="foul-counter"
+              >
+                {activeGame.foulCount || 0}
+              </span>
+            </CardContent>
+          </Card>
+          <Card className="bg-[var(--app-card-background)] rounded-[20px] border-none shadow-sm flex flex-col justify-center p-4">
+            <CardContent className="p-0 flex flex-col items-center justify-center text-center">
+              <span className="text-[var(--app-text-secondary)] text-[10px] font-black tracking-wider uppercase mb-1">
+                Stats
+              </span>
+              <span className="text-3xl font-black text-[var(--app-text-secondary)]">
+                —
+              </span>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Scrollable Player Cards List */}
@@ -578,6 +623,18 @@ export function InGameScreen({
           )}
         </div>
       </div>
+
+      {formattedTime && (
+        <div
+          aria-live="polite"
+          className="flex items-center justify-center gap-1.5 text-xs text-[var(--app-text-secondary)] font-semibold select-none -mt-2 mb-20"
+          data-testid="last-score-updated"
+        >
+          <HistoryIcon />
+          <span>Last score updated: {formattedTime}</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-[var(--app-brand)] animate-pulse" />
+        </div>
+      )}
 
       <Footer />
 

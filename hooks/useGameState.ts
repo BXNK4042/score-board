@@ -21,6 +21,8 @@ export interface Game {
   elapsedSeconds: number;
   isRunning: boolean;
   players: Player[];
+  lastScoreUpdated?: number;
+  foulCount?: number;
 }
 
 export const PALETTE = [
@@ -169,6 +171,7 @@ export function useGameState() {
         score: 0,
         isSelected: false,
       })),
+      foulCount: 0,
     };
     setActiveGame(newGame);
     setScreen('ingame');
@@ -214,6 +217,7 @@ export function useGameState() {
       if (!prev) return null;
       return {
         ...prev,
+        lastScoreUpdated: Date.now(),
         players: prev.players.map((p) =>
           p.id === playerId ? { ...p, score: p.score + delta } : p
         ),
@@ -238,6 +242,7 @@ export function useGameState() {
       if (!prev) return null;
       return {
         ...prev,
+        lastScoreUpdated: Date.now(),
         players: prev.players.map((p) =>
           p.isSelected ? { ...p, score: p.score + delta } : p
         ),
@@ -305,6 +310,16 @@ export function useGameState() {
     });
   }, []);
 
+  const incrementFoulCount = useCallback(() => {
+    setActiveGame((prev) => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        foulCount: (prev.foulCount || 0) + 1,
+      };
+    });
+  }, []);
+
   return {
     screen,
     activeGame,
@@ -334,5 +349,6 @@ export function useGameState() {
     endGame,
     updatePlayerName,
     removePlayer,
+    incrementFoulCount,
   };
 }
