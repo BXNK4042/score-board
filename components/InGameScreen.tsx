@@ -621,20 +621,21 @@ export function InGameScreen({
             </motion.div>
           </AnimatePresence>
           )}
+
+          {/* Last Score Updated */}
+          {formattedTime && (
+            <div
+              aria-live="polite"
+              className="flex items-center justify-center gap-1.5 text-xs text-[var(--app-text-secondary)] font-semibold select-none mt-2 shrink-0"
+              data-testid="last-score-updated"
+            >
+              <HistoryIcon />
+              <span>Last score updated: {formattedTime}</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--app-brand)] animate-pulse" />
+            </div>
+          )}
         </div>
       </div>
-
-      {formattedTime && (
-        <div
-          aria-live="polite"
-          className="flex items-center justify-center gap-1.5 text-xs text-[var(--app-text-secondary)] font-semibold select-none -mt-2 mb-20"
-          data-testid="last-score-updated"
-        >
-          <HistoryIcon />
-          <span>Last score updated: {formattedTime}</span>
-          <span className="w-1.5 h-1.5 rounded-full bg-[var(--app-brand)] animate-pulse" />
-        </div>
-      )}
 
       <Footer />
 
