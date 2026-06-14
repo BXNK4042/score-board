@@ -6,7 +6,7 @@ import { Game, PALETTE } from '@/hooks/useGameState';
 import { PlayerDialog } from '@/components/PlayerDialog';
 import { Footer } from './Footer';
 
-import { Gamepad, UserPlus, Check, Play, Pause, X, RefreshCw, Pencil, Trash2, Crown, History } from 'lucide-react';
+import { Gamepad, UserPlus, Check, Play, Pause, X, RefreshCw, Pencil, Trash2, Crown, History, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -28,6 +28,10 @@ const PersonPlusIcon = () => (
 
 const CheckIcon = () => (
   <Check className="w-6 h-6 text-[var(--app-success)]" strokeWidth={2.5} />
+);
+
+const RotateCcwIcon = () => (
+  <RotateCcw className="w-6 h-6 text-[var(--app-brand)]" strokeWidth={2} />
 );
 
 const PlayIcon = ({ className = "w-5 h-5" }) => (
@@ -64,6 +68,7 @@ export function InGameScreen({
   onUpdatePlayerName,
   onRemovePlayer,
   onIncrementFoulCount,
+  onRestartGame,
 }: {
   activeGame: Game;
   onUpdateGameTitle: (title: string) => void;
@@ -78,12 +83,14 @@ export function InGameScreen({
   onUpdatePlayerName?: (playerId: string, newName: string) => void;
   onRemovePlayer?: (playerId: string) => void;
   onIncrementFoulCount: () => void;
+  onRestartGame: () => void;
 }) {
   const [prevTitle, setPrevTitle] = useState(activeGame?.title || '');
   const [tempTitle, setTempTitle] = useState(activeGame?.title || '');
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [addPlayerDialogOpen, setAddPlayerDialogOpen] = useState(false);
   const [endGameDialogOpen, setEndGameDialogOpen] = useState(false);
+  const [restartGameDialogOpen, setRestartGameDialogOpen] = useState(false);
   const [openDrawerPlayerId, setOpenDrawerPlayerId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'score' | 'foul'>('score');
   const [bulkEditNameDialogOpen, setBulkEditNameDialogOpen] = useState(false);
@@ -261,6 +268,16 @@ export function InGameScreen({
               size="icon"
             >
               <PersonPlusIcon />
+            </Button>
+            <Button
+              onClick={() => setRestartGameDialogOpen(true)}
+              data-testid="restart-game-button"
+              aria-label="Reset game session"
+              variant="outline"
+              className="p-2 bg-white hover:bg-[#EEEEF8] rounded-xl shadow-sm active:scale-95"
+              size="icon"
+            >
+              <RotateCcwIcon />
             </Button>
             <Button
               onClick={() => setEndGameDialogOpen(true)}
@@ -883,6 +900,38 @@ export function InGameScreen({
               className="w-full py-3.5 h-auto bg-[var(--app-background)] text-[var(--app-text-primary)] font-extrabold rounded-2xl active:scale-98"
             >
               No, Keep Playing
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Restart Game confirmation modal */}
+      <Dialog open={restartGameDialogOpen} onOpenChange={(open) => !open && setRestartGameDialogOpen(false)}>
+        <DialogContent className="bg-white w-full max-w-[320px] rounded-3xl p-6 shadow-xl text-center">
+          <DialogHeader>
+            <DialogTitle className="font-extrabold text-lg text-[#1A1A2E]">
+              Reset game session?
+            </DialogTitle>
+          </DialogHeader>
+          <div className="text-sm text-[var(--app-text-secondary)] font-medium mb-4">
+            This will reset all scores, stopwatch, and fouls. Current players will be kept.
+          </div>
+          <div className="flex flex-col gap-3">
+            <Button
+              onClick={() => {
+                onRestartGame();
+                setRestartGameDialogOpen(false);
+              }}
+              className="w-full py-3.5 h-auto bg-[var(--app-brand)] text-white font-extrabold rounded-2xl active:scale-98"
+            >
+              Yes, Reset Game
+            </Button>
+            <Button
+              onClick={() => setRestartGameDialogOpen(false)}
+              variant="secondary"
+              className="w-full py-3.5 h-auto bg-[var(--app-background)] text-[var(--app-text-primary)] font-extrabold rounded-2xl active:scale-98"
+            >
+              Cancel
             </Button>
           </div>
         </DialogContent>

@@ -320,6 +320,24 @@ export function useGameState() {
     });
   }, []);
 
+  const restartGame = useCallback(() => {
+    setActiveGame((prev) => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        elapsedSeconds: 0,
+        isRunning: true,
+        lastScoreUpdated: undefined,
+        foulCount: 0,
+        players: prev.players.map((p) => ({
+          ...p,
+          score: 0,
+          isSelected: false,
+        })),
+      };
+    });
+  }, []);
+
   return {
     screen,
     activeGame,
@@ -350,5 +368,6 @@ export function useGameState() {
     updatePlayerName,
     removePlayer,
     incrementFoulCount,
+    restartGame,
   };
 }
