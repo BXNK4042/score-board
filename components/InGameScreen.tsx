@@ -159,13 +159,53 @@ export function InGameScreen({
 
   const selectedCount = activeGame.players.filter((p) => p.isSelected).length;
 
-  const formattedTime = activeGame.lastScoreUpdated ? (() => {
-    const date = new Date(activeGame.lastScoreUpdated);
-    const hrs = date.getHours().toString().padStart(2, '0');
-    const mins = date.getMinutes().toString().padStart(2, '0');
-    const secs = date.getSeconds().toString().padStart(2, '0');
-    return `${hrs}:${mins}:${secs}`;
-  })() : null;
+  const [now, setNow] = useState(Date.now());
+
+  // Tick relative time every 10 seconds
+  useEffect(() => {
+    if (!activeGame?.lastScoreUpdated) return;
+
+    const interval = setInterval(() => {
+      setNow(Date.now());
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, [activeGame?.lastScoreUpdated]);
+
+  // Sync now immediately when lastScoreUpdated changes
+  useEffect(() => {
+    if (activeGame?.lastScoreUpdated) {
+      setNow(Date.now());
+    }
+  }, [activeGame?.lastScoreUpdated]);
+
+  const getRelativeTimeString = (timestamp: number, current: number) => {
+    const diffMs = current - timestamp;
+    const diffSecs = Math.floor(diffMs / 1000);
+    const diffMins = Math.floor(diffSecs / 60);
+    const diffHrs = Math.floor(diffMins / 60);
+
+    if (diffSecs < 10) {
+      return 'just now';
+    }
+    if (diffSecs < 60) {
+      return `${diffSecs} seconds ago`;
+    }
+    if (diffMins === 1) {
+      return '1 minute ago';
+    }
+    if (diffMins < 60) {
+      return `${diffMins} minutes ago`;
+    }
+    if (diffHrs === 1) {
+      return '1 hour ago';
+    }
+    return `${diffHrs} hours ago`;
+  };
+
+  const relativeTimeText = activeGame?.lastScoreUpdated
+    ? getRelativeTimeString(activeGame.lastScoreUpdated, now)
+    : null;
 
   const handleSaveTitle = () => {
     const trimmed = tempTitle.trim();
@@ -640,14 +680,14 @@ export function InGameScreen({
           )}
 
           {/* Last Score Updated */}
-          {formattedTime && (
+          {relativeTimeText && (
             <div
               aria-live="polite"
               className="flex items-center justify-center gap-1.5 text-xs text-[var(--app-text-secondary)] font-semibold select-none mt-2 shrink-0"
               data-testid="last-score-updated"
             >
               <HistoryIcon />
-              <span>Last score updated: {formattedTime}</span>
+              <span>Last score updated: {relativeTimeText}</span>
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--app-brand)] animate-pulse" />
             </div>
           )}
