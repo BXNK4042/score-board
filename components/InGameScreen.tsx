@@ -239,8 +239,12 @@ export function InGameScreen({
       // Score tab: Add points to current player
       onUpdateScore(currentPlayerId, points);
     } else {
-      // Foul tab: Give points to all OTHER players (min 4 points)
-      const foulPoints = Math.max(points, 4); // Minimum 4 points for fouls
+      // Foul tab: Give points to all OTHER players
+      // ponytail: 2 points for 4-point fouls when >2 players, otherwise standard values
+      const isFourPointFoul = points === 4;
+      const hasMultiplePlayers = activeGame.players.length > 2;
+      const foulPoints = (isFourPointFoul && hasMultiplePlayers) ? 2 : Math.max(points, 4);
+
       const otherPlayers = activeGame.players
         .filter(p => p.id !== currentPlayerId)
         .map(p => p.id);
