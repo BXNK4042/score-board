@@ -40,6 +40,7 @@ export default function Page() {
     removePlayer,
     incrementFoulCount,
     restartGame,
+    updateLatestBall,
   } = useGameState();
 
   const prefersReducedMotion = useReducedMotion();
@@ -124,6 +125,7 @@ export default function Page() {
                   onRemovePlayer={removePlayer}
                   onIncrementFoulCount={incrementFoulCount}
                   onRestartGame={restartGame}
+                  onUpdateLatestBall={updateLatestBall}
                 />
               </motion.div>
             );

@@ -23,6 +23,11 @@ export interface Game {
   players: Player[];
   lastScoreUpdated?: number;
   foulCount?: number;
+  latestBall?: {
+    playerName: string;
+    type: 'Score' | 'Foul';
+    ballName: string;
+  };
 }
 
 export const PALETTE = [
@@ -320,6 +325,17 @@ export function useGameState() {
     });
   }, []);
 
+  // ponytail: store latest ball update directly in game state for local persistence
+  const updateLatestBall = useCallback((playerName: string, type: 'Score' | 'Foul', ballName: string) => {
+    setActiveGame((prev) => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        latestBall: { playerName, type, ballName },
+      };
+    });
+  }, []);
+
   const restartGame = useCallback(() => {
     setActiveGame((prev) => {
       if (!prev) return null;
@@ -329,6 +345,7 @@ export function useGameState() {
         isRunning: true,
         lastScoreUpdated: undefined,
         foulCount: 0,
+        latestBall: undefined,
         players: prev.players.map((p) => ({
           ...p,
           score: 0,
@@ -369,5 +386,6 @@ export function useGameState() {
     removePlayer,
     incrementFoulCount,
     restartGame,
+    updateLatestBall,
   };
 }

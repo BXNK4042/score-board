@@ -36,6 +36,34 @@ const HistoryIcon = () => (
   <History className="w-3.5 h-3.5" strokeWidth={2.5} />
 );
 
+// ponytail: map ballName and type back to styling properties to draw the styled ball visual
+const getBallStyle = (ballName: string, type: 'Score' | 'Foul') => {
+  if (type === 'Foul') {
+    if (ballName === 'Cue/Red/Yellow/Green/Brown') {
+      return {
+        label: '4',
+        background: 'conic-gradient(var(--app-snooker-red) 0deg 90deg, var(--app-snooker-yellow) 90deg 180deg, var(--app-snooker-green) 180deg 270deg, var(--app-snooker-brown) 270deg 360deg)',
+        labelColor: '#000000',
+      };
+    }
+    if (ballName === 'Blue') return { label: '5', color: 'var(--app-snooker-blue)', labelColor: '#ffffff' };
+    if (ballName === 'Pink') return { label: '6', color: 'var(--app-snooker-pink)', labelColor: '#ffffff' };
+    if (ballName === 'Black') return { label: '7', color: 'var(--app-snooker-black)', labelColor: '#ffffff' };
+  }
+
+  switch (ballName) {
+    case 'White': return { label: 'W', color: 'var(--app-snooker-white)', labelColor: '#000000' };
+    case 'Red': return { label: '1', color: 'var(--app-snooker-red)', labelColor: '#ffffff' };
+    case 'Yellow': return { label: '2', color: 'var(--app-snooker-yellow)', labelColor: '#000000' };
+    case 'Green': return { label: '3', color: 'var(--app-snooker-green)', labelColor: '#ffffff' };
+    case 'Brown': return { label: '4', color: 'var(--app-snooker-brown)', labelColor: '#ffffff' };
+    case 'Blue': return { label: '5', color: 'var(--app-snooker-blue)', labelColor: '#ffffff' };
+    case 'Pink': return { label: '6', color: 'var(--app-snooker-pink)', labelColor: '#ffffff' };
+    case 'Black': return { label: '7', color: 'var(--app-snooker-black)', labelColor: '#ffffff' };
+    default: return { label: '—', color: 'var(--app-text-secondary)', labelColor: '#ffffff' };
+  }
+};
+
 export function InGameScreen({
   activeGame,
   onUpdateGameTitle,
@@ -51,6 +79,7 @@ export function InGameScreen({
   onRemovePlayer,
   onIncrementFoulCount,
   onRestartGame,
+  onUpdateLatestBall,
 }: {
   activeGame: Game;
   onUpdateGameTitle: (title: string) => void;
@@ -66,6 +95,7 @@ export function InGameScreen({
   onRemovePlayer?: (playerId: string) => void;
   onIncrementFoulCount: () => void;
   onRestartGame: () => void;
+  onUpdateLatestBall: (playerName: string, type: 'Score' | 'Foul', ballName: string) => void;
 }) {
   const [prevTitle, setPrevTitle] = useState(activeGame?.title || '');
   const [tempTitle, setTempTitle] = useState(activeGame?.title || '');
@@ -170,6 +200,31 @@ export function InGameScreen({
   };
 
   const handleBallClick = (currentPlayerId: string, points: number, tab: 'score' | 'foul') => {
+    const player = activeGame.players.find((p) => p.id === currentPlayerId);
+    const playerName = player ? player.name : 'Unknown';
+    const type = tab === 'score' ? 'Score' : 'Foul';
+    const ballName = (() => {
+      if (tab === 'foul') {
+        if (points === 4) return 'Cue/Red/Yellow/Green/Brown';
+        if (points === 5) return 'Blue';
+        if (points === 6) return 'Pink';
+        if (points === 7) return 'Black';
+        return 'Foul';
+      }
+      switch (points) {
+        case 0: return 'White';
+        case 1: return 'Red';
+        case 2: return 'Yellow';
+        case 3: return 'Green';
+        case 4: return 'Brown';
+        case 5: return 'Blue';
+        case 6: return 'Pink';
+        case 7: return 'Black';
+        default: return 'Custom';
+      }
+    })();
+    onUpdateLatestBall(playerName, type, ballName);
+
     if (tab === 'score') {
       onUpdateScore(currentPlayerId, points);
     } else {
@@ -293,14 +348,54 @@ export function InGameScreen({
               </span>
             </CardContent>
           </Card>
-          <Card className="bg-[var(--app-card-background)] rounded-[20px] border-none shadow-sm flex flex-col justify-center p-4">
+          <Card
+            className="bg-[var(--app-card-background)] rounded-[20px] border-none shadow-sm flex flex-col justify-center p-4"
+            aria-live="polite"
+          >
             <CardContent className="p-0 flex flex-col items-center justify-center text-center">
-              <span className="text-[var(--app-text-secondary)] text-[10px] font-black tracking-wider uppercase mb-1">
-                Stats
-              </span>
-              <span className="text-3xl font-black text-[var(--app-text-secondary)]">
-                —
-              </span>
+              {activeGame.latestBall ? (
+                (() => {
+                  const ballStyle = getBallStyle(activeGame.latestBall.ballName, activeGame.latestBall.type);
+                  return (
+                    <>
+                      <span
+                        className="text-[var(--app-text-secondary)] text-[10px] font-black tracking-wider uppercase mb-1 truncate max-w-full px-1"
+                        data-testid="latest-ball-label"
+                      >
+                        {activeGame.latestBall.playerName} ({activeGame.latestBall.type})
+                      </span>
+                      <div
+                        className="relative w-11 h-11 rounded-full flex items-center justify-center shadow-md select-none"
+                        style={
+                          ballStyle.background
+                            ? { background: ballStyle.background }
+                            : { backgroundColor: ballStyle.color }
+                        }
+                        data-testid="latest-ball-visual"
+                      >
+                        {ballStyle.background ? (
+                          <div className="absolute inset-[3.5px] rounded-full bg-white flex items-center justify-center shadow-[inset_0_1.5px_2.5px_rgba(0,0,0,0.15)]">
+                            <span className="text-xs font-black text-black">{ballStyle.label}</span>
+                          </div>
+                        ) : (
+                          <span className="text-xs font-black" style={{ color: ballStyle.labelColor }}>
+                            {ballStyle.label}
+                          </span>
+                        )}
+                      </div>
+                    </>
+                  );
+                })()
+              ) : (
+                <>
+                  <span className="text-[var(--app-text-secondary)] text-[10px] font-black tracking-wider uppercase mb-1">
+                    Stats
+                  </span>
+                  <span className="text-3xl font-black text-[var(--app-text-secondary)]">
+                    —
+                  </span>
+                </>
+              )}
             </CardContent>
           </Card>
         </div>
