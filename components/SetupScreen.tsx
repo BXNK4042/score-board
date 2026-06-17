@@ -159,7 +159,7 @@ export function SetupScreen({
                       <CardContent className="p-0 flex items-center justify-between w-full">
                   {/* Left Side: Avatar + Name */}
                   <div className="flex items-center gap-3">
-                    <div className="w-14 h-14 rounded-full overflow-hidden shrink-0 flex items-center justify-center bg-[var(--app-border)]">
+                    <div className="w-14 h-14 rounded-full overflow-hidden shrink-0 flex items-center justify-center">
                       {COLOR_TO_AVATAR[player.color.toLowerCase()] ? (
                         <img
                           src={`/player-avatar/${COLOR_TO_AVATAR[player.color.toLowerCase()]}.webp`}
