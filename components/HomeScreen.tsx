@@ -35,9 +35,10 @@ export function HomeScreen({
   hasActiveGame: boolean;
 }) {
   return (
-    <div className="flex flex-col flex-1 items-center justify-between p-6 bg-[var(--app-background)] text-[var(--app-text-primary)] w-full max-w-[390px] mx-auto min-h-screen">
+    <div className="flex flex-col flex-1 items-center justify-between p-6 pt-[calc(24px+env(safe-area-inset-top))] bg-[var(--app-background)] text-[var(--app-text-primary)] w-full max-w-[390px] mx-auto min-h-screen">
       {/* Top Header branding */}
-      <div className="w-full flex items-center justify-start gap-2 pt-6">
+      {/* ponytail: removed double-padding pt-6 on header, handled env(safe-area-inset-top) in parent wrapper */}
+      <div className="w-full flex items-center justify-start gap-2">
         <GamepadIcon />
         <span className="font-extrabold text-xl tracking-tight text-[var(--app-brand)]">ScoreBoard</span>
       </div>

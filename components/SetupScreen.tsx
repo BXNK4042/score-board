@@ -65,10 +65,11 @@ export function SetupScreen({
   const isStartDisabled = !setupTitle.trim() || setupPlayers.length === 0;
 
   return (
-    <div className="flex flex-col flex-1 bg-[var(--app-background)] text-[var(--app-text-primary)] w-full max-w-[390px] mx-auto min-h-screen relative p-6 justify-between">
+    <div className="flex flex-col flex-1 bg-[var(--app-background)] text-[var(--app-text-primary)] w-full max-w-[390px] mx-auto min-h-screen relative p-6 pt-[calc(24px+env(safe-area-inset-top))] justify-between">
       <div className="flex flex-col gap-6">
         {/* Header */}
-        <div className="flex items-center justify-between pt-6">
+        {/* ponytail: removed double-padding pt-6 on header, handled env(safe-area-inset-top) in parent wrapper */}
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <GamepadIcon />
             <span className="font-extrabold text-xl tracking-tight text-[var(--app-brand)]">ScoreBoard</span>

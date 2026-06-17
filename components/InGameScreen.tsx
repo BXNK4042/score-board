@@ -260,13 +260,14 @@ export function InGameScreen({
   };
 
   return (
-    <div className="flex flex-col flex-1 bg-[var(--app-background)] text-[var(--app-text-primary)] w-full max-w-[390px] mx-auto min-h-screen relative p-6 justify-between">
+    <div className="flex flex-col flex-1 bg-[var(--app-background)] text-[var(--app-text-primary)] w-full max-w-[390px] mx-auto min-h-screen relative p-6 pt-[calc(24px+env(safe-area-inset-top))] justify-between">
       {/* sr-only heading for tests */}
       <h1 className="sr-only" data-testid="in-game-screen-heading">In-Game Screen</h1>
 
       <div className="flex flex-col gap-6">
         {/* Header */}
-        <div className="flex items-center justify-between pt-6 gap-2">
+        {/* ponytail: removed double-padding pt-6 on header, handled env(safe-area-inset-top) in parent wrapper */}
+        <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 min-w-0 flex-1">
             <GamepadIcon />
             {isEditingTitle ? (
