@@ -5,21 +5,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Game, PALETTE } from '@/hooks/useGameState';
 import { PlayerDialog } from '@/components/PlayerDialog';
 import { Footer } from './Footer';
+import { StopwatchBanner } from './StopwatchBanner';
+import { PlayerCard } from './PlayerCard';
+import { BulkActionBar } from './BulkActionBar';
 
-import { Gamepad, UserPlus, Check, Play, Pause, X, RefreshCw, Pencil, Trash2, Crown, History, RotateCcw } from 'lucide-react';
+import { Gamepad, UserPlus, Check, RotateCcw, History } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { listContainerVariants, listItemVariants, useReducedMotion, createSafeVariants } from '@/lib/animations';
 
 export const GamepadIcon = () => (
   <Gamepad className="w-6 h-6 text-[var(--app-brand)]" strokeWidth={2} />
-);
-
-const CrownIcon = ({ className = "w-4 h-4" }) => (
-  <Crown className={className} strokeWidth={2.5} />
 );
 
 const PersonPlusIcon = () => (
@@ -34,24 +32,8 @@ const RotateCcwIcon = () => (
   <RotateCcw className="w-6 h-6 text-[var(--app-brand)]" strokeWidth={2} />
 );
 
-const PlayIcon = ({ className = "w-5 h-5" }) => (
-  <Play className={className} fill="currentColor" />
-);
-
-const PauseIcon = ({ className = "w-5 h-5" }) => (
-  <Pause className={className} fill="currentColor" />
-);
-
-const HistoryIcon = ({ className = "w-3.5 h-3.5" }) => (
-  <History className={className} strokeWidth={2.5} />
-);
-
-const DeselectIcon = ({ className = "w-5 h-5" }) => (
-  <X className={className} strokeWidth={2} />
-);
-
-const ReverseIcon = ({ className = "w-5 h-5" }) => (
-  <RefreshCw className={className} strokeWidth={2} />
+const HistoryIcon = () => (
+  <History className="w-3.5 h-3.5" strokeWidth={2.5} />
 );
 
 export function InGameScreen({
@@ -101,83 +83,47 @@ export function InGameScreen({
   const safeListVariants = createSafeVariants(prefersReducedMotion, listItemVariants);
   const safeContainerVariants = createSafeVariants(prefersReducedMotion, listContainerVariants);
 
-  // Close drawer when game ends
-  useEffect(() => {
-    if (!activeGame) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setOpenDrawerPlayerId(null);
-    }
-  }, [activeGame]);
-
-  interface BallConfig {
-    name: string;
-    points: number;
-    color?: string;
-    background?: string;
-    label: string;
-    labelColor?: string;
-  }
-
-  // Snooker ball configuration
-  const SNOOKER_BALLS: BallConfig[] = [
-    { name: 'White', points: 0, color: 'var(--app-snooker-white)', label: 'W' },
-    { name: 'Red', points: 1, color: 'var(--app-snooker-red)', label: '1' },
-    { name: 'Yellow', points: 2, color: 'var(--app-snooker-yellow)', label: '2' },
-    { name: 'Green', points: 3, color: 'var(--app-snooker-green)', label: '3' },
-    { name: 'Brown', points: 4, color: 'var(--app-snooker-brown)', label: '4' },
-    { name: 'Blue', points: 5, color: 'var(--app-snooker-blue)', label: '5' },
-    { name: 'Pink', points: 6, color: 'var(--app-snooker-pink)', label: '6' },
-    { name: 'Black', points: 7, color: 'var(--app-snooker-black)', label: '7' },
-  ];
-
-  // Snooker foul ball configuration (4 balls for foul tab)
-  const FOUL_BALLS: BallConfig[] = [
-    {
-      name: 'Cue/Red/Yellow/Green/Brown',
-      points: 4,
-      background: 'conic-gradient(var(--app-snooker-red) 0deg 90deg, var(--app-snooker-yellow) 90deg 180deg, var(--app-snooker-green) 180deg 270deg, var(--app-snooker-brown) 270deg 360deg)',
-      label: '4',
-      labelColor: '#000000',
-    },
-    { name: 'Blue', points: 5, color: 'var(--app-snooker-blue)', label: '5', labelColor: '#ffffff' },
-    { name: 'Pink', points: 6, color: 'var(--app-snooker-pink)', label: '6', labelColor: '#ffffff' },
-    { name: 'Black', points: 7, color: 'var(--app-snooker-black)', label: '7', labelColor: '#ffffff' },
-  ];
-
   // Sync tempTitle when activeGame.title changes (e.g. from state loads/updates)
   if (activeGame && activeGame.title !== prevTitle) {
     setPrevTitle(activeGame.title);
     setTempTitle(activeGame.title);
   }
 
-  if (!activeGame) return null;
+  // Time tracking states and effects
+  // ponytail: use initializer function to prevent impure render call warning
+  const [now, setNow] = useState(() => Date.now());
 
-  // Leader Calculation
-  // Ties: first player in list wins the label
-  const maxScore = activeGame.players.length > 0 ? Math.max(...activeGame.players.map((p) => p.score)) : 0;
-  const leaderIndex = activeGame.players.findIndex((p) => p.score === maxScore);
-
-  const selectedCount = activeGame.players.filter((p) => p.isSelected).length;
-
-  const [now, setNow] = useState(Date.now());
+  const lastScoreUpdated = activeGame?.lastScoreUpdated;
 
   // Tick relative time every 10 seconds
   useEffect(() => {
-    if (!activeGame?.lastScoreUpdated) return;
+    if (!lastScoreUpdated) return;
 
     const interval = setInterval(() => {
       setNow(Date.now());
     }, 10000);
 
     return () => clearInterval(interval);
-  }, [activeGame?.lastScoreUpdated]);
+  }, [lastScoreUpdated]);
 
   // Sync now immediately when lastScoreUpdated changes
   useEffect(() => {
-    if (activeGame?.lastScoreUpdated) {
-      setNow(Date.now());
+    if (lastScoreUpdated) {
+      // ponytail: setNow in a microtask/timeout to prevent synchronous state change warning during render cycles
+      const handle = setTimeout(() => {
+        setNow(Date.now());
+      }, 0);
+      return () => clearTimeout(handle);
     }
-  }, [activeGame?.lastScoreUpdated]);
+  }, [lastScoreUpdated]);
+
+  if (!activeGame) return null;
+
+  // Leader Calculation
+  const maxScore = activeGame.players.length > 0 ? Math.max(...activeGame.players.map((p) => p.score)) : 0;
+  const leaderIndex = activeGame.players.findIndex((p) => p.score === maxScore);
+
+  const selectedCount = activeGame.players.filter((p) => p.isSelected).length;
 
   const getRelativeTimeString = (timestamp: number, current: number) => {
     const diffMs = current - timestamp;
@@ -203,8 +149,8 @@ export function InGameScreen({
     return `${diffHrs} hours ago`;
   };
 
-  const relativeTimeText = activeGame?.lastScoreUpdated
-    ? getRelativeTimeString(activeGame.lastScoreUpdated, now)
+  const relativeTimeText = lastScoreUpdated
+    ? getRelativeTimeString(lastScoreUpdated, now)
     : null;
 
   const handleSaveTitle = () => {
@@ -223,20 +169,8 @@ export function InGameScreen({
     return available || PALETTE[0];
   };
 
-  const formatTime = (totalSeconds: number) => {
-    const hrs = Math.floor(totalSeconds / 3600);
-    const mins = Math.floor((totalSeconds % 3600) / 60);
-    const secs = totalSeconds % 60;
-    return [
-      hrs.toString().padStart(2, '0'),
-      mins.toString().padStart(2, '0'),
-      secs.toString().padStart(2, '0'),
-    ].join(':');
-  };
-
   const handleBallClick = (currentPlayerId: string, points: number, tab: 'score' | 'foul') => {
     if (tab === 'score') {
-      // Score tab: Add points to current player
       onUpdateScore(currentPlayerId, points);
     } else {
       // Foul tab: Give points to all OTHER players
@@ -246,12 +180,11 @@ export function InGameScreen({
       const foulPoints = (isFourPointFoul && hasMultiplePlayers) ? 2 : Math.max(points, 4);
 
       const otherPlayers = activeGame.players
-        .filter(p => p.id !== currentPlayerId)
-        .map(p => p.id);
+        .filter((p) => p.id !== currentPlayerId)
+        .map((p) => p.id);
 
-      // Update each other player individually
       if (otherPlayers.length > 0) {
-        otherPlayers.forEach(playerId => {
+        otherPlayers.forEach((playerId) => {
           onUpdateScore(playerId, foulPoints);
         });
       }
@@ -261,12 +194,10 @@ export function InGameScreen({
 
   return (
     <div className="flex flex-col flex-1 bg-[var(--app-background)] text-[var(--app-text-primary)] w-full max-w-[390px] mx-auto min-h-screen relative p-6 pt-[calc(24px+env(safe-area-inset-top))] justify-between">
-      {/* sr-only heading for tests */}
       <h1 className="sr-only" data-testid="in-game-screen-heading">In-Game Screen</h1>
 
       <div className="flex flex-col gap-6">
         {/* Header */}
-        {/* ponytail: removed double-padding pt-6 on header, handled env(safe-area-inset-top) in parent wrapper */}
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 min-w-0 flex-1">
             <GamepadIcon />
@@ -338,35 +269,15 @@ export function InGameScreen({
         </div>
 
         {/* Stopwatch Banner */}
-        <div className="bg-[var(--app-brand)] text-white p-4 rounded-[20px] flex items-center justify-between shadow-md">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[var(--app-success)] animate-pulse" />
-            <span className="text-xs font-extrabold tracking-wider">LIVE SESSION</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="timer-display font-mono text-2xl font-black tracking-wider" data-testid="stopwatch-display">
-              {formatTime(activeGame.elapsedSeconds)}
-            </span>
-            <Button
-              onClick={() => onToggleStopwatch(!activeGame.isRunning)}
-              data-testid="stopwatch-toggle"
-              aria-label={activeGame.isRunning ? "Pause stopwatch" : "Start stopwatch"}
-              variant="ghost"
-              className="p-2 bg-white/20 hover:bg-white/30 rounded-full"
-              size="icon"
-            >
-              {activeGame.isRunning ? (
-                <PauseIcon className="w-5 h-5 text-white" />
-              ) : (
-                <PlayIcon className="w-5 h-5 text-white" />
-              )}
-            </Button>
-          </div>
-        </div>
+        <StopwatchBanner
+          elapsedSeconds={activeGame.elapsedSeconds}
+          isRunning={activeGame.isRunning}
+          onToggleStopwatch={onToggleStopwatch}
+        />
 
         {/* Stats Cards Section */}
         <div className="grid grid-cols-2 gap-3 shrink-0">
-          <Card 
+          <Card
             className="bg-[var(--app-card-background)] rounded-[20px] border-none shadow-sm flex flex-col justify-center p-4"
             aria-live="polite"
           >
@@ -374,7 +285,7 @@ export function InGameScreen({
               <span className="text-[var(--app-text-secondary)] text-[10px] font-black tracking-wider uppercase mb-1">
                 Fouls
               </span>
-              <span 
+              <span
                 className="text-3xl font-black text-[var(--app-danger)]"
                 data-testid="foul-counter"
               >
@@ -415,273 +326,30 @@ export function InGameScreen({
                 {activeGame.players.map((player, index) => {
                   const isLeader = index === leaderIndex;
                   return (
-                    <motion.div
+                    <PlayerCard
                       key={player.id}
-                      variants={safeListVariants}
-                      layout="position"
-                    >
-                      <Card
-                        data-testid={`player-card-${player.id}`}
-                        onClick={() => {
-                          if (openDrawerPlayerId !== player.id) {
-                            setActiveTab('score');
-                          }
-                          setOpenDrawerPlayerId(openDrawerPlayerId === player.id ? null : player.id);
-                        }}
-                        style={{
-                          borderColor: player.isSelected ? 'var(--app-selection)' : 'transparent',
-                          borderWidth: '2px',
-                          borderStyle: 'solid',
-                        }}
-                        className="bg-[var(--app-card-background)] p-4 rounded-[20px] shadow-sm flex flex-col gap-2 relative transition-all cursor-pointer hover:shadow-md overflow-hidden"
-                      >
-                  <CardContent className="p-0 flex flex-col">
-                    {isLeader && (
-                      <motion.div
-                        initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -20, scaleY: 0.8 }}
-                        animate={{ opacity: 1, y: 0, scaleY: 1 }}
-                        transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-                        style={{ backgroundColor: player.color }}
-                        className="-mx-4 -mt-4 mb-3 py-2 px-4 rounded-t-[18px] flex items-center justify-center gap-2 text-white shadow-sm overflow-hidden"
-                      >
-                        <motion.div
-                          animate={prefersReducedMotion ? {} : {
-                            rotate: [0, -10, 10, -10, 10, 0],
-                            scale: [1, 1.2, 1.2, 1.2, 1.2, 1],
-                          }}
-                          transition={{
-                            duration: 1.5,
-                            repeat: Infinity,
-                            repeatDelay: 5,
-                            ease: "easeInOut"
-                          }}
-                          className="flex items-center justify-center"
-                        >
-                          <CrownIcon className="w-4 h-4 text-yellow-300 fill-yellow-300 drop-shadow-md" />
-                        </motion.div>
-                        <span className="font-extrabold text-[11px] uppercase tracking-widest text-white drop-shadow-sm">
-                          LEADER
-                        </span>
-                      </motion.div>
-                    )}
-
-                    {/* Top Row: Role Label & Selection Circle / Selected Pill */}
-                    <div className="flex items-center justify-between">
-                      <div>
-                        {!isLeader && (
-                          <span className="font-bold text-[11px] uppercase tracking-wider text-[var(--app-text-secondary)]">
-                            PLAYER {index + 1}
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        {player.isSelected && (
-                          <span className="px-2 py-0.5 text-[9px] font-extrabold bg-[var(--app-selection)] text-white rounded-full">
-                            SELECTED
-                          </span>
-                        )}
-                        <Checkbox
-                          data-testid={`player-select-${player.id}`}
-                          checked={player.isSelected}
-                          onCheckedChange={() => onTogglePlayerSelection(player.id)}
-                          aria-label={`Select ${player.name} for bulk action`}
-                          className="w-5 h-5 rounded-full"
-                          onClick={(e) => e.stopPropagation()}
-                        />
-                      </div>
-                    </div>
-
-                  {/* Middle Row: Avatar + Name & Score with Adjust Buttons */}
-                  <div className="flex items-center justify-between mt-2">
-                    {/* Left: Avatar + Name */}
-                    <div className="flex items-center gap-3">
-                      <div
-                        style={{ backgroundColor: `${player.color}15` }}
-                        className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
-                      >
-                        <span style={{ color: player.color }} className="font-extrabold text-sm">
-                          {player.name.charAt(0).toUpperCase()}
-                        </span>
-                      </div>
-                      <span className="font-extrabold text-base text-[var(--app-text-primary)]">{player.name}</span>
-                    </div>
-
-                    {/* Right: Score and +/- Controls */}
-                    <div className="flex items-center gap-4">
-                      {/* Decrement */}
-                      <Button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onUpdateScore(player.id, -1);
-                        }}
-                        data-testid={`score-decrement-${player.id}`}
-                        aria-label={`Decrease score for ${player.name}`}
-                        variant="outline"
-                        className="w-10 h-10 rounded-full bg-[var(--app-background)] flex items-center justify-center font-extrabold text-lg text-[var(--app-text-primary)] hover:bg-[var(--app-border)] active:scale-95 p-0"
-                        size="icon"
-                      >
-                        −
-                      </Button>
-
-                      {/* Large Score Display with aria-live */}
-                      <motion.div
-                        key={player.score}
-                        aria-live="polite"
-                        data-testid={`player-score-${player.id}`}
-                        className="text-5xl font-black min-w-[60px] text-center"
-                        style={{ color: player.color }}
-                        initial={prefersReducedMotion ? {} : { scale: 1.2 }}
-                        animate={{ scale: 1 }}
-                        transition={{
-                          type: 'spring',
-                          damping: 15,
-                          stiffness: 200,
-                        }}
-                      >
-                        {player.score}
-                      </motion.div>
-
-                      {/* Increment */}
-                      <Button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onUpdateScore(player.id, 1);
-                        }}
-                        data-testid={`score-increment-${player.id}`}
-                        aria-label={`Increase score for ${player.name}`}
-                        style={{ backgroundColor: player.color }}
-                        variant="default"
-                        className="w-10 h-10 rounded-full flex items-center justify-center font-extrabold text-lg text-white hover:opacity-90 active:scale-95 p-0"
-                        size="icon"
-                      >
-                        +
-                      </Button>
-                    </div>
-                  </div>
-
-                  {/* Snooker Scoring Drawer */}
-                  <AnimatePresence>
-                    {openDrawerPlayerId === player.id && (
-                      <motion.div
-                        onClick={(e) => e.stopPropagation()}
-                        className="overflow-hidden"
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{
-                          type: 'spring',
-                          bounce: 0,
-                          duration: 0.5,
-                        }}
-                      >
-                        <div
-                          className="mt-2 rounded-2xl shadow-lg overflow-hidden"
-                          style={{
-                            backgroundColor: `${player.color}15`,
-                            border: `2px solid ${player.color}40`
-                          }}
-                        >
-                          {/* Drawer Header */}
-                          <div className="bg-[var(--app-card-background)] p-3 border-b" style={{ borderColor: `${player.color}30` }}>
-                            <div className="flex items-center justify-between mb-2">
-                              <h4 className="font-extrabold text-sm" style={{ color: player.color }}>
-                                Ball Score
-                              </h4>
-                              <Button
-                                onClick={() => {
-                                  setActiveTab('score');
-                                  setOpenDrawerPlayerId(null);
-                                }}
-                                variant="ghost"
-                                className="text-[var(--app-text-secondary)] hover:text-[var(--app-text-primary)] p-0 h-auto"
-                              >
-                                ✕
-                              </Button>
-                            </div>
-
-                            {/* Tab Navigation */}
-                            <div className="flex gap-2">
-                              <Button
-                                onClick={() => setActiveTab('score')}
-                                variant="ghost"
-                                className={`flex-1 py-2 px-3 h-auto rounded-lg font-bold text-xs transition-colors ${
-                                  activeTab === 'score'
-                                    ? 'text-white hover:text-white hover:opacity-90'
-                                    : 'text-[var(--app-text-secondary)] hover:text-[var(--app-text-secondary)] hover:bg-[var(--app-background)]'
-                                }`}
-                                style={{
-                                  backgroundColor: activeTab === 'score' ? player.color : 'transparent'
-                                }}
-                              >
-                                Score
-                              </Button>
-                              <Button
-                                onClick={() => setActiveTab('foul')}
-                                variant="ghost"
-                                className={`flex-1 py-2 px-3 h-auto rounded-lg font-bold text-xs transition-colors ${
-                                  activeTab === 'foul'
-                                    ? 'text-white hover:text-white hover:opacity-90'
-                                    : 'text-[var(--app-text-secondary)] hover:text-[var(--app-text-secondary)] hover:bg-[var(--app-background)]'
-                                }`}
-                                style={{
-                                  backgroundColor: activeTab === 'foul' ? player.color : 'transparent'
-                                }}
-                              >
-                                Foul
-                              </Button>
-                            </div>
-                          </div>
-
-                          {/* Ball Grid */}
-                          <div className="p-3">
-                            <div className="grid grid-cols-4 gap-2">
-                              {(activeTab === 'score' ? SNOOKER_BALLS : FOUL_BALLS).map((ball) => {
-                                const isFoulCombined = ball.background !== undefined;
-                                const bgStyle = isFoulCombined
-                                  ? { background: ball.background }
-                                  : { backgroundColor: ball.color };
-
-                                const labelColor = ball.labelColor || (ball.name === 'White' || ball.name === 'Yellow' ? '#000000' : '#ffffff');
-
-                                return (
-                                  <button
-                                    key={ball.name}
-                                    onClick={() => handleBallClick(player.id, ball.points, activeTab)}
-                                    className="relative aspect-square rounded-full flex flex-col items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer"
-                                    style={bgStyle}
-                                    aria-label={`${ball.name} ball - ${ball.points} points`}
-                                  >
-                                    {isFoulCombined ? (
-                                      <div className="absolute inset-[3px] rounded-full bg-white flex items-center justify-center shadow-[inset_0_1px_2px_rgba(0,0,0,0.15)]">
-                                        <span className="text-xs font-black text-black">
-                                          {ball.label}
-                                        </span>
-                                      </div>
-                                    ) : (
-                                      <span
-                                        className="text-xs font-black"
-                                        style={{ color: labelColor }}
-                                      >
-                                        {ball.label}
-                                      </span>
-                                    )}
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </CardContent>
-                </Card>
+                      player={player}
+                      index={index}
+                      isLeader={isLeader}
+                      isDrawerOpen={openDrawerPlayerId === player.id}
+                      onToggleDrawer={() => {
+                        if (openDrawerPlayerId !== player.id) {
+                          setActiveTab('score');
+                        }
+                        setOpenDrawerPlayerId(openDrawerPlayerId === player.id ? null : player.id);
+                      }}
+                      activeTab={activeTab}
+                      setActiveTab={setActiveTab}
+                      onTogglePlayerSelection={onTogglePlayerSelection}
+                      onUpdateScore={onUpdateScore}
+                      onBallClick={handleBallClick}
+                      prefersReducedMotion={prefersReducedMotion}
+                      safeListVariants={safeListVariants}
+                    />
+                  );
+                })}
               </motion.div>
-              );
-              })}
-            </motion.div>
-          </AnimatePresence>
+            </AnimatePresence>
           )}
 
           {/* Last Score Updated */}
@@ -704,82 +372,13 @@ export function InGameScreen({
       {/* Bulk Action Bar */}
       <AnimatePresence>
         {selectedCount >= 1 && (
-          <motion.div
-            className="fixed bottom-6 left-1/2 -translate-x-1/2 w-full max-w-[342px] bg-[var(--app-text-primary)] text-white p-4 rounded-3xl shadow-xl flex items-center justify-between z-40"
-            data-testid="bulk-action-bar"
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 100, opacity: 0 }}
-            transition={{
-              type: 'spring',
-              damping: 25,
-              stiffness: 300,
-            }}
-          >
-          <Button
-            onClick={onDeselectAllPlayers}
-            data-testid="bulk-deselect-all"
-            aria-label="Deselect all players"
-            variant="ghost"
-            className="p-2 hover:bg-white/10 rounded-full"
-            size="icon"
-          >
-            <DeselectIcon />
-          </Button>
-
-          <div className="flex items-center gap-2">
-            <Button
-              onClick={onReversePlayerSelection}
-              data-testid="bulk-reverse-selection"
-              aria-label="Reverse selection"
-              variant="ghost"
-              className="p-2 hover:bg-white/10 rounded-full"
-              size="icon"
-            >
-              <ReverseIcon />
-            </Button>
-            <Button
-              onClick={() => setBulkEditNameDialogOpen(true)}
-              data-testid="bulk-edit-name"
-              aria-label="Edit selected player names"
-              variant="ghost"
-              className="p-2 hover:bg-white/10 rounded-full"
-              size="icon"
-            >
-              <Pencil className="w-5 h-5" />
-            </Button>
-            <Button
-              onClick={() => setBulkRemoveDialogOpen(true)}
-              data-testid="bulk-remove"
-              aria-label="Remove selected players"
-              variant="ghost"
-              className="p-2 hover:bg-white/10 rounded-full"
-              size="icon"
-            >
-              <Trash2 className="w-5 h-5 text-[var(--app-danger)]" />
-            </Button>
-            <Button
-              onClick={() => onBulkUpdateScores(-1)}
-              data-testid="bulk-decrement"
-              aria-label="Bulk decrement score"
-              variant="outline"
-              className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center font-bold text-white hover:bg-white/30 active:scale-95 p-0"
-              size="icon"
-            >
-              −
-            </Button>
-            <Button
-              onClick={() => onBulkUpdateScores(1)}
-              data-testid="bulk-increment"
-              aria-label="Bulk increment score"
-              variant="outline"
-              className="w-9 h-9 rounded-full bg-white flex items-center justify-center font-bold text-[#1A1A2E] hover:bg-white/90 active:scale-95 p-0"
-              size="icon"
-            >
-                +
-              </Button>
-            </div>
-        </motion.div>
+          <BulkActionBar
+            onDeselectAllPlayers={onDeselectAllPlayers}
+            onReversePlayerSelection={onReversePlayerSelection}
+            onBulkEditName={() => setBulkEditNameDialogOpen(true)}
+            onBulkRemove={() => setBulkRemoveDialogOpen(true)}
+            onBulkUpdateScores={onBulkUpdateScores}
+          />
         )}
       </AnimatePresence>
 
@@ -799,10 +398,16 @@ export function InGameScreen({
       )}
 
       {/* Bulk Edit Name Dialog */}
-      <Dialog open={bulkEditNameDialogOpen} onOpenChange={(open) => !open && (() => {
-        setBulkEditNameDialogOpen(false);
-        setEditedNames({});
-      })()}>
+      <Dialog
+        open={bulkEditNameDialogOpen}
+        onOpenChange={(open) =>
+          !open &&
+          (() => {
+            setBulkEditNameDialogOpen(false);
+            setEditedNames({});
+          })()
+        }
+      >
         <DialogContent className="bg-[var(--app-card-background)] w-full max-w-[360px] rounded-3xl p-6 shadow-xl">
           <DialogHeader>
             <DialogTitle className="font-extrabold text-lg text-[var(--app-text-primary)]">
@@ -815,29 +420,36 @@ export function InGameScreen({
 
           {/* Selected Players List */}
           <div className="flex flex-col gap-2 mb-4 max-h-[40vh] overflow-y-auto">
-            {activeGame.players.filter(p => p.isSelected).map((player) => (
-              <div key={player.id} className="flex items-center gap-3 bg-[var(--app-background)] p-3 rounded-xl">
+            {activeGame.players
+              .filter((p) => p.isSelected)
+              .map((player) => (
                 <div
-                  style={{ backgroundColor: `${player.color}15` }}
-                  className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
+                  key={player.id}
+                  className="flex items-center gap-3 bg-[var(--app-background)] p-3 rounded-xl"
                 >
-                  <span style={{ color: player.color }} className="font-bold text-sm">
-                    {player.name.charAt(0).toUpperCase()}
-                  </span>
+                  <div
+                    style={{ backgroundColor: `${player.color}15` }}
+                    className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
+                  >
+                    <span style={{ color: player.color }} className="font-bold text-sm">
+                      {player.name.charAt(0).toUpperCase()}
+                    </span>
+                  </div>
+                  <Input
+                    type="text"
+                    value={editedNames[player.id] || player.name}
+                    onChange={(e) =>
+                      setEditedNames((prev) => ({
+                        ...prev,
+                        [player.id]: e.target.value,
+                      }))
+                    }
+                    placeholder="Enter name"
+                    maxLength={20}
+                    className="flex-1 bg-transparent border-none focus:outline-none font-bold text-[var(--app-text-primary)] shadow-none"
+                  />
                 </div>
-                <Input
-                  type="text"
-                  value={editedNames[player.id] || player.name}
-                  onChange={(e) => setEditedNames(prev => ({
-                    ...prev,
-                    [player.id]: e.target.value
-                  }))}
-                  placeholder="Enter name"
-                  maxLength={20}
-                  className="flex-1 bg-transparent border-none focus:outline-none font-bold text-[var(--app-text-primary)] shadow-none"
-                />
-              </div>
-            ))}
+              ))}
           </div>
 
           {/* Action Buttons */}
@@ -854,7 +466,6 @@ export function InGameScreen({
             </Button>
             <Button
               onClick={() => {
-                // Apply name changes
                 Object.entries(editedNames).forEach(([playerId, newName]) => {
                   if (newName.trim() && onUpdatePlayerName) {
                     onUpdatePlayerName(playerId, newName.trim());
@@ -885,27 +496,28 @@ export function InGameScreen({
 
           {/* List of players to be removed */}
           <div className="flex flex-wrap gap-2 justify-center mb-6">
-            {activeGame.players.filter(p => p.isSelected).map((player) => (
-              <div
-                key={player.id}
-                className="px-3 py-1 rounded-full text-sm font-bold text-white"
-                style={{ backgroundColor: player.color }}
-              >
-                {player.name}
-              </div>
-            ))}
+            {activeGame.players
+              .filter((p) => p.isSelected)
+              .map((player) => (
+                <div
+                  key={player.id}
+                  className="px-3 py-1 rounded-full text-sm font-bold text-white"
+                  style={{ backgroundColor: player.color }}
+                >
+                  {player.name}
+                </div>
+              ))}
           </div>
 
           {/* Action Buttons */}
           <div className="flex flex-col gap-3">
             <Button
               onClick={() => {
-                // Remove all selected players
                 const selectedIds = activeGame.players
-                  .filter(p => p.isSelected)
-                  .map(p => p.id);
+                  .filter((p) => p.isSelected)
+                  .map((p) => p.id);
 
-                selectedIds.forEach(playerId => {
+                selectedIds.forEach((playerId) => {
                   if (onRemovePlayer) {
                     onRemovePlayer(playerId);
                   }
@@ -913,7 +525,7 @@ export function InGameScreen({
 
                 setBulkRemoveDialogOpen(false);
                 setActiveTab('score');
-                setOpenDrawerPlayerId(null); // Close drawer if open
+                setOpenDrawerPlayerId(null);
               }}
               className="w-full py-3.5 h-auto bg-[var(--app-danger)] text-white font-extrabold rounded-2xl active:scale-98"
             >
@@ -963,10 +575,9 @@ export function InGameScreen({
       <Dialog open={restartGameDialogOpen} onOpenChange={(open) => !open && setRestartGameDialogOpen(false)}>
         <DialogContent className="bg-white w-full max-w-[320px] rounded-3xl p-6 shadow-xl text-center">
           <DialogHeader>
-            <DialogTitle className="font-extrabold text-lg text-[#1A1A2E]">
+            <DialogTitle className="font-extrabold text-lg text-[#1A1E2A]">
               Reset game session?
             </DialogTitle>
-            {/* ponytail: changed div to DialogDescription to satisfy accessibility and fix warning */}
             <DialogDescription className="text-sm text-[var(--app-text-secondary)] font-medium mb-4">
               This will reset all scores, stopwatch, and fouls. Current players will be kept.
             </DialogDescription>

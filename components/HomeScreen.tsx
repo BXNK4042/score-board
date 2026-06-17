@@ -1,6 +1,5 @@
 import React from 'react';
 import { Gamepad, Plus, Pencil, Trash2, Zap } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { MotionButton } from '@/components/ui/motion-button';
 import { Footer } from './Footer';
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { Variants } from 'framer-motion';
 
 /**
  * Animation utilities and variants for ScoreBoard app
@@ -24,11 +25,15 @@ import { useState, useEffect } from 'react';
  * />
  */
 export const useReducedMotion = () => {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+    return false;
+  });
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReducedMotion(mediaQuery.matches);
 
     const listener = (e: MediaQueryListEvent) => {
       setPrefersReducedMotion(e.matches);
@@ -96,7 +101,7 @@ export const springPresets = {
  * Used for smooth transitions between Home → Setup → In-Game screens
  */
 
-export const screenTransitionVariants = {
+export const screenTransitionVariants: Variants = {
   hidden: {
     opacity: 0,
     x: -100,
@@ -126,7 +131,7 @@ export const screenTransitionVariants = {
 /**
  * Fade-in-up animation for content appearing from bottom
  */
-export const fadeInUpVariants = {
+export const fadeInUpVariants: Variants = {
   hidden: {
     opacity: 0,
     y: 20,
@@ -145,7 +150,7 @@ export const fadeInUpVariants = {
 /**
  * Scale-in animation for modals and dialogs
  */
-export const scaleInVariants = {
+export const scaleInVariants: Variants = {
   hidden: {
     opacity: 0,
     scale: 0.95,
@@ -181,7 +186,7 @@ export const scaleInVariants = {
  * Dialog open/close animations with physics-based springs
  */
 
-export const dialogVariants = {
+export const dialogVariants: Variants = {
   hidden: {
     opacity: 0,
     scale: 0.9,
@@ -212,7 +217,7 @@ export const dialogVariants = {
 /**
  * Bottom sheet/dialog slide-up animation
  */
-export const sheetVariants = {
+export const sheetVariants: Variants = {
   hidden: {
     y: '100%',
     opacity: 0,
@@ -246,7 +251,7 @@ export const sheetVariants = {
  * Use with motion.div container and individual list items
  */
 
-export const listContainerVariants = {
+export const listContainerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -257,7 +262,7 @@ export const listContainerVariants = {
   },
 };
 
-export const listItemVariants = {
+export const listItemVariants: Variants = {
   hidden: {
     opacity: 0,
     y: 20,
@@ -295,7 +300,7 @@ export const buttonFeedback = {
   hover: {
     scale: 1.02,
     transition: {
-      type: 'spring',
+      type: 'spring' as const,
       stiffness: 400,
       damping: 17,
     },
@@ -303,7 +308,7 @@ export const buttonFeedback = {
   tap: {
     scale: 0.95,
     transition: {
-      type: 'spring',
+      type: 'spring' as const,
       stiffness: 400,
       damping: 17,
     },
@@ -317,7 +322,7 @@ export const iconButtonFeedback = {
   hover: {
     scale: 1.1,
     transition: {
-      type: 'spring',
+      type: 'spring' as const,
       stiffness: 400,
       damping: 17,
     },
@@ -325,7 +330,7 @@ export const iconButtonFeedback = {
   tap: {
     scale: 0.9,
     transition: {
-      type: 'spring',
+      type: 'spring' as const,
       stiffness: 400,
       damping: 17,
     },
@@ -386,7 +391,7 @@ export const leaderPulseVariants = {
  * Used for snooker scoring drawer and other expandable content
  */
 
-export const drawerVariants = {
+export const drawerVariants: Variants = {
   collapsed: {
     height: 0,
     opacity: 0,
@@ -415,7 +420,7 @@ export const drawerVariants = {
  * Bulk action bar slide-up animation
  */
 
-export const bulkActionBarVariants = {
+export const bulkActionBarVariants: Variants = {
   hidden: {
     y: 100,
     opacity: 0,
@@ -443,7 +448,7 @@ export const bulkActionBarVariants = {
 /**
  * Staggered button entrance in bulk action bar
  */
-export const bulkActionButtonsVariants = {
+export const bulkActionButtonsVariants: Variants = {
   hidden: { opacity: 0, scale: 0.8 },
   visible: {
     opacity: 1,
@@ -537,8 +542,8 @@ export const getAnimationProps = (prefersReducedMotion: boolean) => {
  */
 export const createSafeVariants = (
   prefersReducedMotion: boolean,
-  fullVariants: Record<string, any>
-) => {
+  fullVariants: Variants
+): Variants => {
   if (prefersReducedMotion) {
     return {
       hidden: { opacity: 1 },

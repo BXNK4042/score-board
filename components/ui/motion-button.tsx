@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { motion } from 'framer-motion';
+import { motion, TargetAndTransition, Transition } from 'framer-motion';
 import { Button, ButtonProps } from '@/components/ui/button';
 import { buttonFeedback, iconButtonFeedback, useReducedMotion } from '@/lib/animations';
 import { cn } from '@/lib/utils';
@@ -20,9 +20,9 @@ export interface MotionButtonProps extends ButtonProps {
   motionType?: 'default' | 'icon' | 'none';
   /** Custom motion feedback configuration */
   customMotion?: {
-    whileHover?: any;
-    whileTap?: any;
-    transition?: any;
+    whileHover?: TargetAndTransition | string;
+    whileTap?: TargetAndTransition | string;
+    transition?: Transition;
   };
 }
 
