@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 export interface DraftPlayer {
   id: string;
@@ -54,6 +54,39 @@ export function useGameState() {
   const [setupPlayers, setSetupPlayers] = useState<DraftPlayer[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);
 
+  // ponytail: session-only undo/redo history state
+  const [historyState, setHistoryState] = useState<{ list: Game[]; index: number }>({
+    list: [],
+    index: -1,
+  });
+
+  const isHistoryActionRef = useRef(false);
+
+  const updateGame = useCallback((updater: (prev: Game) => Game, isHistoryAction = true) => {
+    if (isHistoryAction) {
+      isHistoryActionRef.current = true;
+    }
+    setActiveGame((prev) => {
+      if (!prev) return null;
+      return updater(prev);
+    });
+  }, []);
+
+  // ponytail: handle history state changes outside state updater to prevent Strict Mode double-update issue
+  useEffect(() => {
+    if (!activeGame) return;
+    if (isHistoryActionRef.current) {
+      isHistoryActionRef.current = false;
+      setHistoryState((prevHistory) => {
+        const sliced = prevHistory.list.slice(0, prevHistory.index + 1);
+        return {
+          list: [...sliced, activeGame],
+          index: sliced.length,
+        };
+      });
+    }
+  }, [activeGame]);
+
   // Load state from local storage on mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -63,7 +96,13 @@ export function useGameState() {
           const parsed = JSON.parse(stored);
           setTimeout(() => {
             if (parsed.screen) setScreen(parsed.screen);
-            if (parsed.activeGame) setActiveGame(parsed.activeGame);
+            if (parsed.activeGame) {
+              setActiveGame(parsed.activeGame);
+              setHistoryState({
+                list: [parsed.activeGame],
+                index: 0,
+              });
+            }
             if (parsed.setupTitle !== undefined) setSetupTitle(parsed.setupTitle);
             if (parsed.setupPlayers) setSetupPlayers(parsed.setupPlayers);
             setIsInitialized(true);
@@ -179,15 +218,16 @@ export function useGameState() {
       foulCount: 0,
     };
     setActiveGame(newGame);
+    setHistoryState({
+      list: [newGame],
+      index: 0,
+    });
     setScreen('ingame');
   }, []);
 
   const updateGameTitle = useCallback((title: string) => {
-    setActiveGame((prev) => {
-      if (!prev) return null;
-      return { ...prev, title };
-    });
-  }, []);
+    updateGame((prev) => ({ ...prev, title }));
+  }, [updateGame]);
 
   const addPlayerInGame = useCallback((name: string, color: string): boolean => {
     if (!activeGame) {
@@ -207,139 +247,150 @@ export function useGameState() {
       score: 0,
       isSelected: false,
     };
-    setActiveGame((prev) => {
-      if (!prev) return null;
-      return {
-        ...prev,
-        players: [...prev.players, newPlayer],
-      };
-    });
+    updateGame((prev) => ({
+      ...prev,
+      players: [...prev.players, newPlayer],
+    }));
     return true;
-  }, [activeGame]);
+  }, [activeGame, updateGame]);
 
   const updateScore = useCallback((playerId: string, delta: number) => {
-    setActiveGame((prev) => {
-      if (!prev) return null;
-      return {
-        ...prev,
-        lastScoreUpdated: Date.now(),
-        players: prev.players.map((p) =>
-          p.id === playerId ? { ...p, score: p.score + delta } : p
-        ),
-      };
-    });
-  }, []);
+    updateGame((prev) => ({
+      ...prev,
+      lastScoreUpdated: Date.now(),
+      players: prev.players.map((p) =>
+        p.id === playerId ? { ...p, score: p.score + delta } : p
+      ),
+    }));
+  }, [updateGame]);
 
   const togglePlayerSelection = useCallback((playerId: string) => {
-    setActiveGame((prev) => {
-      if (!prev) return null;
-      return {
-        ...prev,
-        players: prev.players.map((p) =>
-          p.id === playerId ? { ...p, isSelected: !p.isSelected } : p
-        ),
-      };
-    });
-  }, []);
+    updateGame((prev) => ({
+      ...prev,
+      players: prev.players.map((p) =>
+        p.id === playerId ? { ...p, isSelected: !p.isSelected } : p
+      ),
+    }), false);
+  }, [updateGame]);
 
   const bulkUpdateScores = useCallback((delta: number) => {
-    setActiveGame((prev) => {
-      if (!prev) return null;
-      return {
-        ...prev,
-        lastScoreUpdated: Date.now(),
-        players: prev.players.map((p) =>
-          p.isSelected ? { ...p, score: p.score + delta } : p
-        ),
-      };
-    });
-  }, []);
+    updateGame((prev) => ({
+      ...prev,
+      lastScoreUpdated: Date.now(),
+      players: prev.players.map((p) =>
+        p.isSelected ? { ...p, score: p.score + delta } : p
+      ),
+    }));
+  }, [updateGame]);
 
   const toggleStopwatch = useCallback((running: boolean) => {
-    setActiveGame((prev) => {
-      if (!prev) return null;
-      return { ...prev, isRunning: running };
-    });
-  }, []);
+    updateGame((prev) => ({ ...prev, isRunning: running }), false);
+  }, [updateGame]);
 
   const endGame = useCallback(() => {
     setActiveGame(null);
+    setHistoryState({ list: [], index: -1 });
     setScreen('home');
   }, []);
 
   const deselectAllPlayers = useCallback(() => {
-    setActiveGame((prev) => {
-      if (!prev) return null;
-      return {
-        ...prev,
-        players: prev.players.map((p) => ({
-          ...p,
-          isSelected: false,
-        })),
-      };
-    });
-  }, []);
+    updateGame((prev) => ({
+      ...prev,
+      players: prev.players.map((p) => ({
+        ...p,
+        isSelected: false,
+      })),
+    }), false);
+  }, [updateGame]);
 
   const reversePlayerSelection = useCallback(() => {
-    setActiveGame((prev) => {
-      if (!prev) return null;
-      return {
-        ...prev,
-        players: prev.players.map((p) => ({
-          ...p,
-          isSelected: !p.isSelected,
-        })),
-      };
-    });
-  }, []);
+    updateGame((prev) => ({
+      ...prev,
+      players: prev.players.map((p) => ({
+        ...p,
+        isSelected: !p.isSelected,
+      })),
+    }), false);
+  }, [updateGame]);
 
   const updatePlayerName = useCallback((playerId: string, newName: string) => {
-    setActiveGame((prev) => {
-      if (!prev) return null;
-      return {
-        ...prev,
-        players: prev.players.map((p) =>
-          p.id === playerId ? { ...p, name: newName.trim() } : p
-        ),
-      };
-    });
-  }, []);
+    updateGame((prev) => ({
+      ...prev,
+      players: prev.players.map((p) =>
+        p.id === playerId ? { ...p, name: newName.trim() } : p
+      ),
+    }));
+  }, [updateGame]);
 
   const removePlayer = useCallback((playerId: string) => {
-    setActiveGame((prev) => {
-      if (!prev) return null;
-      return {
-        ...prev,
-        players: prev.players.filter((p) => p.id !== playerId),
-      };
-    });
-  }, []);
+    updateGame((prev) => ({
+      ...prev,
+      players: prev.players.filter((p) => p.id !== playerId),
+    }));
+  }, [updateGame]);
 
-  const incrementFoulCount = useCallback(() => {
-    setActiveGame((prev) => {
-      if (!prev) return null;
-      return {
-        ...prev,
-        foulCount: (prev.foulCount || 0) + 1,
-      };
-    });
-  }, []);
+  // ponytail: group ball click updates (score, foul, latest ball stats) into a single atomic history entry to prevent double-undo issues
+  const recordBallClick = useCallback((currentPlayerId: string, points: number, tab: 'score' | 'foul') => {
+    updateGame((prev) => {
+      const player = prev.players.find((p) => p.id === currentPlayerId);
+      const playerName = player ? player.name : 'Unknown';
+      const type = tab === 'score' ? 'Score' : 'Foul';
+      const ballName = (() => {
+        if (tab === 'foul') {
+          if (points === 4) return 'Cue/Red/Yellow/Green/Brown';
+          if (points === 5) return 'Blue';
+          if (points === 6) return 'Pink';
+          if (points === 7) return 'Black';
+          return 'Foul';
+        }
+        switch (points) {
+          case 0: return 'White';
+          case 1: return 'Red';
+          case 2: return 'Yellow';
+          case 3: return 'Green';
+          case 4: return 'Brown';
+          case 5: return 'Blue';
+          case 6: return 'Pink';
+          case 7: return 'Black';
+          default: return 'Custom';
+        }
+      })();
 
-  // ponytail: store latest ball update directly in game state for local persistence
-  const updateLatestBall = useCallback((playerName: string, type: 'Score' | 'Foul', ballName: string) => {
-    setActiveGame((prev) => {
-      if (!prev) return null;
+      let updatedPlayers = prev.players;
+      let updatedFoulCount = prev.foulCount || 0;
+
+      if (tab === 'score') {
+        updatedPlayers = prev.players.map((p) =>
+          p.id === currentPlayerId ? { ...p, score: p.score + points } : p
+        );
+      } else {
+        const isFourPointFoul = points === 4;
+        const hasMultiplePlayers = prev.players.length > 2;
+        const foulPoints = (isFourPointFoul && hasMultiplePlayers) ? 2 : Math.max(points, 4);
+
+        const otherPlayers = prev.players.filter((p) => p.id !== currentPlayerId).map((p) => p.id);
+        if (otherPlayers.length > 0) {
+          updatedPlayers = prev.players.map((p) =>
+            otherPlayers.includes(p.id) ? { ...p, score: p.score + foulPoints } : p
+          );
+        }
+        updatedFoulCount += 1;
+      }
+
       return {
         ...prev,
+        lastScoreUpdated: Date.now(),
         latestBall: { playerName, type, ballName },
+        players: updatedPlayers,
+        foulCount: updatedFoulCount,
       };
     });
-  }, []);
+  }, [updateGame]);
 
   const restartGame = useCallback(() => {
     setActiveGame((prev) => {
       if (!prev) return null;
-      return {
+      const next = {
         ...prev,
         elapsedSeconds: 0,
         isRunning: true,
@@ -352,6 +403,55 @@ export function useGameState() {
           isSelected: false,
         })),
       };
+      setHistoryState({
+        list: [next],
+        index: 0,
+      });
+      return next;
+    });
+  }, []);
+
+  const undo = useCallback(() => {
+    setHistoryState((prev) => {
+      if (prev.index > 0) {
+        const nextIndex = prev.index - 1;
+        const targetGame = prev.list[nextIndex];
+        setActiveGame((curr) => {
+          if (!curr) return null;
+          return {
+            ...targetGame,
+            elapsedSeconds: curr.elapsedSeconds,
+            isRunning: curr.isRunning,
+          };
+        });
+        return {
+          ...prev,
+          index: nextIndex,
+        };
+      }
+      return prev;
+    });
+  }, []);
+
+  const redo = useCallback(() => {
+    setHistoryState((prev) => {
+      if (prev.index < prev.list.length - 1) {
+        const nextIndex = prev.index + 1;
+        const targetGame = prev.list[nextIndex];
+        setActiveGame((curr) => {
+          if (!curr) return null;
+          return {
+            ...targetGame,
+            elapsedSeconds: curr.elapsedSeconds,
+            isRunning: curr.isRunning,
+          };
+        });
+        return {
+          ...prev,
+          index: nextIndex,
+        };
+      }
+      return prev;
     });
   }, []);
 
@@ -361,6 +461,8 @@ export function useGameState() {
     setupTitle,
     setupPlayers,
     isInitialized,
+    canUndo: historyState.index > 0,
+    canRedo: historyState.index < historyState.list.length - 1,
 
     goToHome,
     goToSetup,
@@ -384,8 +486,9 @@ export function useGameState() {
     endGame,
     updatePlayerName,
     removePlayer,
-    incrementFoulCount,
     restartGame,
-    updateLatestBall,
+    recordBallClick,
+    undo,
+    redo,
   };
 }
