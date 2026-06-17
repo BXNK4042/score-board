@@ -447,20 +447,21 @@ export function InGameScreen({
             </AnimatePresence>
           )}
 
-          {/* Last Score Updated */}
-          {relativeTimeText && (
-            <div
-              aria-live="polite"
-              className="flex items-center justify-center gap-1.5 text-xs text-[var(--app-text-secondary)] font-semibold select-none mt-2 shrink-0"
-              data-testid="last-score-updated"
-            >
-              <HistoryIcon />
-              <span>Last score updated: {relativeTimeText}</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--app-brand)] animate-pulse" />
-            </div>
-          )}
         </div>
       </div>
+
+      {/* ponytail: keep Last Score Updated visible by fixing it above the relative footer */}
+      {relativeTimeText && (
+        <div
+          aria-live="polite"
+          className="flex items-center justify-center gap-1.5 text-xs text-[var(--app-text-secondary)] font-semibold select-none mt-4 mb-2 shrink-0"
+          data-testid="last-score-updated"
+        >
+          <HistoryIcon />
+          <span>Last score updated: {relativeTimeText}</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-[var(--app-brand)] animate-pulse" />
+        </div>
+      )}
 
       <Footer />
 
