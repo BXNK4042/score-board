@@ -9,7 +9,7 @@ import { StopwatchBanner } from './StopwatchBanner';
 import { PlayerCard } from './PlayerCard';
 import { BulkActionBar } from './BulkActionBar';
 
-import { Gamepad, UserPlus, Check, RotateCcw, History } from 'lucide-react';
+import { Gamepad, UserPlus, Check, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -30,10 +30,6 @@ const CheckIcon = () => (
 
 const RotateCcwIcon = () => (
   <RotateCcw className="w-6 h-6 text-[var(--app-brand)]" strokeWidth={2} />
-);
-
-const HistoryIcon = () => (
-  <History className="w-3.5 h-3.5" strokeWidth={2.5} />
 );
 
 // ponytail: map ballName and type back to styling properties to draw the styled ball visual
@@ -248,10 +244,10 @@ export function InGameScreen({
   };
 
   return (
-    <div className="flex flex-col flex-1 bg-[var(--app-background)] text-[var(--app-text-primary)] w-full max-w-[390px] mx-auto min-h-screen relative p-6 pt-[calc(24px+env(safe-area-inset-top))] justify-between">
+    <div className="flex flex-col bg-[var(--app-background)] text-[var(--app-text-primary)] w-full max-w-[390px] mx-auto h-[100dvh] max-h-[100dvh] overflow-hidden relative p-6 pt-[calc(24px+env(safe-area-inset-top))] justify-between">
       <h1 className="sr-only" data-testid="in-game-screen-heading">In-Game Screen</h1>
 
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-6 flex-1 min-h-0">
         {/* Header */}
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 min-w-0 flex-1">
@@ -402,7 +398,7 @@ export function InGameScreen({
 
         {/* Scrollable Player Cards List */}
         <div
-          className={`flex flex-col gap-3 overflow-y-auto no-scrollbar pr-1 transition-all ${
+          className={`flex flex-col gap-3 flex-1 overflow-y-auto no-scrollbar pr-1 transition-all ${
             selectedCount >= 1 ? 'pb-24' : 'pb-6'
           }`}
         >
@@ -450,20 +446,7 @@ export function InGameScreen({
         </div>
       </div>
 
-      {/* ponytail: keep Last Score Updated visible by fixing it above the relative footer */}
-      {relativeTimeText && (
-        <div
-          aria-live="polite"
-          className="flex items-center justify-center gap-1.5 text-xs text-[var(--app-text-secondary)] font-semibold select-none mt-4 mb-2 shrink-0"
-          data-testid="last-score-updated"
-        >
-          <HistoryIcon />
-          <span>Last score updated: {relativeTimeText}</span>
-          <span className="w-1.5 h-1.5 rounded-full bg-[var(--app-brand)] animate-pulse" />
-        </div>
-      )}
-
-      <Footer />
+      <Footer relativeTimeText={relativeTimeText} />
 
       {/* Bulk Action Bar */}
       <AnimatePresence>
