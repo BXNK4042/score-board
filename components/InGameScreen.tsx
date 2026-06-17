@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { listContainerVariants, listItemVariants, useReducedMotion, createSafeVariants } from '@/lib/animations';
 
 export const GamepadIcon = () => (
@@ -807,6 +807,9 @@ export function InGameScreen({
             <DialogTitle className="font-extrabold text-lg text-[var(--app-text-primary)]">
               Edit {selectedCount} Player Names
             </DialogTitle>
+            <DialogDescription className="sr-only">
+              Form to edit the names of selected players.
+            </DialogDescription>
           </DialogHeader>
 
           {/* Selected Players List */}
@@ -874,6 +877,9 @@ export function InGameScreen({
             <DialogTitle className="font-extrabold text-lg text-[var(--app-text-primary)]">
               Remove {selectedCount} Player{selectedCount > 1 ? 's' : ''}?
             </DialogTitle>
+            <DialogDescription className="sr-only">
+              Are you sure you want to remove the selected players?
+            </DialogDescription>
           </DialogHeader>
 
           {/* List of players to be removed */}
@@ -930,6 +936,9 @@ export function InGameScreen({
             <DialogTitle className="font-extrabold text-lg text-[#1A1A2E]">
               Are you sure you want to end the game?
             </DialogTitle>
+            <DialogDescription className="sr-only">
+              This will finish the session and log final scores.
+            </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-3">
             <Button
@@ -956,10 +965,11 @@ export function InGameScreen({
             <DialogTitle className="font-extrabold text-lg text-[#1A1A2E]">
               Reset game session?
             </DialogTitle>
+            {/* ponytail: changed div to DialogDescription to satisfy accessibility and fix warning */}
+            <DialogDescription className="text-sm text-[var(--app-text-secondary)] font-medium mb-4">
+              This will reset all scores, stopwatch, and fouls. Current players will be kept.
+            </DialogDescription>
           </DialogHeader>
-          <div className="text-sm text-[var(--app-text-secondary)] font-medium mb-4">
-            This will reset all scores, stopwatch, and fouls. Current players will be kept.
-          </div>
           <div className="flex flex-col gap-3">
             <Button
               onClick={() => {

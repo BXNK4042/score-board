@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PALETTE } from '@/hooks/useGameState';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -62,6 +62,9 @@ export function PlayerDialog({
       <DialogContent className="bg-[var(--app-card-background)] w-[calc(100%-32px)] max-w-[390px] rounded-3xl p-6 shadow-xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="font-extrabold text-xl text-[var(--app-text-primary)]">{title}</DialogTitle>
+          <DialogDescription className="sr-only">
+            Form to configure player name and accent color.
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           {/* Name Input */}
