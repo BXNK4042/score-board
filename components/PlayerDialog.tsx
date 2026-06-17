@@ -5,6 +5,22 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 
+// ponytail: map player colors to avatar image filenames
+const COLOR_TO_AVATAR: Record<string, string> = {
+  '#ef4444': 'Red',
+  '#f97316': 'Orange',
+  '#eab308': 'Yellow',
+  '#22c55e': 'Green',
+  '#06b6d4': 'Cyan',
+  '#3b82f6': 'Blue',
+  '#8b5cf6': 'Violet',
+  '#ec4899': 'Pink',
+  '#f43f5e': 'Rose',
+  '#84cc16': 'Lime',
+  '#0ea5e9': 'Sky',
+  '#a855f7': 'Purple',
+};
+
 export function PlayerDialog({
   isOpen,
   onClose,
@@ -99,12 +115,14 @@ export function PlayerDialog({
           {/* Color Picker Grid */}
           <div className="flex flex-col gap-2">
             <Label className="text-[10px] font-bold uppercase tracking-wider text-[var(--app-text-secondary)]">Select Color Accent</Label>
-            <div className="grid grid-cols-6 gap-3">
+            {/* ponytail: change grid layout to 3 columns to fit larger h-20 w-20 avatars */}
+            <div className="grid grid-cols-3 gap-4">
               {PALETTE.map((c) => {
                 const isUsed = usedColors.some((uc) => uc.toLowerCase() === c.toLowerCase()) && c.toLowerCase() !== initialColor.toLowerCase();
                 const isSelected = color === c;
+                // ponytail: use native button to prevent shadcn default styles/borders, size to w-20 mx-auto
                 return (
-                  <Button
+                  <button
                     key={c}
                     type="button"
                     data-testid={`color-selector-${c.replace('#', '')}`}
@@ -113,16 +131,22 @@ export function PlayerDialog({
                       setColor(c);
                       setError('');
                     }}
-                    style={{ backgroundColor: c }}
-                    className={`h-11 rounded-full border-4 transition-all relative flex items-center justify-center p-0 ${
-                      isSelected ? 'border-white ring-2 ring-[var(--app-brand)]' : 'border-transparent'
-                    } ${isUsed ? 'opacity-20 cursor-not-allowed' : ''}`}
+                    className={`h-20 w-20 mx-auto rounded-full transition-all relative flex items-center justify-center p-0 overflow-hidden outline-none ${
+                      isSelected ? 'ring-4 ring-[var(--app-brand)] scale-105' : ''
+                    } ${isUsed ? 'opacity-20 cursor-not-allowed' : 'hover:scale-105'}`}
                     aria-label={`Select color ${c}`}
                   >
+                    <img
+                      src={`/player-avatar/${COLOR_TO_AVATAR[c.toLowerCase()] || 'Red'}.webp`}
+                      alt={COLOR_TO_AVATAR[c.toLowerCase()] || 'Color'}
+                      className="w-full h-full object-cover"
+                    />
                     {isUsed && (
-                      <span className="text-white text-xs font-bold absolute">✕</span>
+                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                        <span className="text-white text-xs font-bold">✕</span>
+                      </div>
                     )}
-                  </Button>
+                  </button>
                 );
               })}
             </div>
