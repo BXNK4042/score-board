@@ -23,8 +23,6 @@ score-board/
 ├── hooks/                    # Custom application hooks
 │   └── useGameState.ts       # Global state machine & operations
 ├── public/                   # Static assets
-│   ├── next.svg
-│   └── vercel.svg
 ├── tests/                    # Playwright end-to-end test suite
 │   ├── placeholder.spec.ts
 │   └── scoreboard.spec.ts    # Complete E2E integration test suite
