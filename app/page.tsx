@@ -38,9 +38,12 @@ export default function Page() {
     endGame,
     updatePlayerName,
     removePlayer,
-    incrementFoulCount,
     restartGame,
-    updateLatestBall,
+    recordBallClick,
+    canUndo,
+    canRedo,
+    undo,
+    redo,
   } = useGameState();
 
   const prefersReducedMotion = useReducedMotion();
@@ -123,9 +126,12 @@ export default function Page() {
                   onEndGame={endGame}
                   onUpdatePlayerName={updatePlayerName}
                   onRemovePlayer={removePlayer}
-                  onIncrementFoulCount={incrementFoulCount}
                   onRestartGame={restartGame}
-                  onUpdateLatestBall={updateLatestBall}
+                  onRecordBallClick={recordBallClick}
+                  canUndo={canUndo}
+                  canRedo={canRedo}
+                  onUndo={undo}
+                  onRedo={redo}
                 />
               </motion.div>
             );

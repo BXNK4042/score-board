@@ -43,6 +43,23 @@ const FOUL_BALLS: BallConfig[] = [
   { name: 'Black', points: 7, color: 'var(--app-snooker-black)', label: '7', labelColor: '#ffffff' },
 ];
 
+// ponytail: map player colors to avatar image filenames
+const COLOR_TO_AVATAR: Record<string, string> = {
+  '#ef4444': 'Red',
+  '#f97316': 'Orange',
+  '#eab308': 'Yellow',
+  '#22c55e': 'Green',
+  '#06b6d4': 'Cyan',
+  '#3b82f6': 'Blue',
+  '#8b5cf6': 'Violet',
+  '#ec4899': 'Pink',
+  '#f43f5e': 'Rose',
+  '#84cc16': 'Lime',
+  '#0ea5e9': 'Sky',
+  '#a855f7': 'Purple',
+};
+
+
 interface PlayerCardProps {
   player: Player;
   index: number;
@@ -147,13 +164,23 @@ export function PlayerCard({
           {/* Middle Row: Avatar, Name & Score Controls */}
           <div className="flex items-center justify-between mt-2">
             <div className="flex items-center gap-3">
-              <div
-                style={{ backgroundColor: `${player.color}15` }}
-                className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
-              >
-                <span style={{ color: player.color }} className="font-extrabold text-sm">
-                  {player.name.charAt(0).toUpperCase()}
-                </span>
+              <div className="w-14 h-14 rounded-full overflow-hidden shrink-0 flex items-center justify-center">
+                {COLOR_TO_AVATAR[player.color.toLowerCase()] ? (
+                  <img
+                    src={`/player-avatar/${COLOR_TO_AVATAR[player.color.toLowerCase()]}.webp`}
+                    alt={player.name}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div
+                    style={{ backgroundColor: `${player.color}15` }}
+                    className="w-full h-full flex items-center justify-center"
+                  >
+                    <span style={{ color: player.color }} className="font-extrabold text-xl">
+                      {player.name.charAt(0).toUpperCase()}
+                    </span>
+                  </div>
+                )}
               </div>
               <span className="font-extrabold text-base text-[var(--app-text-primary)]">{player.name}</span>
             </div>

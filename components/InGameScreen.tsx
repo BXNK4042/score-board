@@ -9,7 +9,7 @@ import { StopwatchBanner } from './StopwatchBanner';
 import { PlayerCard } from './PlayerCard';
 import { BulkActionBar } from './BulkActionBar';
 
-import { Gamepad, UserPlus, Check, RotateCcw } from 'lucide-react';
+import { Gamepad, UserPlus, Check, RotateCcw, Undo, Redo } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -73,9 +73,12 @@ export function InGameScreen({
   onEndGame,
   onUpdatePlayerName,
   onRemovePlayer,
-  onIncrementFoulCount,
   onRestartGame,
-  onUpdateLatestBall,
+  onRecordBallClick,
+  canUndo,
+  canRedo,
+  onUndo,
+  onRedo,
 }: {
   activeGame: Game;
   onUpdateGameTitle: (title: string) => void;
@@ -89,9 +92,12 @@ export function InGameScreen({
   onEndGame: () => void;
   onUpdatePlayerName?: (playerId: string, newName: string) => void;
   onRemovePlayer?: (playerId: string) => void;
-  onIncrementFoulCount: () => void;
   onRestartGame: () => void;
-  onUpdateLatestBall: (playerName: string, type: 'Score' | 'Foul', ballName: string) => void;
+  onRecordBallClick: (playerId: string, points: number, tab: 'score' | 'foul') => void;
+  canUndo: boolean;
+  canRedo: boolean;
+  onUndo: () => void;
+  onRedo: () => void;
 }) {
   const [prevTitle, setPrevTitle] = useState(activeGame?.title || '');
   const [tempTitle, setTempTitle] = useState(activeGame?.title || '');
@@ -195,54 +201,6 @@ export function InGameScreen({
     return available || PALETTE[0];
   };
 
-  const handleBallClick = (currentPlayerId: string, points: number, tab: 'score' | 'foul') => {
-    const player = activeGame.players.find((p) => p.id === currentPlayerId);
-    const playerName = player ? player.name : 'Unknown';
-    const type = tab === 'score' ? 'Score' : 'Foul';
-    const ballName = (() => {
-      if (tab === 'foul') {
-        if (points === 4) return 'Cue/Red/Yellow/Green/Brown';
-        if (points === 5) return 'Blue';
-        if (points === 6) return 'Pink';
-        if (points === 7) return 'Black';
-        return 'Foul';
-      }
-      switch (points) {
-        case 0: return 'White';
-        case 1: return 'Red';
-        case 2: return 'Yellow';
-        case 3: return 'Green';
-        case 4: return 'Brown';
-        case 5: return 'Blue';
-        case 6: return 'Pink';
-        case 7: return 'Black';
-        default: return 'Custom';
-      }
-    })();
-    onUpdateLatestBall(playerName, type, ballName);
-
-    if (tab === 'score') {
-      onUpdateScore(currentPlayerId, points);
-    } else {
-      // Foul tab: Give points to all OTHER players
-      // ponytail: 2 points for 4-point fouls when >2 players, otherwise standard values
-      const isFourPointFoul = points === 4;
-      const hasMultiplePlayers = activeGame.players.length > 2;
-      const foulPoints = (isFourPointFoul && hasMultiplePlayers) ? 2 : Math.max(points, 4);
-
-      const otherPlayers = activeGame.players
-        .filter((p) => p.id !== currentPlayerId)
-        .map((p) => p.id);
-
-      if (otherPlayers.length > 0) {
-        otherPlayers.forEach((playerId) => {
-          onUpdateScore(playerId, foulPoints);
-        });
-      }
-      onIncrementFoulCount();
-    }
-  };
-
   return (
     <div className="flex flex-col bg-[var(--app-background)] text-[var(--app-text-primary)] w-full max-w-[390px] mx-auto h-[100dvh] max-h-[100dvh] overflow-hidden relative p-6 pt-[calc(24px+env(safe-area-inset-top))] justify-between">
       <h1 className="sr-only" data-testid="in-game-screen-heading">In-Game Screen</h1>
@@ -295,6 +253,29 @@ export function InGameScreen({
               size="icon"
             >
               <PersonPlusIcon />
+            </Button>
+            {/* ponytail: undo/redo controls */}
+            <Button
+              onClick={onUndo}
+              disabled={!canUndo}
+              data-testid="undo-button"
+              aria-label="Undo last action"
+              variant="outline"
+              className="p-2 bg-white hover:bg-[#EEEEF8] rounded-xl shadow-sm active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+              size="icon"
+            >
+              <Undo className="w-5 h-5 text-[var(--app-brand)]" />
+            </Button>
+            <Button
+              onClick={onRedo}
+              disabled={!canRedo}
+              data-testid="redo-button"
+              aria-label="Redo last action"
+              variant="outline"
+              className="p-2 bg-white hover:bg-[#EEEEF8] rounded-xl shadow-sm active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+              size="icon"
+            >
+              <Redo className="w-5 h-5 text-[var(--app-brand)]" />
             </Button>
             <Button
               onClick={() => setRestartGameDialogOpen(true)}
@@ -433,7 +414,7 @@ export function InGameScreen({
                       setActiveTab={setActiveTab}
                       onTogglePlayerSelection={onTogglePlayerSelection}
                       onUpdateScore={onUpdateScore}
-                      onBallClick={handleBallClick}
+                      onBallClick={onRecordBallClick}
                       prefersReducedMotion={prefersReducedMotion}
                       safeListVariants={safeListVariants}
                     />
