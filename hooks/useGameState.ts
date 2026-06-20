@@ -12,6 +12,7 @@ export interface Player {
   color: string;
   score: number;
   isSelected: boolean;
+  scoredBalls: string[];
 }
 
 export interface Game {
@@ -97,9 +98,17 @@ export function useGameState() {
           setTimeout(() => {
             if (parsed.screen) setScreen(parsed.screen);
             if (parsed.activeGame) {
-              setActiveGame(parsed.activeGame);
+              // ponytail: migrate existing games to add scoredBalls array
+              const migratedGame = {
+                ...parsed.activeGame,
+                players: parsed.activeGame.players.map((p: Player) => ({
+                  ...p,
+                  scoredBalls: p.scoredBalls || [],
+                })),
+              };
+              setActiveGame(migratedGame);
               setHistoryState({
-                list: [parsed.activeGame],
+                list: [migratedGame],
                 index: 0,
               });
             }
@@ -214,6 +223,7 @@ export function useGameState() {
         color: p.color,
         score: 0,
         isSelected: false,
+        scoredBalls: [],
       })),
       foulCount: 0,
     };
@@ -246,6 +256,7 @@ export function useGameState() {
       color,
       score: 0,
       isSelected: false,
+      scoredBalls: [],
     };
     updateGame((prev) => ({
       ...prev,
@@ -361,7 +372,7 @@ export function useGameState() {
 
       if (tab === 'score') {
         updatedPlayers = prev.players.map((p) =>
-          p.id === currentPlayerId ? { ...p, score: p.score + points } : p
+          p.id === currentPlayerId ? { ...p, score: p.score + points, scoredBalls: [...p.scoredBalls, ballName] } : p
         );
       } else {
         const isFourPointFoul = points === 4;
@@ -401,6 +412,7 @@ export function useGameState() {
           ...p,
           score: 0,
           isSelected: false,
+          scoredBalls: [],
         })),
       };
       setHistoryState({

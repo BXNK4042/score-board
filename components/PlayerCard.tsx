@@ -161,6 +161,27 @@ export function PlayerCard({
             </div>
           </div>
 
+          {/* ponytail: simple flex row for scored balls, no separate component */}
+          {(player.scoredBalls?.length || 0) > 0 && (
+            <div
+              className="flex gap-1 mt-2 overflow-x-auto pb-1"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+              {(player.scoredBalls || []).map((ballName, index) => {
+                const ballConfig = SNOOKER_BALLS.find(b => b.name === ballName);
+                if (!ballConfig) return null;
+                return (
+                  <div
+                    key={index}
+                    className="w-6 h-6 rounded-full flex-shrink-0 shadow-sm"
+                    style={{ backgroundColor: ballConfig.color }}
+                    aria-label={`${ballName} ball, ${ballConfig.points} points`}
+                  />
+                );
+              })}
+            </div>
+          )}
+
           {/* Middle Row: Avatar, Name & Score Controls */}
           <div className="flex items-center justify-between mt-2">
             <div className="flex items-center gap-3">
@@ -327,9 +348,14 @@ export function PlayerCard({
                           <button
                             key={ball.name}
                             onClick={() => onBallClick(player.id, ball.points, activeTab)}
-                            className="relative aspect-square rounded-full flex flex-col items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                            disabled={ball.name === 'White'}
+                            className={`relative aspect-square rounded-full flex flex-col items-center justify-center shadow-md transition-all ${
+                              ball.name === 'White'
+                                ? 'opacity-40 cursor-not-allowed'
+                                : 'hover:scale-105 active:scale-95 cursor-pointer'
+                            }`}
                             style={bgStyle}
-                            aria-label={`${ball.name} ball - ${ball.points} points`}
+                            aria-label={`${ball.name} ball - ${ball.points} points${ball.name === 'White' ? ', disabled' : ''}`}
                           >
                             {isFoulCombined ? (
                               <div className="absolute inset-[3px] rounded-full bg-white flex items-center justify-center shadow-[inset_0_1px_2px_rgba(0,0,0,0.15)]">
