@@ -26,6 +26,7 @@
 .DS_Store
 *.pem
 .serena/
+.agents/
 
 # debug
 npm-debug.log*
