@@ -7,41 +7,7 @@ import { Player } from '@/hooks/useGameState';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
-
-interface BallConfig {
-  name: string;
-  points: number;
-  color?: string;
-  background?: string;
-  label: string;
-  labelColor?: string;
-}
-
-// Snooker ball configuration
-const SNOOKER_BALLS: BallConfig[] = [
-  { name: 'White', points: 0, color: 'var(--app-snooker-white)', label: 'W' },
-  { name: 'Red', points: 1, color: 'var(--app-snooker-red)', label: '1' },
-  { name: 'Yellow', points: 2, color: 'var(--app-snooker-yellow)', label: '2' },
-  { name: 'Green', points: 3, color: 'var(--app-snooker-green)', label: '3' },
-  { name: 'Brown', points: 4, color: 'var(--app-snooker-brown)', label: '4' },
-  { name: 'Blue', points: 5, color: 'var(--app-snooker-blue)', label: '5' },
-  { name: 'Pink', points: 6, color: 'var(--app-snooker-pink)', label: '6' },
-  { name: 'Black', points: 7, color: 'var(--app-snooker-black)', label: '7' },
-];
-
-// Snooker foul ball configuration (4 balls for foul tab)
-const FOUL_BALLS: BallConfig[] = [
-  {
-    name: 'Cue/Red/Yellow/Green/Brown',
-    points: 4,
-    background: 'conic-gradient(var(--app-snooker-red) 0deg 90deg, var(--app-snooker-yellow) 90deg 180deg, var(--app-snooker-green) 180deg 270deg, var(--app-snooker-brown) 270deg 360deg)',
-    label: '4',
-    labelColor: '#000000',
-  },
-  { name: 'Blue', points: 5, color: 'var(--app-snooker-blue)', label: '5', labelColor: '#ffffff' },
-  { name: 'Pink', points: 6, color: 'var(--app-snooker-pink)', label: '6', labelColor: '#ffffff' },
-  { name: 'Black', points: 7, color: 'var(--app-snooker-black)', label: '7', labelColor: '#ffffff' },
-];
+import { SNOOKER_BALLS, FOUL_BALLS } from '@/lib/snookerBalls';
 
 // ponytail: map player colors to avatar image filenames
 const COLOR_TO_AVATAR: Record<string, string> = {

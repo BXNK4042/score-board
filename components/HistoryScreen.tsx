@@ -11,6 +11,7 @@ import {
   listContainerVariants,
   listItemVariants,
 } from '@/lib/animations';
+import { getRelativeTimeString as getRelativeTimeStringShared } from '@/lib/relativeTime';
 
 export function HistoryScreen({
   activeGame,
@@ -31,17 +32,8 @@ export function HistoryScreen({
     return () => clearInterval(id);
   }, []);
 
-  const getRelativeTimeString = (timestamp: number) => {
-    const diffMs = now - timestamp;
-    const diffSecs = Math.floor(diffMs / 1000);
-    const diffMins = Math.floor(diffSecs / 60);
-    const diffHrs = Math.floor(diffMins / 60);
-
-    if (diffSecs < 10) return 'just now';
-    if (diffSecs < 60) return `${diffSecs}s ago`;
-    if (diffMins < 60) return `${diffMins}m ago`;
-    return `${diffHrs}h ago`;
-  };
+  const getRelativeTimeString = (timestamp: number) =>
+    getRelativeTimeStringShared(timestamp, now, 'short');
 
   const history = activeGame.scoreHistory || [];
 
