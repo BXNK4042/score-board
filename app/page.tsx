@@ -6,6 +6,7 @@ import { useGameState } from '@/hooks/useGameState';
 import { HomeScreen } from '@/components/HomeScreen';
 import { SetupScreen } from '@/components/SetupScreen';
 import { InGameScreen } from '@/components/InGameScreen';
+import { HistoryScreen } from '@/components/HistoryScreen';
 import { screenTransitionVariants, useReducedMotion, createSafeVariants } from '@/lib/animations';
 
 export default function Page() {
@@ -19,6 +20,7 @@ export default function Page() {
     goToHome,
     goToSetup,
     goToInGame,
+    goToHistory,
 
     updateSetupTitle,
     addSetupPlayer,
@@ -132,6 +134,23 @@ export default function Page() {
                   canRedo={canRedo}
                   onUndo={undo}
                   onRedo={redo}
+                  onViewHistory={goToHistory}
+                />
+              </motion.div>
+            );
+
+          case 'history':
+            return (
+              <motion.div
+                key="history"
+                variants={safeScreenVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+              >
+                <HistoryScreen
+                  activeGame={activeGame!}
+                  onBack={goToInGame}
                 />
               </motion.div>
             );

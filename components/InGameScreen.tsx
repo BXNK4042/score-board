@@ -9,7 +9,7 @@ import { StopwatchBanner } from './StopwatchBanner';
 import { PlayerCard } from './PlayerCard';
 import { BulkActionBar } from './BulkActionBar';
 
-import { Gamepad, UserPlus, Check, RotateCcw, Undo, Redo } from 'lucide-react';
+import { Gamepad, UserPlus, Check, RotateCcw, Undo, Redo, History } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -30,6 +30,10 @@ const CheckIcon = () => (
 
 const RotateCcwIcon = () => (
   <RotateCcw className="w-6 h-6 text-[var(--app-brand)]" strokeWidth={2} />
+);
+
+const HistoryIcon = () => (
+  <History className="w-6 h-6 text-[var(--app-brand)]" strokeWidth={2} />
 );
 
 // ponytail: map ballName and type back to styling properties to draw the styled ball visual
@@ -79,6 +83,7 @@ export function InGameScreen({
   canRedo,
   onUndo,
   onRedo,
+  onViewHistory,
 }: {
   activeGame: Game;
   onUpdateGameTitle: (title: string) => void;
@@ -98,6 +103,7 @@ export function InGameScreen({
   canRedo: boolean;
   onUndo: () => void;
   onRedo: () => void;
+  onViewHistory: () => void;
 }) {
   const [prevTitle, setPrevTitle] = useState(activeGame?.title || '');
   const [tempTitle, setTempTitle] = useState(activeGame?.title || '');
@@ -243,6 +249,16 @@ export function InGameScreen({
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
+            <Button
+              onClick={onViewHistory}
+              data-testid="history-button"
+              aria-label="View score history"
+              variant="outline"
+              className="p-2 bg-[var(--app-card-background)] hover:bg-[var(--app-background)] rounded-xl shadow-sm active:scale-95"
+              size="icon"
+            >
+              <HistoryIcon />
+            </Button>
             <Button
               onClick={() => setAddPlayerDialogOpen(true)}
               data-testid="add-player-ingame-button"

@@ -15,6 +15,13 @@ export interface Player {
   scoredBalls: string[];
 }
 
+export interface ScoreChange {
+  timestamp: number;
+  playerId: string;
+  previousScore: number;
+  newScore: number;
+}
+
 export interface Game {
   id: string;
   title: string;
@@ -29,6 +36,7 @@ export interface Game {
     type: 'Score' | 'Foul';
     ballName: string;
   };
+  scoreHistory: ScoreChange[];
 }
 
 export const PALETTE = [
@@ -49,7 +57,7 @@ export const PALETTE = [
 const LOCAL_STORAGE_KEY = 'scoreboard_game_state';
 
 export function useGameState() {
-  const [screen, setScreen] = useState<'home' | 'setup' | 'ingame'>('home');
+  const [screen, setScreen] = useState<'home' | 'setup' | 'ingame' | 'history'>('home');
   const [activeGame, setActiveGame] = useState<Game | null>(null);
   const [setupTitle, setSetupTitle] = useState('');
   const [setupPlayers, setSetupPlayers] = useState<DraftPlayer[]>([]);
@@ -98,13 +106,14 @@ export function useGameState() {
           setTimeout(() => {
             if (parsed.screen) setScreen(parsed.screen);
             if (parsed.activeGame) {
-              // ponytail: migrate existing games to add scoredBalls array
+              // ponytail: migrate existing games to add scoredBalls array and scoreHistory
               const migratedGame = {
                 ...parsed.activeGame,
                 players: parsed.activeGame.players.map((p: Player) => ({
                   ...p,
                   scoredBalls: p.scoredBalls || [],
                 })),
+                scoreHistory: parsed.activeGame.scoreHistory || [],
               };
               setActiveGame(migratedGame);
               setHistoryState({
@@ -168,6 +177,11 @@ export function useGameState() {
       setScreen('ingame');
     }
   }, [activeGame]);
+  const goToHistory = useCallback(() => {
+    if (activeGame) {
+      setScreen('history');
+    }
+  }, [activeGame]);
 
   // Setup Actions
   const updateSetupTitle = useCallback((title: string) => {
@@ -226,6 +240,7 @@ export function useGameState() {
         scoredBalls: [],
       })),
       foulCount: 0,
+      scoreHistory: [],
     };
     setActiveGame(newGame);
     setHistoryState({
@@ -266,13 +281,23 @@ export function useGameState() {
   }, [activeGame, updateGame]);
 
   const updateScore = useCallback((playerId: string, delta: number) => {
-    updateGame((prev) => ({
-      ...prev,
-      lastScoreUpdated: Date.now(),
-      players: prev.players.map((p) =>
-        p.id === playerId ? { ...p, score: p.score + delta } : p
-      ),
-    }));
+    updateGame((prev) => {
+      const player = prev.players.find((p) => p.id === playerId);
+      if (!player) return prev;
+      const previousScore = player.score;
+      const newScore = previousScore + delta;
+      return {
+        ...prev,
+        lastScoreUpdated: Date.now(),
+        scoreHistory: [
+          { timestamp: Date.now(), playerId, previousScore, newScore },
+          ...(prev.scoreHistory || []),
+        ],
+        players: prev.players.map((p) =>
+          p.id === playerId ? { ...p, score: newScore } : p
+        ),
+      };
+    });
   }, [updateGame]);
 
   const togglePlayerSelection = useCallback((playerId: string) => {
@@ -285,13 +310,23 @@ export function useGameState() {
   }, [updateGame]);
 
   const bulkUpdateScores = useCallback((delta: number) => {
-    updateGame((prev) => ({
-      ...prev,
-      lastScoreUpdated: Date.now(),
-      players: prev.players.map((p) =>
-        p.isSelected ? { ...p, score: p.score + delta } : p
-      ),
-    }));
+    updateGame((prev) => {
+      const now = Date.now();
+      const newScoreChanges: ScoreChange[] = [];
+      const updatedPlayers = prev.players.map((p) => {
+        if (p.isSelected) {
+          newScoreChanges.push({ timestamp: now, playerId: p.id, previousScore: p.score, newScore: p.score + delta });
+          return { ...p, score: p.score + delta };
+        }
+        return p;
+      });
+      return {
+        ...prev,
+        lastScoreUpdated: now,
+        scoreHistory: [...newScoreChanges, ...(prev.scoreHistory || [])],
+        players: updatedPlayers,
+      };
+    });
   }, [updateGame]);
 
   const toggleStopwatch = useCallback((running: boolean) => {
@@ -369,28 +404,39 @@ export function useGameState() {
 
       let updatedPlayers = prev.players;
       let updatedFoulCount = prev.foulCount || 0;
+      const now = Date.now();
+      const newScoreChanges: ScoreChange[] = [];
 
       if (tab === 'score') {
         updatedPlayers = prev.players.map((p) =>
           p.id === currentPlayerId ? { ...p, score: p.score + points, scoredBalls: [...p.scoredBalls, ballName] } : p
         );
+        const currentPlayer = prev.players.find((p) => p.id === currentPlayerId);
+        if (currentPlayer) {
+          newScoreChanges.push({ timestamp: now, playerId: currentPlayerId, previousScore: currentPlayer.score, newScore: currentPlayer.score + points });
+        }
       } else {
         const isFourPointFoul = points === 4;
         const hasMultiplePlayers = prev.players.length > 2;
         const foulPoints = (isFourPointFoul && hasMultiplePlayers) ? 2 : Math.max(points, 4);
 
-        const otherPlayers = prev.players.filter((p) => p.id !== currentPlayerId).map((p) => p.id);
+        const otherPlayers = prev.players.filter((p) => p.id !== currentPlayerId);
         if (otherPlayers.length > 0) {
-          updatedPlayers = prev.players.map((p) =>
-            otherPlayers.includes(p.id) ? { ...p, score: p.score + foulPoints } : p
-          );
+          updatedPlayers = prev.players.map((p) => {
+            if (p.id !== currentPlayerId) {
+              newScoreChanges.push({ timestamp: now, playerId: p.id, previousScore: p.score, newScore: p.score + foulPoints });
+              return { ...p, score: p.score + foulPoints };
+            }
+            return p;
+          });
         }
         updatedFoulCount += 1;
       }
 
       return {
         ...prev,
-        lastScoreUpdated: Date.now(),
+        lastScoreUpdated: now,
+        scoreHistory: [...newScoreChanges, ...(prev.scoreHistory || [])],
         latestBall: { playerName, type, ballName },
         players: updatedPlayers,
         foulCount: updatedFoulCount,
@@ -408,6 +454,7 @@ export function useGameState() {
         lastScoreUpdated: undefined,
         foulCount: 0,
         latestBall: undefined,
+        scoreHistory: [],
         players: prev.players.map((p) => ({
           ...p,
           score: 0,
@@ -479,6 +526,7 @@ export function useGameState() {
     goToHome,
     goToSetup,
     goToInGame,
+    goToHistory,
 
     updateSetupTitle,
     addSetupPlayer,
