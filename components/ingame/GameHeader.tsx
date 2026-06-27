@@ -35,9 +35,9 @@ export function GameHeader({
   const { tempTitle, isEditing, setTempTitle, start, save } = useEditableTitle(title, onSaveTitle);
 
   return (
-    <div className="flex items-center justify-between gap-2">
-      <div className="flex items-center gap-2 min-w-0 flex-1">
-        <Gamepad className="w-6 h-6 text-[var(--app-brand)]" strokeWidth={2} />
+    <div className="flex flex-col gap-3">
+      <div className="flex items-center gap-2 min-w-0">
+        <Gamepad className="w-6 h-6 text-[var(--app-brand)] shrink-0" strokeWidth={2} />
         {isEditing ? (
           <Input
             type="text"
@@ -60,20 +60,20 @@ export function GameHeader({
             onClick={start}
             aria-label="Edit game title"
             variant="ghost"
-            className="text-left font-extrabold text-xl tracking-tight text-[var(--app-text-primary)] hover:text-[var(--app-brand)] transition-colors break-words max-w-[180px] p-0 h-auto"
+            className="text-left font-extrabold text-xl tracking-tight text-[var(--app-text-primary)] hover:text-[var(--app-brand)] transition-colors break-words p-0 h-auto"
           >
             {title}
           </Button>
         )}
       </div>
 
-      <div className="flex items-center gap-2 shrink-0">
+      <div className="flex items-center justify-center gap-2 p-2 bg-[var(--app-card-background)] rounded-2xl shadow-sm">
         <Button
           onClick={onViewHistory}
           data-testid="history-button"
           aria-label="View score history"
           variant="outline"
-          className="p-2 bg-[var(--app-card-background)] hover:bg-[var(--app-background)] rounded-xl shadow-sm active:scale-95"
+          className="p-2 bg-transparent hover:bg-[var(--app-background)] rounded-xl active:scale-95"
           size="icon"
         >
           <History className="w-6 h-6 text-[var(--app-brand)]" strokeWidth={2} />
@@ -84,7 +84,7 @@ export function GameHeader({
           disabled={addPlayerDisabled}
           aria-label="Add player mid-game"
           variant="outline"
-          className="p-2 bg-[var(--app-card-background)] hover:bg-[var(--app-background)] rounded-xl shadow-sm active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-2 bg-transparent hover:bg-[var(--app-background)] rounded-xl active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
           size="icon"
         >
           <UserPlus className="w-6 h-6 text-[var(--app-brand)]" strokeWidth={2} />
@@ -95,7 +95,7 @@ export function GameHeader({
           data-testid="undo-button"
           aria-label="Undo last action"
           variant="outline"
-          className="p-2 bg-white hover:bg-[#EEEEF8] rounded-xl shadow-sm active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-2 bg-transparent hover:bg-[var(--app-background)] rounded-xl active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
           size="icon"
         >
           <Undo className="w-5 h-5 text-[var(--app-brand)]" />
@@ -106,7 +106,7 @@ export function GameHeader({
           data-testid="redo-button"
           aria-label="Redo last action"
           variant="outline"
-          className="p-2 bg-white hover:bg-[#EEEEF8] rounded-xl shadow-sm active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-2 bg-transparent hover:bg-[var(--app-background)] rounded-xl active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
           size="icon"
         >
           <Redo className="w-5 h-5 text-[var(--app-brand)]" />
@@ -116,7 +116,7 @@ export function GameHeader({
           data-testid="restart-game-button"
           aria-label="Reset game session"
           variant="outline"
-          className="p-2 bg-white hover:bg-[#EEEEF8] rounded-xl shadow-sm active:scale-95"
+          className="p-2 bg-transparent hover:bg-[var(--app-background)] rounded-xl active:scale-95"
           size="icon"
         >
           <RotateCcw className="w-6 h-6 text-[var(--app-brand)]" strokeWidth={2} />
@@ -126,7 +126,7 @@ export function GameHeader({
           data-testid="end-game-button"
           aria-label="End Game"
           variant="outline"
-          className="p-2 bg-white hover:bg-[#EEEEF8] rounded-xl shadow-sm active:scale-95"
+          className="p-2 bg-transparent hover:bg-[var(--app-background)] rounded-xl active:scale-95"
           size="icon"
         >
           <Check className="w-6 h-6 text-[var(--app-success)]" strokeWidth={2.5} />
