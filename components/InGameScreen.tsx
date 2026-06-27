@@ -89,10 +89,10 @@ export function InGameScreen({
   };
 
   return (
-    <div className="flex flex-col bg-[var(--app-background)] text-[var(--app-text-primary)] w-full max-w-[390px] mx-auto h-[100dvh] max-h-[100dvh] overflow-hidden relative p-6 pt-[calc(24px+env(safe-area-inset-top))] justify-between">
+    <div className="flex flex-col bg-[var(--app-background)] text-[var(--app-text-primary)] w-full max-w-[390px] mx-auto min-h-[100dvh] relative p-6 pt-[calc(24px+env(safe-area-inset-top))] gap-6">
       <h1 className="sr-only" data-testid="in-game-screen-heading">In-Game Screen</h1>
 
-      <div className="flex flex-col gap-6 flex-1 min-h-0">
+      <div className="flex flex-col gap-6 flex-1">
         <GameHeader
           title={activeGame.title}
           onSaveTitle={onUpdateGameTitle}
@@ -119,7 +119,7 @@ export function InGameScreen({
         </div>
 
         <div
-          className={`flex flex-col gap-3 flex-1 overflow-y-auto no-scrollbar pr-1 transition-all ${
+          className={`flex flex-col gap-3 pr-1 transition-all ${
             selectedCount >= 1 ? 'pb-24' : 'pb-6'
           }`}
         >
