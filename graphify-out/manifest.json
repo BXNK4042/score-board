@@ -1,996 +1,311 @@
 {
-  "/home/bankrupt/score-board/.agents/explorer_setup_1/proposed_HomeScreen.tsx": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "cc0afde3bfc128f7b350e4d08ba94de0",
-    "semantic_hash": "cc0afde3bfc128f7b350e4d08ba94de0"
+  ".opencode/opencode.json": {
+    "mtime": 1782581554.3381722,
+    "ast_hash": "e5f74d14a81702b55bdf53b33ec991d7",
+    "semantic_hash": "e5f74d14a81702b55bdf53b33ec991d7"
   },
-  "/home/bankrupt/score-board/.agents/explorer_setup_1/proposed_SetupScreen.tsx": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "12bd1ca776618095763c87cc768cb749",
-    "semantic_hash": "12bd1ca776618095763c87cc768cb749"
+  ".opencode/package.json": {
+    "mtime": 1782581567.4363725,
+    "ast_hash": "24478eaec7f80842193599e20ed2e5ae",
+    "semantic_hash": "24478eaec7f80842193599e20ed2e5ae"
   },
-  "/home/bankrupt/score-board/.agents/explorer_setup_1/proposed_page.tsx": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "358c4c5815e1167a6f32d9117562c87d",
-    "semantic_hash": "358c4c5815e1167a6f32d9117562c87d"
+  ".opencode/plugins/graphify.js": {
+    "mtime": 1782581584.558255,
+    "ast_hash": "d12d57c380c6f01a0a3c3d480824d09f",
+    "semantic_hash": "d12d57c380c6f01a0a3c3d480824d09f"
   },
-  "/home/bankrupt/score-board/.agents/explorer_setup_1/proposed_useGameState.ts": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "39c0d4006a88606d0140a4fff207782e",
-    "semantic_hash": "39c0d4006a88606d0140a4fff207782e"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_2/proposed_HomeScreen.tsx": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "c51fe57e30e564beae8777606b1e8903",
-    "semantic_hash": "c51fe57e30e564beae8777606b1e8903"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_2/proposed_SetupScreen.tsx": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "5f963de0734c66ab6ec5bd88ae1b49d0",
-    "semantic_hash": "5f963de0734c66ab6ec5bd88ae1b49d0"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_2/proposed_page.tsx": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "c1137b146b7f6b29f1908d27ed2a783a",
-    "semantic_hash": "c1137b146b7f6b29f1908d27ed2a783a"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_2/proposed_useGameState.ts": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "bdfc80f1c810c90902f7b330c4684a09",
-    "semantic_hash": "bdfc80f1c810c90902f7b330c4684a09"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_3/proposed_layouts.tsx": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "866b90b83f0632b53b265e8acd8b08e9",
-    "semantic_hash": "866b90b83f0632b53b265e8acd8b08e9"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_3/proposed_page.tsx": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "8d6688773a20e702f3061e435e1c8940",
-    "semantic_hash": "8d6688773a20e702f3061e435e1c8940"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_3/proposed_useGameState.ts": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "4d5099357e130dd0fd338ae4a4edf984",
-    "semantic_hash": "4d5099357e130dd0fd338ae4a4edf984"
-  },
-  "/home/bankrupt/score-board/app/layout.tsx": {
-    "mtime": 1781681953.105661,
+  "app/layout.tsx": {
+    "mtime": 1781707088.9431229,
     "ast_hash": "948ecaaf5e74b6010d8a4124eaffe0ef",
     "semantic_hash": "948ecaaf5e74b6010d8a4124eaffe0ef"
   },
-  "/home/bankrupt/score-board/app/page.tsx": {
-    "mtime": 1781774973.7589753,
-    "ast_hash": "07696b3ab1c3a174a28e329e9dbe4a04",
-    "semantic_hash": "07696b3ab1c3a174a28e329e9dbe4a04"
+  "app/page.tsx": {
+    "mtime": 1782037152.4678817,
+    "ast_hash": "0a8793520743e34be32c08f038cdf410",
+    "semantic_hash": "0a8793520743e34be32c08f038cdf410"
   },
-  "/home/bankrupt/score-board/components.json": {
-    "mtime": 1781295578.3584425,
+  "components.json": {
+    "mtime": 1781421407.260495,
     "ast_hash": "0c8e2e6ffae9457d9449e42cb2a92a5a",
     "semantic_hash": "0c8e2e6ffae9457d9449e42cb2a92a5a"
   },
-  "/home/bankrupt/score-board/components/BulkActionBar.tsx": {
-    "mtime": 1781682534.7556639,
+  "components/BulkActionBar.tsx": {
+    "mtime": 1781707088.9431229,
     "ast_hash": "46462c19a63d40eaae937a831a6ec48c",
     "semantic_hash": "46462c19a63d40eaae937a831a6ec48c"
   },
-  "/home/bankrupt/score-board/components/Footer.tsx": {
-    "mtime": 1781686215.5861223,
+  "components/Footer.tsx": {
+    "mtime": 1781707088.9431229,
     "ast_hash": "9ff3b8e7ee24fbad87d8cce36a88ea3f",
     "semantic_hash": "9ff3b8e7ee24fbad87d8cce36a88ea3f"
   },
-  "/home/bankrupt/score-board/components/HomeScreen.tsx": {
-    "mtime": 1781682592.3059726,
+  "components/HistoryScreen.tsx": {
+    "mtime": 1782581361.6213567,
+    "ast_hash": "df21cfc0b2944dc86f88133f46687608",
+    "semantic_hash": "df21cfc0b2944dc86f88133f46687608"
+  },
+  "components/HomeScreen.tsx": {
+    "mtime": 1781707088.9431229,
     "ast_hash": "d222d17558d1bd782f199e7214da2015",
     "semantic_hash": "d222d17558d1bd782f199e7214da2015"
   },
-  "/home/bankrupt/score-board/components/InGameScreen.tsx": {
-    "mtime": 1781774973.7589753,
-    "ast_hash": "50c77de934bc376f8fc8176fb6d036b0",
-    "semantic_hash": "50c77de934bc376f8fc8176fb6d036b0"
+  "components/InGameScreen.tsx": {
+    "mtime": 1782037175.0958557,
+    "ast_hash": "332b4da923a12e7fff1d88f5d7702f2e",
+    "semantic_hash": "332b4da923a12e7fff1d88f5d7702f2e"
   },
-  "/home/bankrupt/score-board/components/PlayerCard.tsx": {
-    "mtime": 1781774973.7589753,
-    "ast_hash": "7eb9ff827679762f7148fcdbbac4b3c8",
-    "semantic_hash": "7eb9ff827679762f7148fcdbbac4b3c8"
+  "components/PlayerCard.tsx": {
+    "mtime": 1782036340.6886141,
+    "ast_hash": "ffba525f3e2d7a95c734b282b9bb196c",
+    "semantic_hash": "ffba525f3e2d7a95c734b282b9bb196c"
   },
-  "/home/bankrupt/score-board/components/PlayerDialog.tsx": {
-    "mtime": 1781688372.5010676,
+  "components/PlayerDialog.tsx": {
+    "mtime": 1781707088.9439847,
     "ast_hash": "c4b1245f6c86b7c553b22bbf8bdd553b",
     "semantic_hash": "c4b1245f6c86b7c553b22bbf8bdd553b"
   },
-  "/home/bankrupt/score-board/components/SetupScreen.tsx": {
-    "mtime": 1781774973.7589753,
+  "components/SetupScreen.tsx": {
+    "mtime": 1781708459.056819,
     "ast_hash": "dd9bf9662710147894a6190b5399e3f8",
     "semantic_hash": "dd9bf9662710147894a6190b5399e3f8"
   },
-  "/home/bankrupt/score-board/components/StopwatchBanner.tsx": {
-    "mtime": 1781682417.2283585,
+  "components/StopwatchBanner.tsx": {
+    "mtime": 1781707088.9439847,
     "ast_hash": "cf23a0fc795c18adf7c2524f34e47686",
     "semantic_hash": "cf23a0fc795c18adf7c2524f34e47686"
   },
-  "/home/bankrupt/score-board/components/ui/avatar.tsx": {
-    "mtime": 1781295614.981857,
+  "components/ui/avatar.tsx": {
+    "mtime": 1781421407.2614949,
     "ast_hash": "0008445bf0b90f231d702bcd9141726c",
     "semantic_hash": "0008445bf0b90f231d702bcd9141726c"
   },
-  "/home/bankrupt/score-board/components/ui/button.tsx": {
-    "mtime": 1781295599.5418224,
+  "components/ui/button.tsx": {
+    "mtime": 1781421407.262558,
     "ast_hash": "4870ecf032591e7dc71cd4e3c36bb683",
     "semantic_hash": "4870ecf032591e7dc71cd4e3c36bb683"
   },
-  "/home/bankrupt/score-board/components/ui/card.tsx": {
-    "mtime": 1781295604.4818335,
+  "components/ui/card.tsx": {
+    "mtime": 1781421407.262558,
     "ast_hash": "9f1da48791217371e13fa28ce90ae444",
     "semantic_hash": "9f1da48791217371e13fa28ce90ae444"
   },
-  "/home/bankrupt/score-board/components/ui/checkbox.tsx": {
-    "mtime": 1781295614.901857,
+  "components/ui/checkbox.tsx": {
+    "mtime": 1781421407.262558,
     "ast_hash": "81c775227b865447b5951a131d453bee",
     "semantic_hash": "81c775227b865447b5951a131d453bee"
   },
-  "/home/bankrupt/score-board/components/ui/dialog.tsx": {
-    "mtime": 1781680878.0144255,
+  "components/ui/dialog.tsx": {
+    "mtime": 1781707088.9439847,
     "ast_hash": "139920d72ab2489d2eb7cfbcbc2d6555",
     "semantic_hash": "139920d72ab2489d2eb7cfbcbc2d6555"
   },
-  "/home/bankrupt/score-board/components/ui/input.tsx": {
-    "mtime": 1781295614.7785232,
+  "components/ui/input.tsx": {
+    "mtime": 1781421407.262558,
     "ast_hash": "962daebde14319230f0cbf88a8472f70",
     "semantic_hash": "962daebde14319230f0cbf88a8472f70"
   },
-  "/home/bankrupt/score-board/components/ui/label.tsx": {
-    "mtime": 1781295614.8185234,
+  "components/ui/label.tsx": {
+    "mtime": 1781421407.262558,
     "ast_hash": "14579f07e6e3133b6ee65d3ec778b013",
     "semantic_hash": "14579f07e6e3133b6ee65d3ec778b013"
   },
-  "/home/bankrupt/score-board/components/ui/motion-button.tsx": {
-    "mtime": 1781682620.4461224,
+  "components/ui/motion-button.tsx": {
+    "mtime": 1781707088.9449854,
     "ast_hash": "9f219ee5468db9adc95db139cea6b848",
     "semantic_hash": "9f219ee5468db9adc95db139cea6b848"
   },
-  "/home/bankrupt/score-board/eslint.config.mjs": {
-    "mtime": 1781251799.7416468,
+  "eslint.config.mjs": {
+    "mtime": 1781151364.3294332,
     "ast_hash": "cabd12b949d86ec8653c9f1fa5176dd2",
     "semantic_hash": "cabd12b949d86ec8653c9f1fa5176dd2"
   },
-  "/home/bankrupt/score-board/hooks/useGameState.ts": {
-    "mtime": 1781774973.7589753,
-    "ast_hash": "2129f58c7e342396157bfb64fb6a1f95",
-    "semantic_hash": "2129f58c7e342396157bfb64fb6a1f95"
+  "hooks/useGameState.ts": {
+    "mtime": 1782581365.4526064,
+    "ast_hash": "94d7ed705e34f4990646e224de4743fe",
+    "semantic_hash": "94d7ed705e34f4990646e224de4743fe"
   },
-  "/home/bankrupt/score-board/lib/animations.ts": {
-    "mtime": 1781682758.506851,
+  "lib/animations.ts": {
+    "mtime": 1781707088.9469862,
     "ast_hash": "33352263f4317fc6d8fb70f9a72d24f0",
     "semantic_hash": "33352263f4317fc6d8fb70f9a72d24f0"
   },
-  "/home/bankrupt/score-board/lib/utils.ts": {
-    "mtime": 1781295582.7117853,
+  "lib/utils.ts": {
+    "mtime": 1781421407.2635233,
     "ast_hash": "5a6fd53fdcf2be529e9cc0b718fde352",
     "semantic_hash": "5a6fd53fdcf2be529e9cc0b718fde352"
   },
-  "/home/bankrupt/score-board/next.config.ts": {
-    "mtime": 1781251799.7416468,
+  "next.config.ts": {
+    "mtime": 1781074207.5898614,
     "ast_hash": "9b77af189a21a7a64e4bd7a426f64176",
     "semantic_hash": "9b77af189a21a7a64e4bd7a426f64176"
   },
-  "/home/bankrupt/score-board/package.json": {
-    "mtime": 1781774973.7589753,
+  "package.json": {
+    "mtime": 1781707291.2529225,
     "ast_hash": "8eb5e02b49dbd0cec4b5637fd862fb93",
     "semantic_hash": "8eb5e02b49dbd0cec4b5637fd862fb93"
   },
-  "/home/bankrupt/score-board/playwright.config.ts": {
-    "mtime": 1781774973.7589753,
+  "playwright.config.ts": {
+    "mtime": 1781707294.7147791,
     "ast_hash": "98ffb822871132c7caf1d6d56a5bee30",
     "semantic_hash": "98ffb822871132c7caf1d6d56a5bee30"
   },
-  "/home/bankrupt/score-board/postcss.config.mjs": {
-    "mtime": 1781251799.74498,
+  "postcss.config.mjs": {
+    "mtime": 1781074207.5897613,
     "ast_hash": "239f3ebf717465dc636818a1a619398d",
     "semantic_hash": "239f3ebf717465dc636818a1a619398d"
   },
-  "/home/bankrupt/score-board/tests/placeholder.spec.ts": {
-    "mtime": 1781251799.74498,
+  "screenshot.mjs": {
+    "mtime": 1782033150.884641,
+    "ast_hash": "2ec225caeea36991d05dfb5cbb351073",
+    "semantic_hash": "2ec225caeea36991d05dfb5cbb351073"
+  },
+  "tests/placeholder.spec.ts": {
+    "mtime": 1781150745.5938044,
     "ast_hash": "b5c7dd1c4366888f233329a57ad9ec43",
     "semantic_hash": "b5c7dd1c4366888f233329a57ad9ec43"
   },
-  "/home/bankrupt/score-board/tests/scoreboard.spec.ts": {
-    "mtime": 1781251799.74498,
+  "tests/scoreboard.spec.ts": {
+    "mtime": 1781167609.3941162,
     "ast_hash": "6feff0cb2c6e774727394b53d7326297",
     "semantic_hash": "6feff0cb2c6e774727394b53d7326297"
   },
-  "/home/bankrupt/score-board/tests/tier1.spec.ts": {
-    "mtime": 1781251799.74498,
+  "tests/tier1.spec.ts": {
+    "mtime": 1781167878.695429,
     "ast_hash": "56d5a13a1dae51dd6e0bd563a624ea35",
     "semantic_hash": "56d5a13a1dae51dd6e0bd563a624ea35"
   },
-  "/home/bankrupt/score-board/tests/tier2.spec.ts": {
-    "mtime": 1781251799.74498,
+  "tests/tier2.spec.ts": {
+    "mtime": 1781167790.3021264,
     "ast_hash": "a4a6ab57fd4c6aaabc16f7cb8848cec8",
     "semantic_hash": "a4a6ab57fd4c6aaabc16f7cb8848cec8"
   },
-  "/home/bankrupt/score-board/tests/tier3.spec.ts": {
-    "mtime": 1781251799.74498,
+  "tests/tier3.spec.ts": {
+    "mtime": 1781167791.6413383,
     "ast_hash": "8fea4993aa8be02188f2867d4e59401b",
     "semantic_hash": "8fea4993aa8be02188f2867d4e59401b"
   },
-  "/home/bankrupt/score-board/tests/tier4.spec.ts": {
-    "mtime": 1781251799.74498,
+  "tests/tier4.spec.ts": {
+    "mtime": 1781167804.9733527,
     "ast_hash": "3f3a19d73cff1093974b8de70271a1f8",
     "semantic_hash": "3f3a19d73cff1093974b8de70271a1f8"
   },
-  "/home/bankrupt/score-board/tsconfig.json": {
-    "mtime": 1781251799.7483137,
+  "tsconfig.json": {
+    "mtime": 1781074207.5900831,
     "ast_hash": "02fc19ad21338c2ab820a70136310db4",
     "semantic_hash": "02fc19ad21338c2ab820a70136310db4"
   },
-  "/home/bankrupt/score-board/.agents/BRIEFING.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "090868c728307750b9a6f7d13232ff64",
-    "semantic_hash": "090868c728307750b9a6f7d13232ff64"
-  },
-  "/home/bankrupt/score-board/.agents/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "cfb84cea05696966aab403ce2664da81",
-    "semantic_hash": "cfb84cea05696966aab403ce2664da81"
-  },
-  "/home/bankrupt/score-board/.agents/auditor_setup/BRIEFING.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "137aaaa88935445c699c3f97ab7a6027",
-    "semantic_hash": "137aaaa88935445c699c3f97ab7a6027"
-  },
-  "/home/bankrupt/score-board/.agents/auditor_setup/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "a04aff6c9698f59f4ce54ef91134b382",
-    "semantic_hash": "a04aff6c9698f59f4ce54ef91134b382"
-  },
-  "/home/bankrupt/score-board/.agents/auditor_setup/README.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "2bccc8de902cf3d565813e5db3650097",
-    "semantic_hash": "2bccc8de902cf3d565813e5db3650097"
-  },
-  "/home/bankrupt/score-board/.agents/auditor_setup/handoff.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "80111dda77784f6cf035e3ff60d0cb04",
-    "semantic_hash": "80111dda77784f6cf035e3ff60d0cb04"
-  },
-  "/home/bankrupt/score-board/.agents/auditor_setup/progress.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "79fd1eee221dca1c6e35a025a995297f",
-    "semantic_hash": "79fd1eee221dca1c6e35a025a995297f"
-  },
-  "/home/bankrupt/score-board/.agents/auditor_setup_fixed/BRIEFING.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "8d894f271bab95ddff884b41c7defdf2",
-    "semantic_hash": "8d894f271bab95ddff884b41c7defdf2"
-  },
-  "/home/bankrupt/score-board/.agents/auditor_setup_fixed/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "6489ea594b4fe449c12903d86812904d",
-    "semantic_hash": "6489ea594b4fe449c12903d86812904d"
-  },
-  "/home/bankrupt/score-board/.agents/auditor_setup_fixed/README.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "0981dae2a34199fdbb3334f248e61dd3",
-    "semantic_hash": "0981dae2a34199fdbb3334f248e61dd3"
-  },
-  "/home/bankrupt/score-board/.agents/auditor_setup_fixed/handoff.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "c63efe4a0c8035e4b77f42f15a2db2ac",
-    "semantic_hash": "c63efe4a0c8035e4b77f42f15a2db2ac"
-  },
-  "/home/bankrupt/score-board/.agents/auditor_setup_fixed/progress.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "3b940c899258b879781f0f18fc6bf792",
-    "semantic_hash": "3b940c899258b879781f0f18fc6bf792"
-  },
-  "/home/bankrupt/score-board/.agents/challenger_setup_1/BRIEFING.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "1ebebb2fd5724f735374fd7af3ceaa5a",
-    "semantic_hash": "1ebebb2fd5724f735374fd7af3ceaa5a"
-  },
-  "/home/bankrupt/score-board/.agents/challenger_setup_1/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "24ae253e0ca93b2545356a3a3b8e8b81",
-    "semantic_hash": "24ae253e0ca93b2545356a3a3b8e8b81"
-  },
-  "/home/bankrupt/score-board/.agents/challenger_setup_1/README.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "31c2b0d68cfe8a27d4e75ce754ce2fe2",
-    "semantic_hash": "31c2b0d68cfe8a27d4e75ce754ce2fe2"
-  },
-  "/home/bankrupt/score-board/.agents/challenger_setup_1/handoff.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "e9a98155bf4c1fd36e5c5a30f7c27bdb",
-    "semantic_hash": "e9a98155bf4c1fd36e5c5a30f7c27bdb"
-  },
-  "/home/bankrupt/score-board/.agents/challenger_setup_1/progress.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "9d675021f9743c8bcb5b095a449c955f",
-    "semantic_hash": "9d675021f9743c8bcb5b095a449c955f"
-  },
-  "/home/bankrupt/score-board/.agents/challenger_setup_2/BRIEFING.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "d300d758b3d67b3fcd6ed62e96b04d17",
-    "semantic_hash": "d300d758b3d67b3fcd6ed62e96b04d17"
-  },
-  "/home/bankrupt/score-board/.agents/challenger_setup_2/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "a2293334da0f83d119075f055bd22249",
-    "semantic_hash": "a2293334da0f83d119075f055bd22249"
-  },
-  "/home/bankrupt/score-board/.agents/challenger_setup_2/README.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "d3b8970d711e5c3e7cb4447a81b44578",
-    "semantic_hash": "d3b8970d711e5c3e7cb4447a81b44578"
-  },
-  "/home/bankrupt/score-board/.agents/challenger_setup_2/handoff.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "fb6cd0af359c7f96734b0029e8ad9028",
-    "semantic_hash": "fb6cd0af359c7f96734b0029e8ad9028"
-  },
-  "/home/bankrupt/score-board/.agents/challenger_setup_2/progress.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "24c3dbd137f2e7567fcaf22e16876498",
-    "semantic_hash": "24c3dbd137f2e7567fcaf22e16876498"
-  },
-  "/home/bankrupt/score-board/.agents/challenger_setup_fixed_1/BRIEFING.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "ef1988c2fa241e10ae6f8c53b3c0e9fa",
-    "semantic_hash": "ef1988c2fa241e10ae6f8c53b3c0e9fa"
-  },
-  "/home/bankrupt/score-board/.agents/challenger_setup_fixed_1/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "d87633db96d01edef37b8124d8b766e1",
-    "semantic_hash": "d87633db96d01edef37b8124d8b766e1"
-  },
-  "/home/bankrupt/score-board/.agents/challenger_setup_fixed_1/README.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "0112d293a6c83ff4485f0d663d975a53",
-    "semantic_hash": "0112d293a6c83ff4485f0d663d975a53"
-  },
-  "/home/bankrupt/score-board/.agents/challenger_setup_fixed_1/handoff.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "b648d07e0680edd8295bdd9fcbd12de6",
-    "semantic_hash": "b648d07e0680edd8295bdd9fcbd12de6"
-  },
-  "/home/bankrupt/score-board/.agents/challenger_setup_fixed_1/progress.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "2272683e98555017ee901d7d911213b2",
-    "semantic_hash": "2272683e98555017ee901d7d911213b2"
-  },
-  "/home/bankrupt/score-board/.agents/challenger_setup_fixed_2/BRIEFING.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "5d82c64febedae3ef20066ef0fea3c6d",
-    "semantic_hash": "5d82c64febedae3ef20066ef0fea3c6d"
-  },
-  "/home/bankrupt/score-board/.agents/challenger_setup_fixed_2/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "0aaecffd2bbed0afcba6bbdfbd224ada",
-    "semantic_hash": "0aaecffd2bbed0afcba6bbdfbd224ada"
-  },
-  "/home/bankrupt/score-board/.agents/challenger_setup_fixed_2/README.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "6fa79e94ff0b0d43479e346c6558aaf7",
-    "semantic_hash": "6fa79e94ff0b0d43479e346c6558aaf7"
-  },
-  "/home/bankrupt/score-board/.agents/challenger_setup_fixed_2/progress.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "9b0c8ec3c9f5bb1b6f66605429a5fe96",
-    "semantic_hash": "9b0c8ec3c9f5bb1b6f66605429a5fe96"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_ingame_1/BRIEFING.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "f3d938e1955a5963c49bde1eb5bd7f4c",
-    "semantic_hash": "f3d938e1955a5963c49bde1eb5bd7f4c"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_ingame_1/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "70bcbf2865b4881f9d45c0d371f61058",
-    "semantic_hash": "70bcbf2865b4881f9d45c0d371f61058"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_ingame_1/README.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "e9a5141c163e5de0301b80e9e897ead3",
-    "semantic_hash": "e9a5141c163e5de0301b80e9e897ead3"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_ingame_1/handoff.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "c01a2f0e9843f2362d0ab775c0412cc8",
-    "semantic_hash": "c01a2f0e9843f2362d0ab775c0412cc8"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_ingame_1/progress.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "8c43b221062ddc069bd2e7ba1385b373",
-    "semantic_hash": "8c43b221062ddc069bd2e7ba1385b373"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_ingame_2/BRIEFING.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "aad7ddff989f60a1443e70119f6b600c",
-    "semantic_hash": "aad7ddff989f60a1443e70119f6b600c"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_ingame_2/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "847bbc0d47c1c27ec668b40ebf589910",
-    "semantic_hash": "847bbc0d47c1c27ec668b40ebf589910"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_ingame_2/README.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "727c90398e798845bba98fd8d8ffa5d6",
-    "semantic_hash": "727c90398e798845bba98fd8d8ffa5d6"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_ingame_2/handoff.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "03669e8ae5a30c96f9a15d09aecdb406",
-    "semantic_hash": "03669e8ae5a30c96f9a15d09aecdb406"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_ingame_2/progress.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "660564f03c03088c347af479666dc44e",
-    "semantic_hash": "660564f03c03088c347af479666dc44e"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_ingame_3/BRIEFING.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "d287a11c1f30aad8fbf3c6c7552a9a29",
-    "semantic_hash": "d287a11c1f30aad8fbf3c6c7552a9a29"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_ingame_3/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "df21a754e68aab14c4d37b494d5c5dcd",
-    "semantic_hash": "df21a754e68aab14c4d37b494d5c5dcd"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_ingame_3/README.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "732bc01a1b8bf9af9245e2aa03bb706d",
-    "semantic_hash": "732bc01a1b8bf9af9245e2aa03bb706d"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_ingame_3/progress.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "2ae0bf5d322214c39f9ac90a65bafb11",
-    "semantic_hash": "2ae0bf5d322214c39f9ac90a65bafb11"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_1/BRIEFING.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "fa8fdb866caa0fdcdd214beb2e69bdf4",
-    "semantic_hash": "fa8fdb866caa0fdcdd214beb2e69bdf4"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_1/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "2096a20058cc73292e472416069c1be1",
-    "semantic_hash": "2096a20058cc73292e472416069c1be1"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_1/README.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "d7e6817905096adf531f0fb6412b47f6",
-    "semantic_hash": "d7e6817905096adf531f0fb6412b47f6"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_1/handoff.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "009d9cdcb1ac78aeee651c368eaa4031",
-    "semantic_hash": "009d9cdcb1ac78aeee651c368eaa4031"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_1/progress.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "9c58398b42d73aec82ff19e5e24d634f",
-    "semantic_hash": "9c58398b42d73aec82ff19e5e24d634f"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_1/proposed_PROJECT.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "d52b89d9f883dbc7a35b71702ae46ee6",
-    "semantic_hash": "d52b89d9f883dbc7a35b71702ae46ee6"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_2/BRIEFING.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "40393c54c1ea9ee8242029ad09240822",
-    "semantic_hash": "40393c54c1ea9ee8242029ad09240822"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_2/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "d0edf992e386b1318297fc28c7d9433b",
-    "semantic_hash": "d0edf992e386b1318297fc28c7d9433b"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_2/README.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "aec859badb644f1b194ca4dde160a381",
-    "semantic_hash": "aec859badb644f1b194ca4dde160a381"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_2/handoff.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "0c444bf8b69933b2d04398a20c41ca68",
-    "semantic_hash": "0c444bf8b69933b2d04398a20c41ca68"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_2/progress.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "52b620b27fab34cacabd7f93514b9c9a",
-    "semantic_hash": "52b620b27fab34cacabd7f93514b9c9a"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_2/proposed_PROJECT.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "c091dc0786917467e82a4641171741f0",
-    "semantic_hash": "c091dc0786917467e82a4641171741f0"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_3/BRIEFING.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "addbf57a66ade75e278d8f329233257c",
-    "semantic_hash": "addbf57a66ade75e278d8f329233257c"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_3/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "15327ec693bc83b9e17cc1c3e2c44ce0",
-    "semantic_hash": "15327ec693bc83b9e17cc1c3e2c44ce0"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_3/README.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "a80016ac0652f835f3f494c07f1af7cc",
-    "semantic_hash": "a80016ac0652f835f3f494c07f1af7cc"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_3/handoff.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "fad6d350ec6b6f663c5d39f705226cc6",
-    "semantic_hash": "fad6d350ec6b6f663c5d39f705226cc6"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_3/progress.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "63592610ff074f6678ace2905e0cae94",
-    "semantic_hash": "63592610ff074f6678ace2905e0cae94"
-  },
-  "/home/bankrupt/score-board/.agents/explorer_setup_3/proposed_PROJECT.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "aa0578d7c701d133e5585e8f4cfd74c2",
-    "semantic_hash": "aa0578d7c701d133e5585e8f4cfd74c2"
-  },
-  "/home/bankrupt/score-board/.agents/handoff.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "082e3c762a2adfd4c3f7a863282706dd",
-    "semantic_hash": "082e3c762a2adfd4c3f7a863282706dd"
-  },
-  "/home/bankrupt/score-board/.agents/orchestrator/BRIEFING.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "5a6b649aed203428334cfbbf858c5292",
-    "semantic_hash": "5a6b649aed203428334cfbbf858c5292"
-  },
-  "/home/bankrupt/score-board/.agents/orchestrator/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "53f95ee4a5743e0a01cb01f4556246af",
-    "semantic_hash": "53f95ee4a5743e0a01cb01f4556246af"
-  },
-  "/home/bankrupt/score-board/.agents/orchestrator/plan.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "bf2e95f520b16ffe341ef23e0777cb2a",
-    "semantic_hash": "bf2e95f520b16ffe341ef23e0777cb2a"
-  },
-  "/home/bankrupt/score-board/.agents/orchestrator/progress.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "1ee7755394b10061408a536407dae550",
-    "semantic_hash": "1ee7755394b10061408a536407dae550"
-  },
-  "/home/bankrupt/score-board/.agents/reviewer_setup_1/BRIEFING.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "bcb9f8b18c18c51da17bd10c0b550c72",
-    "semantic_hash": "bcb9f8b18c18c51da17bd10c0b550c72"
-  },
-  "/home/bankrupt/score-board/.agents/reviewer_setup_1/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "cb99470a05354b89c61c2bd4087f1a41",
-    "semantic_hash": "cb99470a05354b89c61c2bd4087f1a41"
-  },
-  "/home/bankrupt/score-board/.agents/reviewer_setup_1/README.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "39fd8848b7f8743676567c3a48d804ce",
-    "semantic_hash": "39fd8848b7f8743676567c3a48d804ce"
-  },
-  "/home/bankrupt/score-board/.agents/reviewer_setup_1/handoff.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "039ebc15b4ae022f7153c83bd7437fab",
-    "semantic_hash": "039ebc15b4ae022f7153c83bd7437fab"
-  },
-  "/home/bankrupt/score-board/.agents/reviewer_setup_1/progress.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "f8e19f648a36167db2360b18e4d2a2f2",
-    "semantic_hash": "f8e19f648a36167db2360b18e4d2a2f2"
-  },
-  "/home/bankrupt/score-board/.agents/reviewer_setup_2/BRIEFING.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "58bdabf750815c78994947dfd6e81aa1",
-    "semantic_hash": "58bdabf750815c78994947dfd6e81aa1"
-  },
-  "/home/bankrupt/score-board/.agents/reviewer_setup_2/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "fc594b9d1379d46a2eadbf01cfd9fc49",
-    "semantic_hash": "fc594b9d1379d46a2eadbf01cfd9fc49"
-  },
-  "/home/bankrupt/score-board/.agents/reviewer_setup_2/README.md": {
-    "mtime": 1781251799.7383134,
-    "ast_hash": "6274af093f4b08047b773024fe47e1c1",
-    "semantic_hash": "6274af093f4b08047b773024fe47e1c1"
-  },
-  "/home/bankrupt/score-board/.agents/reviewer_setup_2/handoff.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "07fba2c5c7181bb716ca64232a0351bb",
-    "semantic_hash": "07fba2c5c7181bb716ca64232a0351bb"
-  },
-  "/home/bankrupt/score-board/.agents/reviewer_setup_2/progress.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "7bace5e1a744c24ffe087f10ff3a518d",
-    "semantic_hash": "7bace5e1a744c24ffe087f10ff3a518d"
-  },
-  "/home/bankrupt/score-board/.agents/reviewer_setup_fixed_1/BRIEFING.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "eae5c9a097d90d95e539587dd8bdbca0",
-    "semantic_hash": "eae5c9a097d90d95e539587dd8bdbca0"
-  },
-  "/home/bankrupt/score-board/.agents/reviewer_setup_fixed_1/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "371c76379f908caf1d8652089008f33c",
-    "semantic_hash": "371c76379f908caf1d8652089008f33c"
-  },
-  "/home/bankrupt/score-board/.agents/reviewer_setup_fixed_1/README.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "be183d7681e5e4c6ea5f9e4aad246be2",
-    "semantic_hash": "be183d7681e5e4c6ea5f9e4aad246be2"
-  },
-  "/home/bankrupt/score-board/.agents/reviewer_setup_fixed_1/progress.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "00474ca73c8ea1742255e6c63ab881f1",
-    "semantic_hash": "00474ca73c8ea1742255e6c63ab881f1"
-  },
-  "/home/bankrupt/score-board/.agents/reviewer_setup_fixed_2/BRIEFING.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "73a0b0516543d53aa18073556cd48951",
-    "semantic_hash": "73a0b0516543d53aa18073556cd48951"
-  },
-  "/home/bankrupt/score-board/.agents/reviewer_setup_fixed_2/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "c5a556fef97917f8e016c2fed63e8d4c",
-    "semantic_hash": "c5a556fef97917f8e016c2fed63e8d4c"
-  },
-  "/home/bankrupt/score-board/.agents/reviewer_setup_fixed_2/README.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "c8bf06eb5db9dda07e8f7b8a1e25e9fe",
-    "semantic_hash": "c8bf06eb5db9dda07e8f7b8a1e25e9fe"
-  },
-  "/home/bankrupt/score-board/.agents/reviewer_setup_fixed_2/handoff.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "3934ccffc55353754655242b551dab8d",
-    "semantic_hash": "3934ccffc55353754655242b551dab8d"
-  },
-  "/home/bankrupt/score-board/.agents/reviewer_setup_fixed_2/progress.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "d2b087a73a6b6da0c9bc2be9d5a3d55a",
-    "semantic_hash": "d2b087a73a6b6da0c9bc2be9d5a3d55a"
-  },
-  "/home/bankrupt/score-board/.agents/sub_orch_e2e/BRIEFING.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "5e76f70f2557bc299ff76ae6e8a7c863",
-    "semantic_hash": "5e76f70f2557bc299ff76ae6e8a7c863"
-  },
-  "/home/bankrupt/score-board/.agents/sub_orch_e2e/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "b46e29833a82dec264d77fe5072ef5ff",
-    "semantic_hash": "b46e29833a82dec264d77fe5072ef5ff"
-  },
-  "/home/bankrupt/score-board/.agents/sub_orch_e2e/SCOPE.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "9147d9f296ffbe6914a7c7fc841f41d5",
-    "semantic_hash": "9147d9f296ffbe6914a7c7fc841f41d5"
-  },
-  "/home/bankrupt/score-board/.agents/sub_orch_e2e/TEST_INFRA_draft.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "98cc09b4085eaff873cfe7da64836229",
-    "semantic_hash": "98cc09b4085eaff873cfe7da64836229"
-  },
-  "/home/bankrupt/score-board/.agents/sub_orch_e2e/TEST_READY_draft.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "d58d35be57ea7c5193008c9051bff0eb",
-    "semantic_hash": "d58d35be57ea7c5193008c9051bff0eb"
-  },
-  "/home/bankrupt/score-board/.agents/sub_orch_e2e/handoff.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "c8621b8c032fc5bd3e216e5bb1a65fad",
-    "semantic_hash": "c8621b8c032fc5bd3e216e5bb1a65fad"
-  },
-  "/home/bankrupt/score-board/.agents/sub_orch_e2e/progress.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "d6b99ddec235346e3d66f3077ed550f4",
-    "semantic_hash": "d6b99ddec235346e3d66f3077ed550f4"
-  },
-  "/home/bankrupt/score-board/.agents/sub_orch_e2e/tier1_draft.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "6221d56aed6686ae6c9b03427325401b",
-    "semantic_hash": "6221d56aed6686ae6c9b03427325401b"
-  },
-  "/home/bankrupt/score-board/.agents/sub_orch_e2e/tier2_draft.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "77cb2c54a1bebccd5ef29eccab8eade8",
-    "semantic_hash": "77cb2c54a1bebccd5ef29eccab8eade8"
-  },
-  "/home/bankrupt/score-board/.agents/sub_orch_e2e/tier3_draft.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "73845fd32bd091e91d5134b1d8a34428",
-    "semantic_hash": "73845fd32bd091e91d5134b1d8a34428"
-  },
-  "/home/bankrupt/score-board/.agents/sub_orch_e2e/tier4_draft.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "4b22f83fc38a992956428fd854e75399",
-    "semantic_hash": "4b22f83fc38a992956428fd854e75399"
-  },
-  "/home/bankrupt/score-board/.agents/sub_orch_impl/BRIEFING.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "2170c9fcd35ffd0318482a285b647360",
-    "semantic_hash": "2170c9fcd35ffd0318482a285b647360"
-  },
-  "/home/bankrupt/score-board/.agents/sub_orch_impl/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "494bc5c60b5e083f7e8e18ebc1d8ff01",
-    "semantic_hash": "494bc5c60b5e083f7e8e18ebc1d8ff01"
-  },
-  "/home/bankrupt/score-board/.agents/sub_orch_impl/SCOPE.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "ec60dfc6f2f00a0e7857d322ab8c357e",
-    "semantic_hash": "ec60dfc6f2f00a0e7857d322ab8c357e"
-  },
-  "/home/bankrupt/score-board/.agents/sub_orch_impl/handoff.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "9762936a0032de8f63062d906972a2f5",
-    "semantic_hash": "9762936a0032de8f63062d906972a2f5"
-  },
-  "/home/bankrupt/score-board/.agents/sub_orch_impl/progress.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "d5fa6df07dbe341c4150b20568f7ffca",
-    "semantic_hash": "d5fa6df07dbe341c4150b20568f7ffca"
-  },
-  "/home/bankrupt/score-board/.agents/worker_fix_setup/BRIEFING.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "4a774320524b8ef029c3fbef085c8e14",
-    "semantic_hash": "4a774320524b8ef029c3fbef085c8e14"
-  },
-  "/home/bankrupt/score-board/.agents/worker_fix_setup/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "9f9749f8889420cfa0f96dc8f5d096a7",
-    "semantic_hash": "9f9749f8889420cfa0f96dc8f5d096a7"
-  },
-  "/home/bankrupt/score-board/.agents/worker_fix_setup/README.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "e8d64d281839754842daf459b117f278",
-    "semantic_hash": "e8d64d281839754842daf459b117f278"
-  },
-  "/home/bankrupt/score-board/.agents/worker_fix_setup/handoff.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "863bf15fabf8d7f128a522f6af1278c8",
-    "semantic_hash": "863bf15fabf8d7f128a522f6af1278c8"
-  },
-  "/home/bankrupt/score-board/.agents/worker_fix_setup/progress.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "53c4e905922562adf37adb81bdc17b29",
-    "semantic_hash": "53c4e905922562adf37adb81bdc17b29"
-  },
-  "/home/bankrupt/score-board/.agents/worker_ingame_base/BRIEFING.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "3cca2bf5ccac8ff35476933103035550",
-    "semantic_hash": "3cca2bf5ccac8ff35476933103035550"
-  },
-  "/home/bankrupt/score-board/.agents/worker_ingame_base/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "5e688eeaedfd3563c0f4d6f6c132e82d",
-    "semantic_hash": "5e688eeaedfd3563c0f4d6f6c132e82d"
-  },
-  "/home/bankrupt/score-board/.agents/worker_ingame_base/progress.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "d5a612b1ff5d069e66653977fb88b941",
-    "semantic_hash": "d5a612b1ff5d069e66653977fb88b941"
-  },
-  "/home/bankrupt/score-board/.agents/worker_publish_docs/BRIEFING.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "9cc5f5a312e49e8770f9b88d42d5fae4",
-    "semantic_hash": "9cc5f5a312e49e8770f9b88d42d5fae4"
-  },
-  "/home/bankrupt/score-board/.agents/worker_publish_docs/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "5ae7c0bff164bc5ea7aa32fff580a5f4",
-    "semantic_hash": "5ae7c0bff164bc5ea7aa32fff580a5f4"
-  },
-  "/home/bankrupt/score-board/.agents/worker_publish_docs/handoff.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "017f26546a346e033cbbbdd24a96f591",
-    "semantic_hash": "017f26546a346e033cbbbdd24a96f591"
-  },
-  "/home/bankrupt/score-board/.agents/worker_publish_docs/progress.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "07c373dce1832cb26c0f2e03d4a1aee2",
-    "semantic_hash": "07c373dce1832cb26c0f2e03d4a1aee2"
-  },
-  "/home/bankrupt/score-board/.agents/worker_setup/BRIEFING.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "2358b392eeeee719e023604642e420bf",
-    "semantic_hash": "2358b392eeeee719e023604642e420bf"
-  },
-  "/home/bankrupt/score-board/.agents/worker_setup/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "394bb0dc03633727dc95b94efaee13ae",
-    "semantic_hash": "394bb0dc03633727dc95b94efaee13ae"
-  },
-  "/home/bankrupt/score-board/.agents/worker_setup/README.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "c2598df59144767acb6367d4b376ff40",
-    "semantic_hash": "c2598df59144767acb6367d4b376ff40"
-  },
-  "/home/bankrupt/score-board/.agents/worker_setup/handoff.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "d4e6c4b78f0a0885d5311725956d90fc",
-    "semantic_hash": "d4e6c4b78f0a0885d5311725956d90fc"
-  },
-  "/home/bankrupt/score-board/.agents/worker_setup/progress.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "f9f0d8828a9da27df26471d6f91195d8",
-    "semantic_hash": "f9f0d8828a9da27df26471d6f91195d8"
-  },
-  "/home/bankrupt/score-board/.agents/worker_setup_e2e/BRIEFING.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "726fd8ba628df35349a615f0d81b971c",
-    "semantic_hash": "726fd8ba628df35349a615f0d81b971c"
-  },
-  "/home/bankrupt/score-board/.agents/worker_setup_e2e/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "66ef4c72494eb0685dade3a85346c7dc",
-    "semantic_hash": "66ef4c72494eb0685dade3a85346c7dc"
-  },
-  "/home/bankrupt/score-board/.agents/worker_setup_e2e/handoff.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "b5c18177894437bf8aa39d0607c8dfd8",
-    "semantic_hash": "b5c18177894437bf8aa39d0607c8dfd8"
-  },
-  "/home/bankrupt/score-board/.agents/worker_setup_e2e/progress.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "904d0ba0f83eb3caa02bc48b41a25393",
-    "semantic_hash": "904d0ba0f83eb3caa02bc48b41a25393"
-  },
-  "/home/bankrupt/score-board/.agents/worker_test_run/BRIEFING.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "9ec1292b08924279e19884a3c3d109c6",
-    "semantic_hash": "9ec1292b08924279e19884a3c3d109c6"
-  },
-  "/home/bankrupt/score-board/.agents/worker_test_run/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "3d11d2b3e37694157d5269674ea019ac",
-    "semantic_hash": "3d11d2b3e37694157d5269674ea019ac"
-  },
-  "/home/bankrupt/score-board/.agents/worker_test_run/handoff.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "469ce40b391636824f8394092d9d2066",
-    "semantic_hash": "469ce40b391636824f8394092d9d2066"
-  },
-  "/home/bankrupt/score-board/.agents/worker_test_run/progress.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "a0f8f16823f9021615a3223b082d9bd7",
-    "semantic_hash": "a0f8f16823f9021615a3223b082d9bd7"
-  },
-  "/home/bankrupt/score-board/.agents/worker_tests_creation/BRIEFING.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "9d893314c6586daf6e040ace9faa6ce5",
-    "semantic_hash": "9d893314c6586daf6e040ace9faa6ce5"
-  },
-  "/home/bankrupt/score-board/.agents/worker_tests_creation/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "9d718467fd1c2245e3b8e078e425717f",
-    "semantic_hash": "9d718467fd1c2245e3b8e078e425717f"
-  },
-  "/home/bankrupt/score-board/.agents/worker_tests_creation/progress.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "de075e38a40183c1906322cf89603bc8",
-    "semantic_hash": "de075e38a40183c1906322cf89603bc8"
-  },
-  "/home/bankrupt/score-board/AGENTS.md": {
-    "mtime": 1781682273.267557,
+  "AGENTS.md": {
+    "mtime": 1781707088.9431229,
     "ast_hash": "951add1000749771333cea15705cf99c",
     "semantic_hash": "951add1000749771333cea15705cf99c"
   },
-  "/home/bankrupt/score-board/CLAUDE.md": {
-    "mtime": 1781251799.7416468,
+  "CLAUDE.md": {
+    "mtime": 1781074291.0401478,
     "ast_hash": "5c27369b226fcf2be8a6cfe52224e767",
     "semantic_hash": "5c27369b226fcf2be8a6cfe52224e767"
   },
-  "/home/bankrupt/score-board/ORIGINAL_REQUEST.md": {
-    "mtime": 1781251799.7416468,
-    "ast_hash": "29039c53f731f007a3033f0fd8b965f7",
-    "semantic_hash": "29039c53f731f007a3033f0fd8b965f7"
-  },
-  "/home/bankrupt/score-board/PROJECT.md": {
-    "mtime": 1781680128.1247866,
-    "ast_hash": "788632454b45bc6d0ca68cb1d6a3bdf6",
-    "semantic_hash": "788632454b45bc6d0ca68cb1d6a3bdf6"
-  },
-  "/home/bankrupt/score-board/README.md": {
-    "mtime": 1781251799.7416468,
+  "README.md": {
+    "mtime": 1781074207.5897613,
     "ast_hash": "f15aaa42d5d299d091b1171097ea56ad",
     "semantic_hash": "f15aaa42d5d299d091b1171097ea56ad"
   },
-  "/home/bankrupt/score-board/TEST_INFRA.md": {
-    "mtime": 1781251799.7416468,
+  "docs/ORIGINAL_REQUEST.md": {
+    "mtime": 1781150622.3221583,
+    "ast_hash": "29039c53f731f007a3033f0fd8b965f7",
+    "semantic_hash": "29039c53f731f007a3033f0fd8b965f7"
+  },
+  "docs/PROJECT.md": {
+    "mtime": 1781707088.9431229,
+    "ast_hash": "788632454b45bc6d0ca68cb1d6a3bdf6",
+    "semantic_hash": "788632454b45bc6d0ca68cb1d6a3bdf6"
+  },
+  "docs/TEST_INFRA.md": {
+    "mtime": 1781164236.343462,
     "ast_hash": "98cc09b4085eaff873cfe7da64836229",
     "semantic_hash": "98cc09b4085eaff873cfe7da64836229"
   },
-  "/home/bankrupt/score-board/TEST_READY.md": {
-    "mtime": 1781251799.7416468,
+  "docs/TEST_READY.md": {
+    "mtime": 1781164238.4154794,
     "ast_hash": "d58d35be57ea7c5193008c9051bff0eb",
     "semantic_hash": "d58d35be57ea7c5193008c9051bff0eb"
   },
-  "/home/bankrupt/score-board/docs/score-history-undo-redo-plan.md": {
-    "mtime": 1781774771.8310876,
+  "docs/score-history-undo-redo-plan.md": {
+    "mtime": 1781950295.2446008,
     "ast_hash": "a8b3d30f5dd2b4499da0a9ee17fc4055",
     "semantic_hash": "a8b3d30f5dd2b4499da0a9ee17fc4055"
   },
-  "/home/bankrupt/score-board/design/Create New Game_Design.png": {
-    "mtime": 1781251799.7416468,
+  "design/Create New Game_Design.png": {
+    "mtime": 1781150358.2293725,
     "ast_hash": "10ef2e27a5a6b2a8b62b19ad0a2e279d",
     "semantic_hash": "10ef2e27a5a6b2a8b62b19ad0a2e279d"
   },
-  "/home/bankrupt/score-board/design/Home_Design.png": {
-    "mtime": 1781251799.7416468,
+  "design/Home_Design.png": {
+    "mtime": 1781150358.2561998,
     "ast_hash": "6bb67ecd8014d5ec1064ac9ff6c66a9b",
     "semantic_hash": "6bb67ecd8014d5ec1064ac9ff6c66a9b"
   },
-  "/home/bankrupt/score-board/design/Live Scoreboard_Design.png": {
-    "mtime": 1781251799.7416468,
+  "design/Live Scoreboard_Design.png": {
+    "mtime": 1781150366.9882033,
     "ast_hash": "10caca68b49060e18c64e20e6306b02a",
     "semantic_hash": "10caca68b49060e18c64e20e6306b02a"
   },
-  "/home/bankrupt/score-board/public/player-avatar/Blue.webp": {
-    "mtime": 1781688266.924015,
+  "public/player-avatar/Blue.webp": {
+    "mtime": 1781707088.9479847,
     "ast_hash": "6f297f2dcde002cab9f0e4a053b825dd",
     "semantic_hash": "6f297f2dcde002cab9f0e4a053b825dd"
   },
-  "/home/bankrupt/score-board/public/player-avatar/Cyan.webp": {
-    "mtime": 1781688266.924015,
+  "public/player-avatar/Cyan.webp": {
+    "mtime": 1781707088.9481378,
     "ast_hash": "5ec8571a3f4e9d5bc06784b0ae22a1cb",
     "semantic_hash": "5ec8571a3f4e9d5bc06784b0ae22a1cb"
   },
-  "/home/bankrupt/score-board/public/player-avatar/Green.webp": {
-    "mtime": 1781688266.924015,
+  "public/player-avatar/Green.webp": {
+    "mtime": 1781707088.9481378,
     "ast_hash": "c4ffb67066ba3cc0b00f0ec58329b23b",
     "semantic_hash": "c4ffb67066ba3cc0b00f0ec58329b23b"
   },
-  "/home/bankrupt/score-board/public/player-avatar/Lime.webp": {
-    "mtime": 1781688266.924015,
+  "public/player-avatar/Lime.webp": {
+    "mtime": 1781707088.9481378,
     "ast_hash": "91caef8942ee6e74420cc53387f23cfb",
     "semantic_hash": "91caef8942ee6e74420cc53387f23cfb"
   },
-  "/home/bankrupt/score-board/public/player-avatar/Orange.webp": {
-    "mtime": 1781688266.924015,
+  "public/player-avatar/Orange.webp": {
+    "mtime": 1781707088.9481378,
     "ast_hash": "86f7121f19ace716305fa8125731ab81",
     "semantic_hash": "86f7121f19ace716305fa8125731ab81"
   },
-  "/home/bankrupt/score-board/public/player-avatar/Pink.webp": {
-    "mtime": 1781688266.924015,
+  "public/player-avatar/Pink.webp": {
+    "mtime": 1781707088.9481378,
     "ast_hash": "68882edc9a5237b3f2dc1ebd201f2d01",
     "semantic_hash": "68882edc9a5237b3f2dc1ebd201f2d01"
   },
-  "/home/bankrupt/score-board/public/player-avatar/Purple.webp": {
-    "mtime": 1781688266.924015,
+  "public/player-avatar/Purple.webp": {
+    "mtime": 1781707088.9481378,
     "ast_hash": "448945c09cf2ebc51d1c60962dbde9e1",
     "semantic_hash": "448945c09cf2ebc51d1c60962dbde9e1"
   },
-  "/home/bankrupt/score-board/public/player-avatar/Red.webp": {
-    "mtime": 1781688266.924015,
+  "public/player-avatar/Red.webp": {
+    "mtime": 1781707088.9481378,
     "ast_hash": "0ee7753025f6da5159f29a065efeb6de",
     "semantic_hash": "0ee7753025f6da5159f29a065efeb6de"
   },
-  "/home/bankrupt/score-board/public/player-avatar/Rose.webp": {
-    "mtime": 1781688266.924015,
+  "public/player-avatar/Rose.webp": {
+    "mtime": 1781707088.9481378,
     "ast_hash": "c629aed9380186206115a6506c348f02",
     "semantic_hash": "c629aed9380186206115a6506c348f02"
   },
-  "/home/bankrupt/score-board/public/player-avatar/Sky.webp": {
-    "mtime": 1781688266.924015,
+  "public/player-avatar/Sky.webp": {
+    "mtime": 1781707088.9481378,
     "ast_hash": "ddc9d78f7e31a4cd10009d650dbf27a1",
     "semantic_hash": "ddc9d78f7e31a4cd10009d650dbf27a1"
   },
-  "/home/bankrupt/score-board/public/player-avatar/Violet.webp": {
-    "mtime": 1781688266.924015,
+  "public/player-avatar/Violet.webp": {
+    "mtime": 1781707088.9481378,
     "ast_hash": "b58bee6165890131bdb133b7b25303bd",
     "semantic_hash": "b58bee6165890131bdb133b7b25303bd"
   },
-  "/home/bankrupt/score-board/public/player-avatar/Yellow.webp": {
-    "mtime": 1781688266.924015,
+  "public/player-avatar/Yellow.webp": {
+    "mtime": 1781707088.9481378,
     "ast_hash": "873df09a9f0797bc410c8d556cbd898e",
     "semantic_hash": "873df09a9f0797bc410c8d556cbd898e"
   }

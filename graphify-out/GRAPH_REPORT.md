@@ -1,72 +1,47 @@
-# Graph Report - .  (2026-06-19)
+# Graph Report - .  (2026-06-28)
 
 ## Corpus Check
-- 199 files · ~86,163 words
-- Verdict: corpus is large enough that graph structure adds value.
+- Corpus is ~37,912 words - fits in a single context window. You may not need a graph.
 
 ## Summary
-- 397 nodes · 509 edges · 52 communities (31 shown, 21 thin omitted)
-- Extraction: 96% EXTRACTED · 4% INFERRED · 0% AMBIGUOUS · INFERRED: 21 edges (avg confidence: 0.81)
-- Token cost: 15,000 input · 8,500 output
+- 256 nodes · 373 edges · 30 communities (21 shown, 9 thin omitted)
+- Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 21 edges (avg confidence: 0.92)
+- Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
-- [[_COMMUNITY_Game Components|Game Components]]
-- [[_COMMUNITY_Animation System|Animation System]]
-- [[_COMMUNITY_Package Dependencies|Package Dependencies]]
-- [[_COMMUNITY_Setup Screen Implementation|Setup Screen Implementation]]
-- [[_COMMUNITY_TypeScript Configuration|TypeScript Configuration]]
-- [[_COMMUNITY_Setup Screen Exploration|Setup Screen Exploration]]
-- [[_COMMUNITY_Project Documentation|Project Documentation]]
-- [[_COMMUNITY_Components Configuration|Components Configuration]]
-- [[_COMMUNITY_Layout Components|Layout Components]]
-- [[_COMMUNITY_In-Game Screen Exploration|In-Game Screen Exploration]]
-- [[_COMMUNITY_Bug Reports|Bug Reports]]
-- [[_COMMUNITY_Implementation Orchestration|Implementation Orchestration]]
-- [[_COMMUNITY_E2E Testing Architecture|E2E Testing Architecture]]
-- [[_COMMUNITY_Validation Fixes|Validation Fixes]]
-- [[_COMMUNITY_GameState Context|GameState Context]]
-- [[_COMMUNITY_E2E Testing Methodology|E2E Testing Methodology]]
-- [[_COMMUNITY_Test Creation Workflow|Test Creation Workflow]]
-- [[_COMMUNITY_App Layout|App Layout]]
-- [[_COMMUNITY_Four-Tier Testing|Four-Tier Testing]]
-- [[_COMMUNITY_Screen State Management|Screen State Management]]
-- [[_COMMUNITY_Test Execution|Test Execution]]
-- [[_COMMUNITY_Project Origins|Project Origins]]
-- [[_COMMUNITY_E2E Testing Documentation|E2E Testing Documentation]]
-- [[_COMMUNITY_E2E Test Setup|E2E Test Setup]]
-- [[_COMMUNITY_Quality Assurance|Quality Assurance]]
-- [[_COMMUNITY_Development Strategy|Development Strategy]]
-- [[_COMMUNITY_ESLint Configuration|ESLint Configuration]]
-- [[_COMMUNITY_Next.js Configuration|Next.js Configuration]]
-- [[_COMMUNITY_PostCSS Configuration|PostCSS Configuration]]
-- [[_COMMUNITY_Orchestrator Request|Orchestrator Request]]
-- [[_COMMUNITY_Orchestrator Progress|Orchestrator Progress]]
-- [[_COMMUNITY_Code Review Briefing|Code Review Briefing]]
-- [[_COMMUNITY_Code Review Request|Code Review Request]]
-- [[_COMMUNITY_Code Review Progress|Code Review Progress]]
-- [[_COMMUNITY_Review Progress Update|Review Progress Update]]
-- [[_COMMUNITY_Review Fix Briefing|Review Fix Briefing]]
-- [[_COMMUNITY_Review Fix Progress|Review Fix Progress]]
-- [[_COMMUNITY_Second Review Briefing|Second Review Briefing]]
-- [[_COMMUNITY_Second Review Progress|Second Review Progress]]
-- [[_COMMUNITY_Claude Instructions|Claude Instructions]]
-- [[_COMMUNITY_Project Readme|Project Readme]]
-- [[_COMMUNITY_E2E Orchestration Briefing|E2E Orchestration Briefing]]
-- [[_COMMUNITY_E2E Orchestration Request|E2E Orchestration Request]]
-- [[_COMMUNITY_E2E Orchestration Progress|E2E Orchestration Progress]]
-- [[_COMMUNITY_E2E Test Readiness|E2E Test Readiness]]
+- [[_COMMUNITY_Screen Routing & State|Screen Routing & State]]
+- [[_COMMUNITY_In-Game UI & Player Dialog|In-Game UI & Player Dialog]]
+- [[_COMMUNITY_Bulk Actions & HomeFooter|Bulk Actions & Home/Footer]]
+- [[_COMMUNITY_Dev Dependencies & Tooling|Dev Dependencies & Tooling]]
+- [[_COMMUNITY_TypeScript Config|TypeScript Config]]
+- [[_COMMUNITY_shadcnui Config|shadcn/ui Config]]
+- [[_COMMUNITY_Feature Inventory (Docs)|Feature Inventory (Docs)]]
+- [[_COMMUNITY_Player Card & Ball Visuals|Player Card & Ball Visuals]]
+- [[_COMMUNITY_Acceptance Criteria (Docs)|Acceptance Criteria (Docs)]]
+- [[_COMMUNITY_Runtime Dependencies|Runtime Dependencies]]
+- [[_COMMUNITY_Project Guidelines (Docs)|Project Guidelines (Docs)]]
+- [[_COMMUNITY_Root Layout & Metadata|Root Layout & Metadata]]
+- [[_COMMUNITY_OpenCode Plugin Config|OpenCode Plugin Config]]
+- [[_COMMUNITY_OpenCode Plugin Dependency|OpenCode Plugin Dependency]]
+- [[_COMMUNITY_Project Overview (Docs)|Project Overview (Docs)]]
+- [[_COMMUNITY_ESLint Config|ESLint Config]]
+- [[_COMMUNITY_Next.js Config|Next.js Config]]
+- [[_COMMUNITY_PostCSS Config|PostCSS Config]]
+- [[_COMMUNITY_Player Avatar Assets|Player Avatar Assets]]
+- [[_COMMUNITY_CLAUDE Config Reference|CLAUDE Config Reference]]
+- [[_COMMUNITY_README|README]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `useGameState()` - 16 edges
-2. `compilerOptions` - 16 edges
-3. `Milestone 2 In-Game Screen Base Implementation` - 15 edges
-4. `Milestone 1 Setup Screen Implementation` - 15 edges
-5. `cn()` - 11 edges
-6. `useReducedMotion()` - 9 edges
-7. `Button` - 8 edges
-8. `createSafeVariants()` - 8 edges
-9. `E2E Test Infrastructure Draft` - 7 edges
-10. `AGENTS.md - ScoreBoard Project Guidelines` - 7 edges
+1. `compilerOptions` - 16 edges
+2. `Feature Inventory (8 Features)` - 14 edges
+3. `useReducedMotion()` - 11 edges
+4. `cn()` - 11 edges
+5. `createSafeVariants()` - 10 edges
+6. `Button` - 9 edges
+7. `tailwind` - 6 edges
+8. `aliases` - 6 edges
+9. `scripts` - 6 edges
+10. `AGENTS.md - ScoreBoard Project Guidelines` - 5 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Create New Game Screen Design` --exemplifies--> `Mobile-First Design Philosophy`  [EXTRACTED]
@@ -75,148 +50,91 @@
   design/Home_Design.png → AGENTS.md
 - `Live Scoreboard Screen Design` --exemplifies--> `Mobile-First Design Philosophy`  [EXTRACTED]
   design/Live Scoreboard_Design.png → AGENTS.md
-- `HomeScreen()` --calls--> `useGameState()`  [EXTRACTED]
-  .agents/explorer_setup_1/proposed_HomeScreen.tsx → hooks/useGameState.ts
-- `SetupScreen()` --calls--> `useGameState()`  [EXTRACTED]
-  .agents/explorer_setup_1/proposed_SetupScreen.tsx → hooks/useGameState.ts
+- `DialogFooter()` --calls--> `cn()`  [EXTRACTED]
+  components/ui/dialog.tsx → lib/utils.ts
+- `Score History Feature with Undo/Redo` --extends--> `Game Data Model`  [INFERRED]
+  docs/score-history-undo-redo-plan.md → AGENTS.md
 
 ## Import Cycles
 - None detected.
 
 ## Hyperedges (group relationships)
-- **Multi-Agent Verification Workflow for Milestone 1** — agents_sentinel, forensic_auditor_archetype, challenger_archetype, milestone_1_audit_clean, milestone_1_fixed_clean [EXTRACTED 0.90]
-- **Bug Discovery and Resolution Cycle** — playerdialog_color_bug, palette_limit_bug, react_async_state_bug, accessibility_gap_inputs, colorduplicate_fix, palette_expansion_fix, accessibility_fix [EXTRACTED 0.95]
-- **Milestone 2 Explorer Triad Collaboration** — explorer_ingame_1_original_request, explorer_ingame_2_original_request, explorer_ingame_3_original_request, milestone_2_ingame_screen [EXTRACTED 0.95]
-- **Milestone 1 Explorer Triad Collaboration** — explorer_setup_1_original_request, explorer_setup_2_original_request, explorer_setup_3_original_request, milestone_1_setup_screen [EXTRACTED 0.95]
-- **In-Game Screen Design Pattern Collection** — ingame_component_design, leader_calculation_algorithm, accessibility_implementation, color_consistency_rule [EXTRACTED 0.90]
-- **Setup Screen Architecture Pattern Collection** — global_state_hook, ssr_hydration_safety, stopwatch_non_blocking, color_uniqueness_validation [EXTRACTED 0.90]
-- **E2E Test Suite Implementation** — sub_orch_e2e_scope, sub_orch_e2e_test_infra, sub_orch_e2e_test_ready, sub_orch_e2e_handoff, tier1_draft, tier2_draft, four_tier_testing, playwright_test_implementation, opaque_box_testing, feature_inventory, test_coverage_thresholds, e2e_feature_coverage, e2e_boundary_testing [EXTRACTED 0.90]
-- **Milestone 1 Review Cycle** — reviewer_setup_1_briefing, reviewer_setup_1_handoff, reviewer_setup_2_briefing, reviewer_setup_2_handoff, duplicate_color_validation_bug, color_palette_exhaustion_bug, adversarial_testing, reviewer_setup_fixed_1_briefing, reviewer_setup_fixed_2_briefing, reviewer_setup_fixed_2_handoff, bug_fix_verification, ssr_hydration_protection, accessibility_labeling, synchronous_validation [EXTRACTED 0.85]
-- **Implementation Workflow Hyperedge** — sub_orch_impl, worker_setup, worker_fix_setup, worker_ingame_base [EXTRACTED 0.80]
-- **E2E Testing Workflow Hyperedge** — worker_setup_e2e, worker_tests_creation, worker_test_run, worker_publish_docs [EXTRACTED 0.80]
-- **Milestone Sequence Hyperedge** — worker_setup, worker_fix_setup, worker_ingame_base [INFERRED 0.75]
 - **ScoreBoard Design System** — scoreboard_mobile_first_design, scoreboard_ui_rules, scoreboard_animation_rules, scoreboard_home_design, scoreboard_create_game_design, scoreboard_live_scoreboard_design [EXTRACTED 0.90]
 - **ScoreBoard Core Features** — scoreboard_data_model, scoreboard_ux_rules, scoreboard_state_management, scoreboard_feature_inventory [EXTRACTED 0.95]
-- **ScoreBoard Testing Framework** — scoreboard_e2e_testing, scoreboard_feature_inventory, scoreboard_test_ready_md [EXTRACTED 0.95]
 - **ScoreBoard History Feature Extension** — scoreboard_score_history_feature, scoreboard_undo_redo_architecture, scoreboard_history_tracking_design, scoreboard_data_model, scoreboard_state_management [EXTRACTED 0.90]
+- **Complete ScoreBoard Feature Set (F1-F8)** — docs_test_infra_f1_game_setup, docs_test_infra_f2_add_player, docs_test_infra_f3_edit_delete_players, docs_test_infra_f4_stopwatch, docs_test_infra_f5_score_actions, docs_test_infra_f6_leader_tracking, docs_test_infra_f7_bulk_selection, docs_test_infra_f8_end_game_persistence [EXTRACTED 1.00]
+- **Four-Tier E2E Test Methodology** — docs_test_infra_tier1, docs_test_infra_tier2, docs_test_infra_tier3, docs_test_infra_tier4, docs_test_infra_methodology [EXTRACTED 1.00]
+- **Central State Management Pattern** — docs_project_usegamestate_hook, docs_project_screen_routing, docs_project_stopwatch_interval, docs_project_localstorage_persistence [EXTRACTED 1.00]
 
-## Communities (52 total, 21 thin omitted)
+## Communities (30 total, 9 thin omitted)
 
-### Community 0 - "Game Components"
-Cohesion: 0.07
-Nodes (34): BulkActionBar(), BulkActionBarProps, BallConfig, COLOR_TO_AVATAR, FOUL_BALLS, PlayerCard(), SNOOKER_BALLS, COLOR_TO_AVATAR (+26 more)
+### Community 0 - "Screen Routing & State"
+Cohesion: 0.10
+Nodes (25): Page(), HistoryScreen(), HomeScreen(), InGameScreen(), SetupScreen(), DraftPlayer, Game, ScoreChange (+17 more)
 
-### Community 1 - "Animation System"
-Cohesion: 0.09
-Nodes (31): Page(), Footer(), FooterProps, BoltIcon(), GamepadIcon(), PencilIcon(), PlusIcon(), TrashIcon() (+23 more)
-
-### Community 2 - "Package Dependencies"
-Cohesion: 0.06
-Nodes (33): dependencies, class-variance-authority, clsx, framer-motion, lucide-react, next, @radix-ui/react-avatar, @radix-ui/react-checkbox (+25 more)
-
-### Community 3 - "Setup Screen Implementation"
+### Community 1 - "In-Game UI & Player Dialog"
 Cohesion: 0.12
-Nodes (15): HomeScreen(), PlayerCardProps, HomeScreen(), MainAppContent(), PALETTE, SetupScreen(), HomeScreen(), InGameScreenPlaceholder() (+7 more)
+Nodes (17): COLOR_TO_AVATAR, PlayerDialog(), PALETTE, dialogVariants, cn(), Avatar, AvatarFallback, AvatarImage (+9 more)
 
-### Community 4 - "TypeScript Configuration"
+### Community 2 - "Bulk Actions & Home/Footer"
+Cohesion: 0.15
+Nodes (17): BulkActionBar(), BulkActionBarProps, Footer(), FooterProps, BoltIcon(), GamepadIcon(), PencilIcon(), PlusIcon() (+9 more)
+
+### Community 3 - "Dev Dependencies & Tooling"
+Cohesion: 0.10
+Nodes (19): devDependencies, eslint, eslint-config-next, @playwright/test, tailwindcss, @tailwindcss/postcss, @types/node, @types/react (+11 more)
+
+### Community 4 - "TypeScript Config"
 Cohesion: 0.10
 Nodes (19): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules, jsx, lib, module (+11 more)
 
-### Community 5 - "Setup Screen Exploration"
-Cohesion: 0.11
-Nodes (19): Color Uniqueness Validation System, Explorer Setup 1 Briefing, Explorer Setup 1 Original Request, Explorer Setup 1 Progress Tracker, Explorer Setup 1 Proposed Project Structure, Explorer Setup 2 Briefing, Explorer Setup 2 Original Request, Explorer Setup 2 Progress Tracker (+11 more)
-
-### Community 6 - "Project Documentation"
-Cohesion: 0.14
-Nodes (19): AGENTS.md - ScoreBoard Project Guidelines, Framer Motion Animation Guidelines, Create New Game Screen Design, Game Data Model, Score History Tracking Design, Home Screen Design Mockup, Live Scoreboard Screen Design, Mobile-First Design Philosophy (+11 more)
-
-### Community 7 - "Components Configuration"
+### Community 5 - "shadcn/ui Config"
 Cohesion: 0.11
 Nodes (17): aliases, components, hooks, lib, ui, utils, iconLibrary, rsc (+9 more)
 
-### Community 8 - "Layout Components"
-Cohesion: 0.17
-Nodes (8): HomeScreen(), SetupScreen(), Page(), DraftPlayer, Game, PALETTE, Player, useGameState()
+### Community 6 - "Feature Inventory (Docs)"
+Cohesion: 0.15
+Nodes (18): Bulk Action Bar, End Game Confirmation Modal, Leader Calculation Logic, Setup Validation Constraints, F1: Game Setup & Creation, F2: Add Player in Setup, F3: Edit & Delete Players, F5: Individual Player Score Actions (+10 more)
 
-### Community 9 - "In-Game Screen Exploration"
+### Community 7 - "Player Card & Ball Visuals"
+Cohesion: 0.15
+Nodes (14): BallConfig, COLOR_TO_AVATAR, FOUL_BALLS, PlayerCard(), PlayerCardProps, SNOOKER_BALLS, Player, Card (+6 more)
+
+### Community 8 - "Acceptance Criteria (Docs)"
 Cohesion: 0.13
-Nodes (16): Accessibility Implementation Strategy, Player Color Consistency Design Pattern, E2E Test Requirements for In-Game Screen, Explorer Ingame 1 Briefing, Explorer Ingame 1 Original Request, Explorer Ingame 1 Progress Tracker, Explorer Ingame 2 Briefing, Explorer Ingame 2 Original Request (+8 more)
+Nodes (16): Acceptance Criteria, R1: UI Implementation & Design Fidelity, R2: Core ScoreBoard Features, R3: State Persistence, R4: E2E Verification Suite, LocalStorage Persistence, Mobile-First Layout, Screen Routing State Machine (+8 more)
 
-### Community 10 - "Bug Reports"
-Cohesion: 0.21
-Nodes (14): Accessibility Label-Input Wiring Fix, Accessibility Input Label Gap, Challenger Agent, Color Lock Bug Confirmation, Color Duplicate Check Fix, Forensic Auditor Agent, Milestone 1 Clean Audit Verdict, Milestone 1 Fixed Clean Verdict (+6 more)
+### Community 9 - "Runtime Dependencies"
+Cohesion: 0.14
+Nodes (14): dependencies, class-variance-authority, clsx, framer-motion, lucide-react, next, @radix-ui/react-avatar, @radix-ui/react-checkbox (+6 more)
 
-### Community 11 - "Implementation Orchestration"
-Cohesion: 0.18
-Nodes (14): Color Palette Expansion Fix, Milestone 2 Implementation Task, Implementation Orchestrator, Implementation Orchestrator Progress, Implementation Scope and Milestones, Synchronous Validation Fix, Worker Fix Setup, Worker Fix Setup Handoff (+6 more)
+### Community 10 - "Project Guidelines (Docs)"
+Cohesion: 0.16
+Nodes (14): AGENTS.md - ScoreBoard Project Guidelines, Framer Motion Animation Guidelines, Create New Game Screen Design, Game Data Model, Score History Tracking Design, Home Screen Design Mockup, Live Scoreboard Screen Design, Mobile-First Design Philosophy (+6 more)
 
-### Community 12 - "E2E Testing Architecture"
-Cohesion: 0.22
-Nodes (10): E2E Testing Verification Plan, GameState Interface, localStorage State Persistence, Project Milestone Tracking, ScoreBoard Project Plan, Player Interface, Playwright E2E Testing Framework, Playwright Test Implementation (+2 more)
-
-### Community 13 - "Validation Fixes"
-Cohesion: 0.25
-Nodes (9): Accessibility Label Implementation, Bug Fix Verification Process, Color Palette Exhaustion Bug, Duplicate Color Validation Bug, Reviewer 1 Handoff Report, Reviewer 2 Handoff Report, Reviewer Fixed 2 Handoff Report, SSR Hydration Mismatch Protection (+1 more)
-
-### Community 14 - "GameState Context"
-Cohesion: 0.22
-Nodes (6): Game, GameStateContext, GameStateContextType, Player, SavedState, ScreenType
-
-### Community 15 - "E2E Testing Methodology"
-Cohesion: 0.25
-Nodes (8): Boundary Value Analysis Testing, Category-Partition Testing, Feature Inventory Management, Opaque-Box Testing Approach, Pairwise Testing, E2E Test Infrastructure Draft, Test Coverage Thresholds, Workload Testing
-
-### Community 16 - "Test Creation Workflow"
-Cohesion: 0.33
-Nodes (7): Tier 3 Cross-Feature Interactions Test Draft, Tier 4 Real-World Scenarios Test Draft, Worker Publish Docs, Worker Publish Docs Handoff, Worker Publish Docs Progress, Worker Tests Creation, Worker Tests Creation Progress
-
-### Community 17 - "App Layout"
+### Community 11 - "Root Layout & Metadata"
 Cohesion: 0.33
 Nodes (4): geistMono, geistSans, metadata, viewport
 
-### Community 18 - "Four-Tier Testing"
-Cohesion: 0.33
-Nodes (6): E2E Boundary Testing, E2E Feature Coverage Testing, Four-Tier E2E Testing Strategy, E2E Testing Scope Definition, Tier 1 Feature Coverage Tests, Tier 2 Boundary Tests
-
-### Community 19 - "Screen State Management"
-Cohesion: 0.33
-Nodes (5): Game, GameStateContext, GameStateContextType, Player, ScreenState
-
-### Community 20 - "Test Execution"
-Cohesion: 0.40
-Nodes (5): Playwright E2E Test Execution, E2E Test Results 81 Passed 16 Failed, Worker Test Run, Worker Test Run Handoff, Worker Test Run Progress
-
-### Community 21 - "Project Origins"
-Cohesion: 0.50
-Nodes (4): Sentinel Agent, Explorer Agent, Milestone 2 In-Game Screen Investigation, ScoreBoard Original User Request
-
-### Community 22 - "E2E Testing Documentation"
-Cohesion: 0.67
-Nodes (4): E2E Test Architecture, Feature Inventory Matrix, TEST_INFRA.md - E2E Test Architecture, TEST_READY.md - Test Suite Status
-
-### Community 23 - "E2E Test Setup"
-Cohesion: 0.67
-Nodes (3): Worker Setup E2E, Worker Setup E2E Handoff, Worker Setup E2E Progress
-
 ## Knowledge Gaps
-- **193 isolated node(s):** `PALETTE`, `Player`, `Game`, `ScreenState`, `GameStateContextType` (+188 more)
+- **117 isolated node(s):** `$schema`, `plugin`, `@opencode-ai/plugin`, `geistSans`, `geistMono` (+112 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **21 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **9 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `useGameState()` connect `Setup Screen Implementation` to `Animation System`?**
+- **Why does `Feature Inventory (8 Features)` connect `Feature Inventory (Docs)` to `Acceptance Criteria (Docs)`?**
   _High betweenness centrality (0.013) - this node is a cross-community bridge._
-- **Why does `cn()` connect `Game Components` to `Animation System`?**
-  _High betweenness centrality (0.004) - this node is a cross-community bridge._
-- **What connects `PALETTE`, `Player`, `Game` to the rest of the system?**
-  _201 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `Game Components` be split into smaller, more focused modules?**
-  _Cohesion score 0.07390648567119155 - nodes in this community are weakly interconnected._
-- **Should `Animation System` be split into smaller, more focused modules?**
-  _Cohesion score 0.09102564102564102 - nodes in this community are weakly interconnected._
-- **Should `Package Dependencies` be split into smaller, more focused modules?**
-  _Cohesion score 0.058823529411764705 - nodes in this community are weakly interconnected._
-- **Should `Setup Screen Implementation` be split into smaller, more focused modules?**
-  _Cohesion score 0.12318840579710146 - nodes in this community are weakly interconnected._
+- **Why does `dependencies` connect `Runtime Dependencies` to `Dev Dependencies & Tooling`?**
+  _High betweenness centrality (0.010) - this node is a cross-community bridge._
+- **Why does `cn()` connect `In-Game UI & Player Dialog` to `Bulk Actions & Home/Footer`, `Player Card & Ball Visuals`?**
+  _High betweenness centrality (0.009) - this node is a cross-community bridge._
+- **Are the 4 inferred relationships involving `Feature Inventory (8 Features)` (e.g. with `R2: Core ScoreBoard Features` and `Tier 1: Feature Coverage`) actually correct?**
+  _`Feature Inventory (8 Features)` has 4 INFERRED edges - model-reasoned connections that need verification._
+- **What connects `$schema`, `plugin`, `@opencode-ai/plugin` to the rest of the system?**
+  _117 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `Screen Routing & State` be split into smaller, more focused modules?**
+  _Cohesion score 0.10483870967741936 - nodes in this community are weakly interconnected._
+- **Should `In-Game UI & Player Dialog` be split into smaller, more focused modules?**
+  _Cohesion score 0.11954022988505747 - nodes in this community are weakly interconnected._
