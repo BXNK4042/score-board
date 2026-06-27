@@ -27,6 +27,7 @@
 *.pem
 .serena/
 .agents/
+.opencode/
 
 # debug
 npm-debug.log*
