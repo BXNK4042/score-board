@@ -28,6 +28,7 @@
 .serena/
 .agents/
 .opencode/
+graphify-out/
 
 # debug
 npm-debug.log*
