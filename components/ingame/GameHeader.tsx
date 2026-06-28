@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { UserPlus, Check, RotateCcw, Undo, Redo, History, Gamepad, Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -21,7 +22,7 @@ interface GameHeaderProps {
   onToggleNoFoulDisplay: () => void;
 }
 
-export function GameHeader({
+export const GameHeader = React.memo(function GameHeader({
   title,
   onSaveTitle,
   onViewHistory,
@@ -157,4 +158,4 @@ export function GameHeader({
       </div>
     </div>
   );
-}
+});

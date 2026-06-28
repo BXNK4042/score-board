@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { Crown } from 'lucide-react';
-import { Player } from '@/hooks/useGameState';
+import { Player } from '@/lib/gameTypes';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
@@ -17,7 +17,7 @@ interface PlayerCardProps {
   isLeader: boolean;
   displayScore: number;
   isDrawerOpen: boolean;
-  onToggleDrawer: () => void;
+  onToggleDrawer: (playerId: string) => void;
   activeTab: 'score' | 'foul';
   setActiveTab: (tab: 'score' | 'foul') => void;
   onTogglePlayerSelection: (playerId: string) => void;
@@ -27,7 +27,7 @@ interface PlayerCardProps {
   safeListVariants: Variants;
 }
 
-export function PlayerCard({
+export const PlayerCard = React.memo(function PlayerCard({
   player,
   index,
   isLeader,
@@ -49,7 +49,7 @@ export function PlayerCard({
     >
       <Card
         data-testid={`player-card-${player.id}`}
-        onClick={onToggleDrawer}
+        onClick={() => onToggleDrawer(player.id)}
         style={{
           borderColor: player.isSelected ? 'var(--app-selection)' : 'transparent',
           borderWidth: '2px',
@@ -242,7 +242,7 @@ export function PlayerCard({
                       <Button
                         onClick={() => {
                           setActiveTab('score');
-                          onToggleDrawer();
+                          onToggleDrawer(player.id);
                         }}
                         variant="ghost"
                         className="text-[var(--app-text-secondary)] hover:text-[var(--app-text-primary)] p-0 h-auto"
@@ -332,4 +332,4 @@ export function PlayerCard({
       </Card>
     </motion.div>
   );
-}
+});

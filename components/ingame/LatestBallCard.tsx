@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { getBallStyle } from '@/lib/snookerBalls';
 
@@ -9,7 +10,7 @@ type LatestBall = {
   ballName: string;
 };
 
-export function LatestBallCard({ latestBall }: { latestBall?: LatestBall }) {
+export const LatestBallCard = React.memo(function LatestBallCard({ latestBall }: { latestBall?: LatestBall }) {
   return (
     <Card
       className="bg-[var(--app-card-background)] rounded-[20px] border-none shadow-sm flex flex-col justify-center p-4"
@@ -60,4 +61,4 @@ export function LatestBallCard({ latestBall }: { latestBall?: LatestBall }) {
       </CardContent>
     </Card>
   );
-}
+});

@@ -1,6 +1,6 @@
 'use client';
 
-import { PALETTE } from '@/hooks/useGameState';
+import { PALETTE } from '@/lib/gameTypes';
 import { COLOR_TO_AVATAR } from '@/lib/playerAvatar';
 
 interface PlayerColorPickerProps {

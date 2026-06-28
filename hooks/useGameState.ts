@@ -1,69 +1,20 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-
-export interface DraftPlayer {
-  id: string;
-  name: string;
-  color: string;
-}
-
-export interface Player {
-  id: string;
-  name: string;
-  color: string;
-  score: number;
-  isSelected: boolean;
-  scoredBalls: string[];
-  foulAwardedPoints: number;
-}
-
-export interface ScoreChange {
-  timestamp: number;
-  playerId: string;
-  previousScore: number;
-  newScore: number;
-  isFoul?: boolean;
-}
-
-export interface Game {
-  id: string;
-  title: string;
-  createdAt: number;
-  elapsedSeconds: number;
-  isRunning: boolean;
-  players: Player[];
-  lastScoreUpdated?: number;
-  foulCount?: number;
-  latestBall?: {
-    playerName: string;
-    type: 'Score' | 'Foul';
-    ballName: string;
-  };
-  scoreHistory: ScoreChange[];
-}
-
-export const getNonFoulScore = (player: Player): number =>
-  player.score - (player.foulAwardedPoints ?? 0);
-
-export const PALETTE = [
-  '#EF4444', // Red
-  '#F97316', // Orange
-  '#EAB308', // Yellow
-  '#22C55E', // Green
-  '#06B6D4', // Cyan
-  '#3B82F6', // Blue
-  '#8B5CF6', // Violet
-  '#EC4899', // Pink
-  '#F43F5E', // Rose
-  '#84CC16', // Lime
-  '#0EA5E9', // Sky
-  '#A855F7', // Purple
-];
+import {
+  DraftPlayer,
+  Player,
+  ScoreChange,
+  Game,
+  prependScoreHistory,
+} from '@/lib/gameTypes';
+import { getBallNameByPoints, getFoulPoints } from '@/lib/snookerBalls';
 
 const LOCAL_STORAGE_KEY = 'scoreboard_game_state';
 
 export function useGameState() {
   const [screen, setScreen] = useState<'home' | 'setup' | 'ingame' | 'history'>('home');
   const [activeGame, setActiveGame] = useState<Game | null>(null);
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
   const [setupTitle, setSetupTitle] = useState('');
   const [setupPlayers, setSetupPlayers] = useState<DraftPlayer[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);
@@ -76,6 +27,10 @@ export function useGameState() {
   });
 
   const isHistoryActionRef = useRef(false);
+  const elapsedRef = useRef(0);
+  useEffect(() => {
+    elapsedRef.current = elapsedSeconds;
+  }, [elapsedSeconds]);
 
   const updateGame = useCallback((updater: (prev: Game) => Game, isHistoryAction = true) => {
     if (isHistoryAction) {
@@ -112,21 +67,34 @@ export function useGameState() {
           setTimeout(() => {
             if (parsed.screen) setScreen(parsed.screen);
             if (parsed.activeGame) {
-              // ponytail: migrate existing games to add scoredBalls array and scoreHistory
-              const migratedGame = {
-                ...parsed.activeGame,
-                players: parsed.activeGame.players.map((p: Player) => ({
+              // ponytail: migrate existing games; stopwatch fields moved off Game in this revision
+              const ag = parsed.activeGame;
+              const legacyElapsed = typeof ag.elapsedSeconds === 'number' ? ag.elapsedSeconds : undefined;
+              const legacyRunning = typeof ag.isRunning === 'boolean' ? ag.isRunning : undefined;
+              // strip legacy stopwatch fields if present
+              const stripped: Omit<Game, never> = { ...ag };
+              delete (stripped as { elapsedSeconds?: number }).elapsedSeconds;
+              delete (stripped as { isRunning?: boolean }).isRunning;
+
+              const migratedGame: Game = {
+                ...stripped,
+                players: ag.players.map((p: Player) => ({
                   ...p,
                   scoredBalls: p.scoredBalls || [],
                   foulAwardedPoints: p.foulAwardedPoints ?? 0,
                 })),
-                scoreHistory: parsed.activeGame.scoreHistory || [],
+                scoreHistory: ag.scoreHistory || [],
               };
               setActiveGame(migratedGame);
               setHistoryState({
                 list: [migratedGame],
                 index: 0,
               });
+
+              if (parsed.elapsedSeconds !== undefined) setElapsedSeconds(parsed.elapsedSeconds);
+              else if (legacyElapsed !== undefined) setElapsedSeconds(legacyElapsed);
+              if (parsed.isRunning !== undefined) setIsRunning(parsed.isRunning);
+              else if (legacyRunning !== undefined) setIsRunning(legacyRunning);
             }
             if (parsed.setupTitle !== undefined) setSetupTitle(parsed.setupTitle);
             if (parsed.setupPlayers) setSetupPlayers(parsed.setupPlayers);
@@ -144,37 +112,51 @@ export function useGameState() {
     }
   }, []);
 
-  // Save state to local storage when it changes (only after initialization to prevent overwriting stored data with default empty state)
+  // Debounced save (500ms trailing). elapsedSeconds deliberately omitted from deps so the
+  // 1s tick does not re-trigger serialization; it persists via the 10s sweep effect below.
   useEffect(() => {
-    if (isInitialized && typeof window !== 'undefined') {
-      const stateToSave = {
-        screen,
-        activeGame,
-        setupTitle,
-        setupPlayers,
-        noFoulDisplay,
-      };
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(stateToSave));
-    }
-  }, [screen, activeGame, setupTitle, setupPlayers, noFoulDisplay, isInitialized]);
+    if (!isInitialized || typeof window === 'undefined') return;
+    const id = setTimeout(() => {
+      localStorage.setItem(
+        LOCAL_STORAGE_KEY,
+        JSON.stringify({
+          screen,
+          activeGame,
+          setupTitle,
+          setupPlayers,
+          noFoulDisplay,
+          elapsedSeconds,
+          isRunning,
+        })
+      );
+    }, 500);
+    return () => clearTimeout(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [screen, activeGame, setupTitle, setupPlayers, noFoulDisplay, isRunning, isInitialized]);
 
-  // Non-blocking timer tick
-  const isRunning = activeGame?.isRunning;
+  // Stopwatch persistence sweep — every 10s while running, update only the stopwatch fields.
+  useEffect(() => {
+    if (!isInitialized || !isRunning || typeof window === 'undefined') return;
+    const id = setInterval(() => {
+      try {
+        const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+        const parsed = stored ? JSON.parse(stored) : {};
+        parsed.elapsedSeconds = elapsedRef.current;
+        parsed.isRunning = true;
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(parsed));
+      } catch {
+        // ignore
+      }
+    }, 10000);
+    return () => clearInterval(id);
+  }, [isInitialized, isRunning]);
 
+  // Stopwatch tick — only touches elapsedSeconds, leaving activeGame ref stable.
   useEffect(() => {
     if (!isRunning) return;
-
     const interval = setInterval(() => {
-      // Use functional update to ensure we have the latest state and don't re-trigger interval
-      setActiveGame((prev) => {
-        if (!prev || !prev.isRunning) return prev;
-        return {
-          ...prev,
-          elapsedSeconds: prev.elapsedSeconds + 1,
-        };
-      });
+      setElapsedSeconds((n) => n + 1);
     }, 1000);
-
     return () => clearInterval(interval);
   }, [isRunning]);
 
@@ -238,8 +220,6 @@ export function useGameState() {
       id: crypto.randomUUID(),
       title: title.trim() || 'Untitled Game',
       createdAt: Date.now(),
-      elapsedSeconds: 0,
-      isRunning: true,
       players: players.map((p) => ({
         id: p.id,
         name: p.name,
@@ -257,6 +237,8 @@ export function useGameState() {
       list: [newGame],
       index: 0,
     });
+    setElapsedSeconds(0);
+    setIsRunning(true);
     setScreen('ingame');
   }, []);
 
@@ -295,15 +277,14 @@ export function useGameState() {
     updateGame((prev) => {
       const player = prev.players.find((p) => p.id === playerId);
       if (!player) return prev;
-      const previousScore = player.score;
-      const newScore = previousScore + delta;
+      const now = Date.now();
+      const newScore = player.score + delta;
       return {
         ...prev,
-        lastScoreUpdated: Date.now(),
-        scoreHistory: [
-          { timestamp: Date.now(), playerId, previousScore, newScore },
-          ...(prev.scoreHistory || []),
-        ],
+        lastScoreUpdated: now,
+        scoreHistory: prependScoreHistory(prev.scoreHistory || [], [
+          { timestamp: now, playerId, previousScore: player.score, newScore },
+        ]),
         players: prev.players.map((p) =>
           p.id === playerId ? { ...p, score: newScore } : p
         ),
@@ -334,19 +315,20 @@ export function useGameState() {
       return {
         ...prev,
         lastScoreUpdated: now,
-        scoreHistory: [...newScoreChanges, ...(prev.scoreHistory || [])],
+        scoreHistory: prependScoreHistory(prev.scoreHistory || [], newScoreChanges),
         players: updatedPlayers,
       };
     });
   }, [updateGame]);
 
   const toggleStopwatch = useCallback((running: boolean) => {
-    updateGame((prev) => ({ ...prev, isRunning: running }), false);
-  }, [updateGame]);
+    setIsRunning(running);
+  }, []);
 
   const endGame = useCallback(() => {
     setActiveGame(null);
     setHistoryState({ list: [], index: -1 });
+    setIsRunning(false);
     setNoFoulDisplay(false);
     setScreen('home');
   }, []);
@@ -422,26 +404,7 @@ export function useGameState() {
       const player = prev.players.find((p) => p.id === currentPlayerId);
       const playerName = player ? player.name : 'Unknown';
       const type = tab === 'score' ? 'Score' : 'Foul';
-      const ballName = (() => {
-        if (tab === 'foul') {
-          if (points === 4) return 'Cue/Red/Yellow/Green/Brown';
-          if (points === 5) return 'Blue';
-          if (points === 6) return 'Pink';
-          if (points === 7) return 'Black';
-          return 'Foul';
-        }
-        switch (points) {
-          case 0: return 'White';
-          case 1: return 'Red';
-          case 2: return 'Yellow';
-          case 3: return 'Green';
-          case 4: return 'Brown';
-          case 5: return 'Blue';
-          case 6: return 'Pink';
-          case 7: return 'Black';
-          default: return 'Custom';
-        }
-      })();
+      const ballName = getBallNameByPoints(points, tab);
 
       let updatedPlayers = prev.players;
       let updatedFoulCount = prev.foulCount || 0;
@@ -457,9 +420,7 @@ export function useGameState() {
           newScoreChanges.push({ timestamp: now, playerId: currentPlayerId, previousScore: currentPlayer.score, newScore: currentPlayer.score + points });
         }
       } else {
-        const isFourPointFoul = points === 4;
-        const hasMultiplePlayers = prev.players.length > 2;
-        const foulPoints = (isFourPointFoul && hasMultiplePlayers) ? 2 : Math.max(points, 4);
+        const foulPoints = getFoulPoints(points, prev.players.length);
 
         const otherPlayers = prev.players.filter((p) => p.id !== currentPlayerId);
         if (otherPlayers.length > 0) {
@@ -481,7 +442,7 @@ export function useGameState() {
       return {
         ...prev,
         lastScoreUpdated: now,
-        scoreHistory: [...newScoreChanges, ...(prev.scoreHistory || [])],
+        scoreHistory: prependScoreHistory(prev.scoreHistory || [], newScoreChanges),
         latestBall: { playerName, type, ballName },
         players: updatedPlayers,
         foulCount: updatedFoulCount,
@@ -492,10 +453,8 @@ export function useGameState() {
   const restartGame = useCallback(() => {
     setActiveGame((prev) => {
       if (!prev) return null;
-      const next = {
+      const next: Game = {
         ...prev,
-        elapsedSeconds: 0,
-        isRunning: true,
         lastScoreUpdated: undefined,
         foulCount: 0,
         latestBall: undefined,
@@ -514,6 +473,8 @@ export function useGameState() {
       });
       return next;
     });
+    setElapsedSeconds(0);
+    setIsRunning(true);
     setNoFoulDisplay(false);
   }, []);
 
@@ -523,51 +484,27 @@ export function useGameState() {
 
   const undo = useCallback(() => {
     setHistoryState((prev) => {
-      if (prev.index > 0) {
-        const nextIndex = prev.index - 1;
-        const targetGame = prev.list[nextIndex];
-        setActiveGame((curr) => {
-          if (!curr) return null;
-          return {
-            ...targetGame,
-            elapsedSeconds: curr.elapsedSeconds,
-            isRunning: curr.isRunning,
-          };
-        });
-        return {
-          ...prev,
-          index: nextIndex,
-        };
-      }
-      return prev;
+      if (prev.index <= 0) return prev;
+      const nextIndex = prev.index - 1;
+      setActiveGame(prev.list[nextIndex]);
+      return { ...prev, index: nextIndex };
     });
   }, []);
 
   const redo = useCallback(() => {
     setHistoryState((prev) => {
-      if (prev.index < prev.list.length - 1) {
-        const nextIndex = prev.index + 1;
-        const targetGame = prev.list[nextIndex];
-        setActiveGame((curr) => {
-          if (!curr) return null;
-          return {
-            ...targetGame,
-            elapsedSeconds: curr.elapsedSeconds,
-            isRunning: curr.isRunning,
-          };
-        });
-        return {
-          ...prev,
-          index: nextIndex,
-        };
-      }
-      return prev;
+      if (prev.index >= prev.list.length - 1) return prev;
+      const nextIndex = prev.index + 1;
+      setActiveGame(prev.list[nextIndex]);
+      return { ...prev, index: nextIndex };
     });
   }, []);
 
   return {
     screen,
     activeGame,
+    elapsedSeconds,
+    isRunning,
     setupTitle,
     setupPlayers,
     isInitialized,

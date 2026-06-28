@@ -5,7 +5,7 @@ interface FooterProps {
   relativeTimeText?: string | null;
 }
 
-export function Footer({ relativeTimeText }: FooterProps) {
+export const Footer = React.memo(function Footer({ relativeTimeText }: FooterProps) {
   const currentYear = new Date().getFullYear();
   return (
     <footer className="w-full text-center pt-4 text-xs text-[var(--app-text-secondary)] font-medium mt-auto flex flex-col gap-1 shrink-0 select-none border-t border-[var(--app-border)]">
@@ -24,4 +24,4 @@ export function Footer({ relativeTimeText }: FooterProps) {
       <div>Built with ❤️ and a lot of coffee.</div>
     </footer>
   );
-}
+});

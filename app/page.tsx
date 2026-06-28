@@ -13,6 +13,8 @@ export default function Page() {
   const {
     screen,
     activeGame,
+    elapsedSeconds,
+    isRunning,
     setupTitle,
     setupPlayers,
     isInitialized,
@@ -120,6 +122,8 @@ export default function Page() {
               >
                 <InGameScreen
                   activeGame={activeGame!}
+                  elapsedSeconds={elapsedSeconds}
+                  isRunning={isRunning}
                   onUpdateGameTitle={updateGameTitle}
                   onAddPlayerInGame={addPlayerInGame}
                   onUpdateScore={updateScore}

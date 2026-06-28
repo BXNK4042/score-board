@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PALETTE, DraftPlayer } from '@/hooks/useGameState';
+import { PALETTE, DraftPlayer } from '@/lib/gameTypes';
 import { GamepadIcon, PlusIcon, PencilIcon, TrashIcon, BoltIcon } from '@/components/HomeScreen';
 import { PlayerDialog } from '@/components/PlayerDialog';
 import { Footer } from './Footer';

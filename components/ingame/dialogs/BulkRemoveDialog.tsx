@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
-import { Player } from '@/hooks/useGameState';
+import { Player } from '@/lib/gameTypes';
 
 interface BulkRemoveDialogProps {
   open: boolean;

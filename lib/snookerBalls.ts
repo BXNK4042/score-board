@@ -57,3 +57,18 @@ export function getBallStyle(ballName: string, type: 'Score' | 'Foul'): BallStyl
   }
   return { label: '—', color: 'var(--app-text-secondary)', labelColor: '#ffffff' };
 }
+
+export function getBallNameByPoints(points: number, tab: 'score' | 'foul'): string {
+  if (tab === 'foul') {
+    const foul = FOUL_BALLS.find((b) => b.points === points);
+    return foul?.name ?? 'Foul';
+  }
+  const ball = SNOOKER_BALLS.find((b) => b.points === points);
+  return ball?.name ?? 'Custom';
+}
+
+export function getFoulPoints(points: number, playerCount: number): number {
+  const isFourPointFoul = points === 4;
+  const hasMultiplePlayers = playerCount > 2;
+  return isFourPointFoul && hasMultiplePlayers ? 2 : Math.max(points, 4);
+}

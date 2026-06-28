@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { PALETTE } from '@/hooks/useGameState';
+import { PALETTE } from '@/lib/gameTypes';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';

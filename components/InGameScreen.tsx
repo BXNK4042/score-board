@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Game, PALETTE, Player, getNonFoulScore } from '@/hooks/useGameState';
+import { Game, PALETTE, Player, getNonFoulScore } from '@/lib/gameTypes';
 import { PlayerDialog } from '@/components/PlayerDialog';
 import { Footer } from './Footer';
 import { StopwatchBanner } from './StopwatchBanner';
@@ -20,6 +20,8 @@ import { listContainerVariants, listItemVariants, useReducedMotion, createSafeVa
 
 export function InGameScreen({
   activeGame,
+  elapsedSeconds,
+  isRunning,
   onUpdateGameTitle,
   onAddPlayerInGame,
   onUpdateScore,
@@ -43,6 +45,8 @@ export function InGameScreen({
   onViewHistory,
 }: {
   activeGame: Game;
+  elapsedSeconds: number;
+  isRunning: boolean;
   onUpdateGameTitle: (title: string) => void;
   onAddPlayerInGame: (name: string, color: string) => boolean;
   onUpdateScore: (playerId: string, delta: number) => void;
@@ -76,20 +80,38 @@ export function InGameScreen({
   const [bulkRemoveDialogOpen, setBulkRemoveDialogOpen] = useState(false);
 
   const prefersReducedMotion = useReducedMotion();
-  const safeListVariants = createSafeVariants(prefersReducedMotion, listItemVariants);
-  const safeContainerVariants = createSafeVariants(prefersReducedMotion, listContainerVariants);
+  const safeListVariants = useMemo(
+    () => createSafeVariants(prefersReducedMotion, listItemVariants),
+    [prefersReducedMotion]
+  );
+  const safeContainerVariants = useMemo(
+    () => createSafeVariants(prefersReducedMotion, listContainerVariants),
+    [prefersReducedMotion]
+  );
 
   const relativeTimeText = useRelativeTime(activeGame?.lastScoreUpdated);
 
+  const displayScores = useMemo<number[]>(
+    () => (activeGame ? activeGame.players.map((p) => (noFoulDisplay ? getNonFoulScore(p) : p.score)) : []),
+    [activeGame, noFoulDisplay]
+  );
+  const selectedPlayers = useMemo(
+    () => (activeGame ? activeGame.players.filter((p) => p.isSelected) : []),
+    [activeGame]
+  );
+  const selectedCount = selectedPlayers.length;
+
+  const handleToggleDrawer = useCallback((playerId: string) => {
+    setOpenDrawerPlayerId((curr) => {
+      if (curr !== playerId) setActiveTab('score');
+      return curr === playerId ? null : playerId;
+    });
+  }, []);
+
   if (!activeGame) return null;
 
-  const displayScores = activeGame.players.map((p) =>
-    noFoulDisplay ? getNonFoulScore(p) : p.score
-  );
   const maxScore = displayScores.length > 0 ? Math.max(...displayScores) : 0;
   const leaderIndex = displayScores.findIndex((s) => s === maxScore);
-  const selectedCount = activeGame.players.filter((p) => p.isSelected).length;
-  const selectedPlayers = activeGame.players.filter((p) => p.isSelected);
 
   const getFirstAvailableColor = () => {
     const usedColors = activeGame.players.map((p) => p.color.toLowerCase());
@@ -119,8 +141,8 @@ export function InGameScreen({
         />
 
         <StopwatchBanner
-          elapsedSeconds={activeGame.elapsedSeconds}
-          isRunning={activeGame.isRunning}
+          elapsedSeconds={elapsedSeconds}
+          isRunning={isRunning}
           onToggleStopwatch={onToggleStopwatch}
         />
 
@@ -156,12 +178,7 @@ export function InGameScreen({
                       isLeader={isLeader}
                       displayScore={displayScores[index]}
                       isDrawerOpen={openDrawerPlayerId === player.id}
-                      onToggleDrawer={() => {
-                        if (openDrawerPlayerId !== player.id) {
-                          setActiveTab('score');
-                        }
-                        setOpenDrawerPlayerId(openDrawerPlayerId === player.id ? null : player.id);
-                      }}
+                      onToggleDrawer={handleToggleDrawer}
                       activeTab={activeTab}
                       setActiveTab={setActiveTab}
                       onTogglePlayerSelection={onTogglePlayerSelection}
