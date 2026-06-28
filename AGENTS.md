@@ -27,7 +27,7 @@ Path alias: `@/*` → repo root.
 - **Snooker data & rules**: `lib/snookerBalls.ts` — single source of truth. Use `getBallNameByPoints`, `getFoulPoints`, `getBallStyle`, `SNOOKER_BALLS`, `FOUL_BALLS`. Do not reinline.
 - **Avatar mapping**: `lib/playerAvatar.ts` — `COLOR_TO_AVATAR`, `hasAvatar`, `getAvatarSrc`.
 - **Animation helpers**: `lib/animations.ts` — `useReducedMotion`, `createSafeVariants`, `listContainerVariants`, `listItemVariants`. Always animate only transform/opacity; helpers handle reduced-motion.
-- **CSS tokens**: `app/globals.css` — `--app-brand`, `--app-snooker-*`, etc. Prefer `bg-[var(--app-*)]` over literal hex. (Warning banners may use literal hex — accepted exception.)
+- **CSS tokens**: `app/globals.css` — `--app-brand`, `--app-snooker-*`, etc. Prefer the `--app-*` tokens via arbitrary values (e.g. `bg-[var(--app-brand)]`) over literal hex. (Warning banners may use literal hex — accepted exception.)
 - **State hook**: `hooks/useGameState.ts` — single consumer is `app/page.tsx`. Don't add a second consumer; don't restructure without reading `docs/USEGAMESTATE-REFACTOR-2026-06-28.md`.
 
 ## State architecture invariants (load-bearing — do not break)
