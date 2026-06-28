@@ -21,6 +21,7 @@ export interface ScoreChange {
   playerId: string;
   previousScore: number;
   newScore: number;
+  isFoul?: boolean;
 }
 
 export interface Game {
@@ -464,7 +465,7 @@ export function useGameState() {
         if (otherPlayers.length > 0) {
           updatedPlayers = prev.players.map((p) => {
             if (p.id !== currentPlayerId) {
-              newScoreChanges.push({ timestamp: now, playerId: p.id, previousScore: p.score, newScore: p.score + foulPoints });
+              newScoreChanges.push({ timestamp: now, playerId: p.id, previousScore: p.score, newScore: p.score + foulPoints, isFoul: true });
               return {
                 ...p,
                 score: p.score + foulPoints,

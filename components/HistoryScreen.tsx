@@ -74,6 +74,8 @@ export function HistoryScreen({
               if (!player) return null;
               const delta = change.newScore - change.previousScore;
               const isPositive = delta > 0;
+              const isFoulAward = change.isFoul === true;
+              const isRed = isFoulAward || !isPositive;
 
               return (
                 <motion.div
@@ -116,9 +118,9 @@ export function HistoryScreen({
                     <div className="flex items-center gap-2 shrink-0">
                       <div
                         className={`flex items-center gap-1 px-3 py-1.5 rounded-full font-bold text-sm ${
-                          isPositive
-                            ? 'bg-[var(--app-success)] text-white'
-                            : 'bg-[var(--app-danger)] text-white'
+                          isRed
+                            ? 'bg-[var(--app-danger)] text-white'
+                            : 'bg-[var(--app-success)] text-white'
                         }`}
                       >
                         {isPositive ? (
