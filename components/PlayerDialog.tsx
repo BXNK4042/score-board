@@ -71,10 +71,10 @@ export function PlayerDialog({
           {/* ponytail: show warning banner when user wants to add a 3rd player */}
           {title.toLowerCase().includes('add') && usedColors.length === 2 && (
             <div
-              className="bg-[#FFF8E6] border border-[#FFE099] rounded-2xl p-4 text-xs text-[#805B00] flex flex-col gap-1 shadow-sm"
+              className="bg-[var(--app-warning-bg)] border border-[var(--app-warning-border)] rounded-2xl p-4 text-xs text-[var(--app-warning-text)] flex flex-col gap-1 shadow-sm"
               data-testid="foul-score-warning-banner"
             >
-              <span className="font-black text-[10px] uppercase tracking-wider text-[#B27F00]">Warning</span>
+              <span className="font-black text-[10px] uppercase tracking-wider text-[var(--app-warning-heading)]">Warning</span>
               <p className="leading-relaxed font-semibold">
                 Adding a 3rd player changes the rules: the minimum foul score will be 2 instead of 4.
               </p>

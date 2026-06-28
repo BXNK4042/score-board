@@ -90,7 +90,7 @@ export function BulkActionBar({
           data-testid="bulk-increment"
           aria-label="Bulk increment score"
           variant="outline"
-          className="w-9 h-9 rounded-full bg-white flex items-center justify-center font-bold text-[#1A1A2E] hover:bg-white/90 active:scale-95 p-0"
+          className="w-9 h-9 rounded-full bg-white flex items-center justify-center font-bold text-[var(--app-text-primary)] hover:bg-white/90 active:scale-95 p-0"
           size="icon"
         >
           +

@@ -79,7 +79,7 @@ export const PlayerCard = React.memo(function PlayerCard({
                 }}
                 className="flex items-center justify-center"
               >
-                <Crown className="w-4 h-4 text-yellow-300 fill-yellow-300 drop-shadow-md" strokeWidth={2.5} />
+                <Crown className="w-4 h-4 text-[var(--app-crown)] fill-[var(--app-crown)] drop-shadow-md" strokeWidth={2.5} />
               </motion.div>
               <span className="font-extrabold text-[11px] uppercase tracking-widest text-white drop-shadow-sm">
                 LEADER
@@ -295,7 +295,9 @@ export const PlayerCard = React.memo(function PlayerCard({
 
                         const labelColor =
                           ball.labelColor ||
-                          (ball.name === 'White' || ball.name === 'Yellow' ? '#000000' : '#ffffff');
+                          (ball.name === 'White' || ball.name === 'Yellow'
+                            ? 'var(--app-snooker-black)'
+                            : 'var(--app-snooker-white)');
 
                         return (
                           <button
@@ -311,8 +313,8 @@ export const PlayerCard = React.memo(function PlayerCard({
                             aria-label={`${ball.name} ball - ${ball.points} points${ball.name === 'White' ? ', disabled' : ''}`}
                           >
                             {isFoulCombined ? (
-                              <div className="absolute inset-[3px] rounded-full bg-white flex items-center justify-center shadow-[inset_0_1px_2px_rgba(0,0,0,0.15)]">
-                                <span className="text-xs font-black text-black">{ball.label}</span>
+                              <div className="absolute inset-[3px] rounded-full bg-white flex items-center justify-center ball-inset-shadow">
+                                <span className="text-xs font-black text-[var(--app-snooker-black)]">{ball.label}</span>
                               </div>
                             ) : (
                               <span className="text-xs font-black" style={{ color: labelColor }}>

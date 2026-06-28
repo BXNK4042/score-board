@@ -38,8 +38,8 @@ export const LatestBallCard = React.memo(function LatestBallCard({ latestBall }:
                   data-testid="latest-ball-visual"
                 >
                   {ballStyle.background ? (
-                    <div className="absolute inset-[3.5px] rounded-full bg-white flex items-center justify-center shadow-[inset_0_1.5px_2.5px_rgba(0,0,0,0.15)]">
-                      <span className="text-xs font-black text-black">{ballStyle.label}</span>
+                    <div className="absolute inset-[3.5px] rounded-full bg-white flex items-center justify-center ball-inset-shadow-lg">
+                      <span className="text-xs font-black text-[var(--app-snooker-black)]">{ballStyle.label}</span>
                     </div>
                   ) : (
                     <span className="text-xs font-black" style={{ color: ballStyle.labelColor }}>

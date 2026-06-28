@@ -20,7 +20,7 @@ export function EndGameDialog({ open, onOpenChange, onConfirm }: EndGameDialogPr
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-white w-full max-w-[320px] rounded-3xl p-6 shadow-xl text-center">
         <DialogHeader>
-          <DialogTitle className="font-extrabold text-lg text-[#1A1A2E]">
+          <DialogTitle className="font-extrabold text-lg text-[var(--app-text-primary)]">
             Are you sure you want to end the game?
           </DialogTitle>
           <DialogDescription className="sr-only">

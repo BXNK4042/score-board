@@ -8,14 +8,14 @@ export interface BallConfig {
 }
 
 export const SNOOKER_BALLS: BallConfig[] = [
-  { name: 'White', points: 0, color: 'var(--app-snooker-white)', label: 'W', labelColor: '#000000' },
-  { name: 'Red', points: 1, color: 'var(--app-snooker-red)', label: '1', labelColor: '#ffffff' },
-  { name: 'Yellow', points: 2, color: 'var(--app-snooker-yellow)', label: '2', labelColor: '#000000' },
-  { name: 'Green', points: 3, color: 'var(--app-snooker-green)', label: '3', labelColor: '#ffffff' },
-  { name: 'Brown', points: 4, color: 'var(--app-snooker-brown)', label: '4', labelColor: '#ffffff' },
-  { name: 'Blue', points: 5, color: 'var(--app-snooker-blue)', label: '5', labelColor: '#ffffff' },
-  { name: 'Pink', points: 6, color: 'var(--app-snooker-pink)', label: '6', labelColor: '#ffffff' },
-  { name: 'Black', points: 7, color: 'var(--app-snooker-black)', label: '7', labelColor: '#ffffff' },
+  { name: 'White', points: 0, color: 'var(--app-snooker-white)', label: 'W', labelColor: 'var(--app-snooker-black)' },
+  { name: 'Red', points: 1, color: 'var(--app-snooker-red)', label: '1', labelColor: 'var(--app-snooker-white)' },
+  { name: 'Yellow', points: 2, color: 'var(--app-snooker-yellow)', label: '2', labelColor: 'var(--app-snooker-black)' },
+  { name: 'Green', points: 3, color: 'var(--app-snooker-green)', label: '3', labelColor: 'var(--app-snooker-white)' },
+  { name: 'Brown', points: 4, color: 'var(--app-snooker-brown)', label: '4', labelColor: 'var(--app-snooker-white)' },
+  { name: 'Blue', points: 5, color: 'var(--app-snooker-blue)', label: '5', labelColor: 'var(--app-snooker-white)' },
+  { name: 'Pink', points: 6, color: 'var(--app-snooker-pink)', label: '6', labelColor: 'var(--app-snooker-white)' },
+  { name: 'Black', points: 7, color: 'var(--app-snooker-black)', label: '7', labelColor: 'var(--app-snooker-white)' },
 ];
 
 export const FOUL_BALLS: BallConfig[] = [
@@ -25,11 +25,11 @@ export const FOUL_BALLS: BallConfig[] = [
     background:
       'conic-gradient(var(--app-snooker-red) 0deg 90deg, var(--app-snooker-yellow) 90deg 180deg, var(--app-snooker-green) 180deg 270deg, var(--app-snooker-brown) 270deg 360deg)',
     label: '4',
-    labelColor: '#000000',
+    labelColor: 'var(--app-snooker-black)',
   },
-  { name: 'Blue', points: 5, color: 'var(--app-snooker-blue)', label: '5', labelColor: '#ffffff' },
-  { name: 'Pink', points: 6, color: 'var(--app-snooker-pink)', label: '6', labelColor: '#ffffff' },
-  { name: 'Black', points: 7, color: 'var(--app-snooker-black)', label: '7', labelColor: '#ffffff' },
+  { name: 'Blue', points: 5, color: 'var(--app-snooker-blue)', label: '5', labelColor: 'var(--app-snooker-white)' },
+  { name: 'Pink', points: 6, color: 'var(--app-snooker-pink)', label: '6', labelColor: 'var(--app-snooker-white)' },
+  { name: 'Black', points: 7, color: 'var(--app-snooker-black)', label: '7', labelColor: 'var(--app-snooker-white)' },
 ];
 
 export type BallStyle = {
@@ -55,7 +55,7 @@ export function getBallStyle(ballName: string, type: 'Score' | 'Foul'): BallStyl
   if (ball) {
     return { label: ball.label, color: ball.color, labelColor: ball.labelColor };
   }
-  return { label: '—', color: 'var(--app-text-secondary)', labelColor: '#ffffff' };
+  return { label: '—', color: 'var(--app-text-secondary)', labelColor: 'var(--app-snooker-white)' };
 }
 
 export function getBallNameByPoints(points: number, tab: 'score' | 'foul'): string {

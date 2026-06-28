@@ -24,7 +24,7 @@ export function RestartGameDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-white w-full max-w-[320px] rounded-3xl p-6 shadow-xl text-center">
         <DialogHeader>
-          <DialogTitle className="font-extrabold text-lg text-[#1A1E2A]">
+          <DialogTitle className="font-extrabold text-lg text-[var(--app-text-primary)]">
             Reset game session?
           </DialogTitle>
           <DialogDescription className="text-sm text-[var(--app-text-secondary)] font-medium mb-4">
