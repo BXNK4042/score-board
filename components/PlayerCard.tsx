@@ -8,22 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { SNOOKER_BALLS, FOUL_BALLS } from '@/lib/snookerBalls';
-
-// ponytail: map player colors to avatar image filenames
-const COLOR_TO_AVATAR: Record<string, string> = {
-  '#ef4444': 'Red',
-  '#f97316': 'Orange',
-  '#eab308': 'Yellow',
-  '#22c55e': 'Green',
-  '#06b6d4': 'Cyan',
-  '#3b82f6': 'Blue',
-  '#8b5cf6': 'Violet',
-  '#ec4899': 'Pink',
-  '#f43f5e': 'Rose',
-  '#84cc16': 'Lime',
-  '#0ea5e9': 'Sky',
-  '#a855f7': 'Purple',
-};
+import { COLOR_TO_AVATAR } from '@/lib/playerAvatar';
 
 
 interface PlayerCardProps {

@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 interface BulkActionBarProps {
   onDeselectAllPlayers: () => void;
   onReversePlayerSelection: () => void;
-  onBulkEditName: () => void;
+  onBulkEditPlayers: () => void;
   onBulkRemove: () => void;
   onBulkUpdateScores: (delta: number) => void;
 }
@@ -16,7 +16,7 @@ interface BulkActionBarProps {
 export function BulkActionBar({
   onDeselectAllPlayers,
   onReversePlayerSelection,
-  onBulkEditName,
+  onBulkEditPlayers,
   onBulkRemove,
   onBulkUpdateScores,
 }: BulkActionBarProps) {
@@ -56,9 +56,9 @@ export function BulkActionBar({
           <RefreshCw className="w-5 h-5" strokeWidth={2} />
         </Button>
         <Button
-          onClick={onBulkEditName}
-          data-testid="bulk-edit-name"
-          aria-label="Edit selected player names"
+          onClick={onBulkEditPlayers}
+          data-testid="bulk-edit-players"
+          aria-label="Edit selected players"
           variant="ghost"
           className="p-2 hover:bg-white/10 rounded-full"
           size="icon"

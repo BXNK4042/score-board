@@ -368,6 +368,35 @@ export function useGameState() {
     }));
   }, [updateGame]);
 
+  // ponytail: batched update for bulk edit dialog — validates color uniqueness across the entire
+  // resulting roster atomically so legitimate swaps (e.g. Alice↔Bob) succeed while collisions reject.
+  const bulkUpdatePlayers = useCallback(
+    (updates: Record<string, { name?: string; color?: string }>): boolean => {
+      let applied = false;
+      updateGame((prev) => {
+        const draft = prev.players.map((p) =>
+          updates[p.id]
+            ? {
+                ...p,
+                name: updates[p.id].name?.trim() || p.name,
+                color: updates[p.id].color || p.color,
+              }
+            : p
+        );
+        const seen = new Set<string>();
+        for (const p of draft) {
+          const k = p.color.toLowerCase();
+          if (seen.has(k)) return prev;
+          seen.add(k);
+        }
+        applied = true;
+        return { ...prev, players: draft };
+      });
+      return applied;
+    },
+    [updateGame]
+  );
+
   const removePlayer = useCallback((playerId: string) => {
     updateGame((prev) => ({
       ...prev,
@@ -545,6 +574,7 @@ export function useGameState() {
     toggleStopwatch,
     endGame,
     updatePlayerName,
+    bulkUpdatePlayers,
     removePlayer,
     restartGame,
     recordBallClick,

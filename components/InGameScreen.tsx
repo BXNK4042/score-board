@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Game, PALETTE } from '@/hooks/useGameState';
+import { Game, PALETTE, Player } from '@/hooks/useGameState';
 import { PlayerDialog } from '@/components/PlayerDialog';
 import { Footer } from './Footer';
 import { StopwatchBanner } from './StopwatchBanner';
@@ -11,7 +11,6 @@ import { BulkActionBar } from './BulkActionBar';
 import { GameHeader } from './ingame/GameHeader';
 import { FoulCard } from './ingame/FoulCard';
 import { LatestBallCard } from './ingame/LatestBallCard';
-import { BulkEditNameDialog } from './ingame/dialogs/BulkEditNameDialog';
 import { BulkRemoveDialog } from './ingame/dialogs/BulkRemoveDialog';
 import { EndGameDialog } from './ingame/dialogs/EndGameDialog';
 import { RestartGameDialog } from './ingame/dialogs/RestartGameDialog';
@@ -31,6 +30,7 @@ export function InGameScreen({
   onToggleStopwatch,
   onEndGame,
   onUpdatePlayerName,
+  onBulkUpdatePlayers,
   onRemovePlayer,
   onRestartGame,
   onRecordBallClick,
@@ -51,6 +51,7 @@ export function InGameScreen({
   onToggleStopwatch: (running: boolean) => void;
   onEndGame: () => void;
   onUpdatePlayerName?: (playerId: string, newName: string) => void;
+  onBulkUpdatePlayers?: (updates: Record<string, { name?: string; color?: string }>) => boolean;
   onRemovePlayer?: (playerId: string) => void;
   onRestartGame: () => void;
   onRecordBallClick: (playerId: string, points: number, tab: 'score' | 'foul') => void;
@@ -65,7 +66,9 @@ export function InGameScreen({
   const [restartGameDialogOpen, setRestartGameDialogOpen] = useState(false);
   const [openDrawerPlayerId, setOpenDrawerPlayerId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'score' | 'foul'>('score');
-  const [bulkEditNameDialogOpen, setBulkEditNameDialogOpen] = useState(false);
+  const [editQueue, setEditQueue] = useState<Player[]>([]);
+  const [editIndex, setEditIndex] = useState(0);
+  const editSavedRef = useRef(false);
   const [bulkRemoveDialogOpen, setBulkRemoveDialogOpen] = useState(false);
 
   const prefersReducedMotion = useReducedMotion();
@@ -173,7 +176,11 @@ export function InGameScreen({
           <BulkActionBar
             onDeselectAllPlayers={onDeselectAllPlayers}
             onReversePlayerSelection={onReversePlayerSelection}
-            onBulkEditName={() => setBulkEditNameDialogOpen(true)}
+            onBulkEditPlayers={() => {
+              setEditQueue(selectedPlayers);
+              setEditIndex(0);
+              editSavedRef.current = false;
+            }}
             onBulkRemove={() => setBulkRemoveDialogOpen(true)}
             onBulkUpdateScores={onBulkUpdateScores}
           />
@@ -194,19 +201,39 @@ export function InGameScreen({
         />
       )}
 
-      <BulkEditNameDialog
-        open={bulkEditNameDialogOpen}
-        onOpenChange={setBulkEditNameDialogOpen}
-        players={selectedPlayers}
-        onSaveNames={(editedNames) => {
-          Object.entries(editedNames).forEach(([playerId, newName]) => {
-            if (newName.trim() && onUpdatePlayerName) {
-              onUpdatePlayerName(playerId, newName.trim());
-            }
-          });
-          setBulkEditNameDialogOpen(false);
-        }}
-      />
+      {editIndex < editQueue.length && (() => {
+        const editingPlayer = editQueue[editIndex];
+        const livePlayer = activeGame.players.find((p) => p.id === editingPlayer.id) || editingPlayer;
+        return (
+          <PlayerDialog
+            key={editingPlayer.id}
+            isOpen={editIndex < editQueue.length}
+            onClose={() => {
+              if (editSavedRef.current) {
+                editSavedRef.current = false;
+                setEditIndex((i) => i + 1);
+              } else {
+                setEditQueue([]);
+                setEditIndex(0);
+              }
+            }}
+            onSave={(name, color) => {
+              if (onBulkUpdatePlayers) {
+                onBulkUpdatePlayers({ [editingPlayer.id]: { name, color } });
+              } else if (onUpdatePlayerName) {
+                onUpdatePlayerName(editingPlayer.id, name);
+              }
+              editSavedRef.current = true;
+            }}
+            title={`Edit Player (${editIndex + 1} of ${editQueue.length})`}
+            initialName={livePlayer.name}
+            initialColor={livePlayer.color}
+            usedColors={activeGame.players
+              .filter((p) => p.id !== editingPlayer.id)
+              .map((p) => p.color)}
+          />
+        );
+      })()}
 
       <BulkRemoveDialog
         open={bulkRemoveDialogOpen}

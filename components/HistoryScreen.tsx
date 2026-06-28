@@ -12,6 +12,7 @@ import {
   listItemVariants,
 } from '@/lib/animations';
 import { getRelativeTimeString as getRelativeTimeStringShared } from '@/lib/relativeTime';
+import { COLOR_TO_AVATAR } from '@/lib/playerAvatar';
 
 export function HistoryScreen({
   activeGame,
@@ -83,16 +84,23 @@ export function HistoryScreen({
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3 min-w-0 flex-1">
                       {/* Player indicator */}
-                      <div
-                        className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
-                        style={{ backgroundColor: `${player.color}15` }}
-                      >
-                        <span
-                          className="font-bold text-sm"
-                          style={{ color: player.color }}
-                        >
-                          {player.name.charAt(0).toUpperCase()}
-                        </span>
+                      <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center shrink-0">
+                        {COLOR_TO_AVATAR[player.color.toLowerCase()] ? (
+                          <img
+                            src={`/player-avatar/${COLOR_TO_AVATAR[player.color.toLowerCase()]}.webp`}
+                            alt={player.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div
+                            className="w-full h-full flex items-center justify-center"
+                            style={{ backgroundColor: `${player.color}15` }}
+                          >
+                            <span className="font-bold text-sm" style={{ color: player.color }}>
+                              {player.name.charAt(0).toUpperCase()}
+                            </span>
+                          </div>
+                        )}
                       </div>
 
                       {/* Details */}

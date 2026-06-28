@@ -39,6 +39,7 @@ export default function Page() {
     toggleStopwatch,
     endGame,
     updatePlayerName,
+    bulkUpdatePlayers,
     removePlayer,
     restartGame,
     recordBallClick,
@@ -127,6 +128,7 @@ export default function Page() {
                   onToggleStopwatch={toggleStopwatch}
                   onEndGame={endGame}
                   onUpdatePlayerName={updatePlayerName}
+                  onBulkUpdatePlayers={bulkUpdatePlayers}
                   onRemovePlayer={removePlayer}
                   onRestartGame={restartGame}
                   onRecordBallClick={recordBallClick}
