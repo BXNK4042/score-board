@@ -398,6 +398,20 @@ export function useGameState() {
     }));
   }, [updateGame]);
 
+  // ponytail: Fisher–Yates shuffle of the players array. Scores/stats are preserved
+  // (each Player object travels intact), only the array order changes. Treated as a
+  // history action so Undo restores the previous order.
+  const shufflePlayers = useCallback(() => {
+    updateGame((prev) => {
+      const next = [...prev.players];
+      for (let i = next.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [next[i], next[j]] = [next[j], next[i]];
+      }
+      return { ...prev, players: next };
+    });
+  }, [updateGame]);
+
   // ponytail: group ball click updates (score, foul, latest ball stats) into a single atomic history entry to prevent double-undo issues
   const recordBallClick = useCallback((currentPlayerId: string, points: number, tab: 'score' | 'foul') => {
     updateGame((prev) => {
@@ -539,6 +553,7 @@ export function useGameState() {
     restartGame,
     recordBallClick,
     toggleNoFoulDisplay,
+    shufflePlayers,
     undo,
     redo,
   };

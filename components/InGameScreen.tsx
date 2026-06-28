@@ -14,6 +14,7 @@ import { LatestBallCard } from './ingame/LatestBallCard';
 import { BulkRemoveDialog } from './ingame/dialogs/BulkRemoveDialog';
 import { EndGameDialog } from './ingame/dialogs/EndGameDialog';
 import { RestartGameDialog } from './ingame/dialogs/RestartGameDialog';
+import { ShufflePlayersDialog } from './ingame/dialogs/ShufflePlayersDialog';
 
 import { useRelativeTime } from '@/hooks/useRelativeTime';
 import { listContainerVariants, listItemVariants, useReducedMotion, createSafeVariants } from '@/lib/animations';
@@ -38,6 +39,7 @@ export function InGameScreen({
   onRecordBallClick,
   noFoulDisplay,
   onToggleNoFoulDisplay,
+  onShufflePlayers,
   canUndo,
   canRedo,
   onUndo,
@@ -63,6 +65,7 @@ export function InGameScreen({
   onRecordBallClick: (playerId: string, points: number, tab: 'score' | 'foul') => void;
   noFoulDisplay: boolean;
   onToggleNoFoulDisplay: () => void;
+  onShufflePlayers: () => void;
   canUndo: boolean;
   canRedo: boolean;
   onUndo: () => void;
@@ -72,6 +75,7 @@ export function InGameScreen({
   const [addPlayerDialogOpen, setAddPlayerDialogOpen] = useState(false);
   const [endGameDialogOpen, setEndGameDialogOpen] = useState(false);
   const [restartGameDialogOpen, setRestartGameDialogOpen] = useState(false);
+  const [shufflePlayersDialogOpen, setShufflePlayersDialogOpen] = useState(false);
   const [openDrawerPlayerId, setOpenDrawerPlayerId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'score' | 'foul'>('score');
   const [editQueue, setEditQueue] = useState<Player[]>([]);
@@ -130,6 +134,8 @@ export function InGameScreen({
           onViewHistory={onViewHistory}
           onAddPlayer={() => setAddPlayerDialogOpen(true)}
           addPlayerDisabled={activeGame.players.length >= 10}
+          onShufflePlayers={() => setShufflePlayersDialogOpen(true)}
+          shuffleDisabled={activeGame.players.length <= 1}
           canUndo={canUndo}
           canRedo={canRedo}
           onUndo={onUndo}
@@ -289,6 +295,15 @@ export function InGameScreen({
         onConfirm={() => {
           onRestartGame();
           setRestartGameDialogOpen(false);
+        }}
+      />
+
+      <ShufflePlayersDialog
+        open={shufflePlayersDialogOpen}
+        onOpenChange={setShufflePlayersDialogOpen}
+        onConfirm={() => {
+          onShufflePlayers();
+          setShufflePlayersDialogOpen(false);
         }}
       />
     </div>

@@ -47,6 +47,7 @@ export default function Page() {
     restartGame,
     recordBallClick,
     toggleNoFoulDisplay,
+    shufflePlayers,
     canUndo,
     canRedo,
     undo,
@@ -140,6 +141,7 @@ export default function Page() {
                   onRecordBallClick={recordBallClick}
                   noFoulDisplay={noFoulDisplay}
                   onToggleNoFoulDisplay={toggleNoFoulDisplay}
+                  onShufflePlayers={shufflePlayers}
                   canUndo={canUndo}
                   canRedo={canRedo}
                   onUndo={undo}

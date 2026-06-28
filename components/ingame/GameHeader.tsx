@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { UserPlus, Check, RotateCcw, Undo, Redo, History, Gamepad, Eye, EyeOff } from 'lucide-react';
+import { UserPlus, Check, RotateCcw, Undo, Redo, History, Gamepad, Eye, EyeOff, Shuffle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useEditableTitle } from '@/hooks/useEditableTitle';
@@ -12,6 +12,8 @@ interface GameHeaderProps {
   onViewHistory: () => void;
   onAddPlayer: () => void;
   addPlayerDisabled: boolean;
+  onShufflePlayers: () => void;
+  shuffleDisabled: boolean;
   canUndo: boolean;
   canRedo: boolean;
   onUndo: () => void;
@@ -28,6 +30,8 @@ export const GameHeader = React.memo(function GameHeader({
   onViewHistory,
   onAddPlayer,
   addPlayerDisabled,
+  onShufflePlayers,
+  shuffleDisabled,
   canUndo,
   canRedo,
   onUndo,
@@ -93,6 +97,17 @@ export const GameHeader = React.memo(function GameHeader({
           size="icon"
         >
           <UserPlus className="w-6 h-6 text-[var(--app-brand)]" strokeWidth={2} />
+        </Button>
+        <Button
+          onClick={onShufflePlayers}
+          disabled={shuffleDisabled}
+          data-testid="shuffle-players-button"
+          aria-label="Shuffle player order"
+          variant="outline"
+          className="p-2 bg-transparent hover:bg-[var(--app-background)] rounded-xl active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+          size="icon"
+        >
+          <Shuffle className="w-6 h-6 text-[var(--app-brand)]" strokeWidth={2} />
         </Button>
         <Button
           onClick={onUndo}
