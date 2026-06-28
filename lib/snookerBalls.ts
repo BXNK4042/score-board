@@ -8,14 +8,14 @@ export interface BallConfig {
 }
 
 export const SNOOKER_BALLS: BallConfig[] = [
-  { name: 'White', points: 0, color: 'var(--app-snooker-white)', label: 'W' },
-  { name: 'Red', points: 1, color: 'var(--app-snooker-red)', label: '1' },
-  { name: 'Yellow', points: 2, color: 'var(--app-snooker-yellow)', label: '2' },
-  { name: 'Green', points: 3, color: 'var(--app-snooker-green)', label: '3' },
-  { name: 'Brown', points: 4, color: 'var(--app-snooker-brown)', label: '4' },
-  { name: 'Blue', points: 5, color: 'var(--app-snooker-blue)', label: '5' },
-  { name: 'Pink', points: 6, color: 'var(--app-snooker-pink)', label: '6' },
-  { name: 'Black', points: 7, color: 'var(--app-snooker-black)', label: '7' },
+  { name: 'White', points: 0, color: 'var(--app-snooker-white)', label: 'W', labelColor: '#000000' },
+  { name: 'Red', points: 1, color: 'var(--app-snooker-red)', label: '1', labelColor: '#ffffff' },
+  { name: 'Yellow', points: 2, color: 'var(--app-snooker-yellow)', label: '2', labelColor: '#000000' },
+  { name: 'Green', points: 3, color: 'var(--app-snooker-green)', label: '3', labelColor: '#ffffff' },
+  { name: 'Brown', points: 4, color: 'var(--app-snooker-brown)', label: '4', labelColor: '#ffffff' },
+  { name: 'Blue', points: 5, color: 'var(--app-snooker-blue)', label: '5', labelColor: '#ffffff' },
+  { name: 'Pink', points: 6, color: 'var(--app-snooker-pink)', label: '6', labelColor: '#ffffff' },
+  { name: 'Black', points: 7, color: 'var(--app-snooker-black)', label: '7', labelColor: '#ffffff' },
 ];
 
 export const FOUL_BALLS: BallConfig[] = [
