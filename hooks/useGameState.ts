@@ -13,6 +13,7 @@ export interface Player {
   score: number;
   isSelected: boolean;
   scoredBalls: string[];
+  foulAwardedPoints: number;
 }
 
 export interface ScoreChange {
@@ -39,6 +40,9 @@ export interface Game {
   scoreHistory: ScoreChange[];
 }
 
+export const getNonFoulScore = (player: Player): number =>
+  player.score - (player.foulAwardedPoints ?? 0);
+
 export const PALETTE = [
   '#EF4444', // Red
   '#F97316', // Orange
@@ -62,6 +66,7 @@ export function useGameState() {
   const [setupTitle, setSetupTitle] = useState('');
   const [setupPlayers, setSetupPlayers] = useState<DraftPlayer[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [noFoulDisplay, setNoFoulDisplay] = useState(false);
 
   // ponytail: session-only undo/redo history state
   const [historyState, setHistoryState] = useState<{ list: Game[]; index: number }>({
@@ -112,6 +117,7 @@ export function useGameState() {
                 players: parsed.activeGame.players.map((p: Player) => ({
                   ...p,
                   scoredBalls: p.scoredBalls || [],
+                  foulAwardedPoints: p.foulAwardedPoints ?? 0,
                 })),
                 scoreHistory: parsed.activeGame.scoreHistory || [],
               };
@@ -123,6 +129,7 @@ export function useGameState() {
             }
             if (parsed.setupTitle !== undefined) setSetupTitle(parsed.setupTitle);
             if (parsed.setupPlayers) setSetupPlayers(parsed.setupPlayers);
+            if (parsed.noFoulDisplay !== undefined) setNoFoulDisplay(parsed.noFoulDisplay);
             setIsInitialized(true);
           }, 0);
           return;
@@ -144,10 +151,11 @@ export function useGameState() {
         activeGame,
         setupTitle,
         setupPlayers,
+        noFoulDisplay,
       };
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(stateToSave));
     }
-  }, [screen, activeGame, setupTitle, setupPlayers, isInitialized]);
+  }, [screen, activeGame, setupTitle, setupPlayers, noFoulDisplay, isInitialized]);
 
   // Non-blocking timer tick
   const isRunning = activeGame?.isRunning;
@@ -238,6 +246,7 @@ export function useGameState() {
         score: 0,
         isSelected: false,
         scoredBalls: [],
+        foulAwardedPoints: 0,
       })),
       foulCount: 0,
       scoreHistory: [],
@@ -272,6 +281,7 @@ export function useGameState() {
       score: 0,
       isSelected: false,
       scoredBalls: [],
+      foulAwardedPoints: 0,
     };
     updateGame((prev) => ({
       ...prev,
@@ -336,6 +346,7 @@ export function useGameState() {
   const endGame = useCallback(() => {
     setActiveGame(null);
     setHistoryState({ list: [], index: -1 });
+    setNoFoulDisplay(false);
     setScreen('home');
   }, []);
 
@@ -454,7 +465,11 @@ export function useGameState() {
           updatedPlayers = prev.players.map((p) => {
             if (p.id !== currentPlayerId) {
               newScoreChanges.push({ timestamp: now, playerId: p.id, previousScore: p.score, newScore: p.score + foulPoints });
-              return { ...p, score: p.score + foulPoints };
+              return {
+                ...p,
+                score: p.score + foulPoints,
+                foulAwardedPoints: (p.foulAwardedPoints || 0) + foulPoints,
+              };
             }
             return p;
           });
@@ -489,6 +504,7 @@ export function useGameState() {
           score: 0,
           isSelected: false,
           scoredBalls: [],
+          foulAwardedPoints: 0,
         })),
       };
       setHistoryState({
@@ -497,6 +513,11 @@ export function useGameState() {
       });
       return next;
     });
+    setNoFoulDisplay(false);
+  }, []);
+
+  const toggleNoFoulDisplay = useCallback(() => {
+    setNoFoulDisplay((v) => !v);
   }, []);
 
   const undo = useCallback(() => {
@@ -549,6 +570,7 @@ export function useGameState() {
     setupTitle,
     setupPlayers,
     isInitialized,
+    noFoulDisplay,
     canUndo: historyState.index > 0,
     canRedo: historyState.index < historyState.list.length - 1,
 
@@ -578,6 +600,7 @@ export function useGameState() {
     removePlayer,
     restartGame,
     recordBallClick,
+    toggleNoFoulDisplay,
     undo,
     redo,
   };

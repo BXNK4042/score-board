@@ -15,6 +15,7 @@ interface PlayerCardProps {
   player: Player;
   index: number;
   isLeader: boolean;
+  displayScore: number;
   isDrawerOpen: boolean;
   onToggleDrawer: () => void;
   activeTab: 'score' | 'foul';
@@ -30,6 +31,7 @@ export function PlayerCard({
   player,
   index,
   isLeader,
+  displayScore,
   isDrawerOpen,
   onToggleDrawer,
   activeTab,
@@ -173,7 +175,7 @@ export function PlayerCard({
               </Button>
 
               <motion.div
-                key={player.score}
+                key={displayScore}
                 aria-live="polite"
                 data-testid={`player-score-${player.id}`}
                 className="text-5xl font-black min-w-[60px] text-center"
@@ -186,7 +188,7 @@ export function PlayerCard({
                   stiffness: 200,
                 }}
               >
-                {player.score}
+                {displayScore}
               </motion.div>
 
               <Button

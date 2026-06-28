@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Game, PALETTE, Player } from '@/hooks/useGameState';
+import { Game, PALETTE, Player, getNonFoulScore } from '@/hooks/useGameState';
 import { PlayerDialog } from '@/components/PlayerDialog';
 import { Footer } from './Footer';
 import { StopwatchBanner } from './StopwatchBanner';
@@ -34,6 +34,8 @@ export function InGameScreen({
   onRemovePlayer,
   onRestartGame,
   onRecordBallClick,
+  noFoulDisplay,
+  onToggleNoFoulDisplay,
   canUndo,
   canRedo,
   onUndo,
@@ -55,6 +57,8 @@ export function InGameScreen({
   onRemovePlayer?: (playerId: string) => void;
   onRestartGame: () => void;
   onRecordBallClick: (playerId: string, points: number, tab: 'score' | 'foul') => void;
+  noFoulDisplay: boolean;
+  onToggleNoFoulDisplay: () => void;
   canUndo: boolean;
   canRedo: boolean;
   onUndo: () => void;
@@ -79,9 +83,11 @@ export function InGameScreen({
 
   if (!activeGame) return null;
 
-  const maxScore =
-    activeGame.players.length > 0 ? Math.max(...activeGame.players.map((p) => p.score)) : 0;
-  const leaderIndex = activeGame.players.findIndex((p) => p.score === maxScore);
+  const displayScores = activeGame.players.map((p) =>
+    noFoulDisplay ? getNonFoulScore(p) : p.score
+  );
+  const maxScore = displayScores.length > 0 ? Math.max(...displayScores) : 0;
+  const leaderIndex = displayScores.findIndex((s) => s === maxScore);
   const selectedCount = activeGame.players.filter((p) => p.isSelected).length;
   const selectedPlayers = activeGame.players.filter((p) => p.isSelected);
 
@@ -108,6 +114,8 @@ export function InGameScreen({
           onRedo={onRedo}
           onRestart={() => setRestartGameDialogOpen(true)}
           onEndGame={() => setEndGameDialogOpen(true)}
+          noFoulDisplay={noFoulDisplay}
+          onToggleNoFoulDisplay={onToggleNoFoulDisplay}
         />
 
         <StopwatchBanner
@@ -146,6 +154,7 @@ export function InGameScreen({
                       player={player}
                       index={index}
                       isLeader={isLeader}
+                      displayScore={displayScores[index]}
                       isDrawerOpen={openDrawerPlayerId === player.id}
                       onToggleDrawer={() => {
                         if (openDrawerPlayerId !== player.id) {

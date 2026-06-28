@@ -1,6 +1,6 @@
 'use client';
 
-import { UserPlus, Check, RotateCcw, Undo, Redo, History, Gamepad } from 'lucide-react';
+import { UserPlus, Check, RotateCcw, Undo, Redo, History, Gamepad, Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useEditableTitle } from '@/hooks/useEditableTitle';
@@ -17,6 +17,8 @@ interface GameHeaderProps {
   onRedo: () => void;
   onRestart: () => void;
   onEndGame: () => void;
+  noFoulDisplay: boolean;
+  onToggleNoFoulDisplay: () => void;
 }
 
 export function GameHeader({
@@ -31,6 +33,8 @@ export function GameHeader({
   onRedo,
   onRestart,
   onEndGame,
+  noFoulDisplay,
+  onToggleNoFoulDisplay,
 }: GameHeaderProps) {
   const { tempTitle, isEditing, setTempTitle, start, save } = useEditableTitle(title, onSaveTitle);
 
@@ -110,6 +114,25 @@ export function GameHeader({
           size="icon"
         >
           <Redo className="w-5 h-5 text-[var(--app-brand)]" />
+        </Button>
+        <Button
+          onClick={onToggleNoFoulDisplay}
+          aria-pressed={noFoulDisplay}
+          data-testid="no-foul-display-toggle"
+          aria-label="Toggle no-foul score display"
+          variant="outline"
+          className={`p-2 rounded-xl active:scale-95 transition-colors ${
+            noFoulDisplay
+              ? 'bg-[var(--app-brand)] hover:bg-[var(--app-brand)]'
+              : 'bg-transparent hover:bg-[var(--app-background)]'
+          }`}
+          size="icon"
+        >
+          {noFoulDisplay ? (
+            <EyeOff className="w-6 h-6 text-white" strokeWidth={2} />
+          ) : (
+            <Eye className="w-6 h-6 text-[var(--app-brand)]" strokeWidth={2} />
+          )}
         </Button>
         <Button
           onClick={onRestart}

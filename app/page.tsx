@@ -16,6 +16,7 @@ export default function Page() {
     setupTitle,
     setupPlayers,
     isInitialized,
+    noFoulDisplay,
 
     goToHome,
     goToSetup,
@@ -43,6 +44,7 @@ export default function Page() {
     removePlayer,
     restartGame,
     recordBallClick,
+    toggleNoFoulDisplay,
     canUndo,
     canRedo,
     undo,
@@ -132,6 +134,8 @@ export default function Page() {
                   onRemovePlayer={removePlayer}
                   onRestartGame={restartGame}
                   onRecordBallClick={recordBallClick}
+                  noFoulDisplay={noFoulDisplay}
+                  onToggleNoFoulDisplay={toggleNoFoulDisplay}
                   canUndo={canUndo}
                   canRedo={canRedo}
                   onUndo={undo}
